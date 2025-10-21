@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Brunno Lukka — Official Site</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <!-- Barba.js -->
+    <script src="https://unpkg.com/@barba/core"></script>
     <style>
       video.bg-video {
         position: absolute;
@@ -18,7 +22,10 @@
     </style>
   </head>
 
-  <body class="relative min-h-[100dvh] bg-black text-white overflow-hidden">
+  <body
+    class="relative min-h-[100dvh] bg-black text-white overflow-hidden"
+    data-barba="wrapper"
+  >
     <!-- Video de fondo -->
     <video class="bg-video" autoplay muted loop playsinline>
       <source src="./src/bg-loop.mp4" type="video/mp4" />
@@ -29,8 +36,15 @@
 
     <!-- Contenido principal -->
     <main
+      data-barba="container"
+      data-barba-namespace="home"
       class="relative z-10 flex flex-col items-center justify-center text-center min-h-[100dvh] space-y-10 px-6"
     >
+      <img
+        src="./src/brunnolukka.png"
+        alt="Brunno Lukka Profile"
+        class="w-[180px] md:w-[220px] h-[180px] md:h-[220px] object-cover border-white/20 shadow-lg"
+      />
       <!-- Nombre -->
       <h1 class="text-4xl md:text-6xl font-bold tracking-wide">Brunno Lukka</h1>
 
@@ -108,5 +122,28 @@
         </p>
       </footer>
     </main>
+
+    <!-- Barba.js + GSAP -->
+    <script>
+      barba.init({
+        transitions: [
+          {
+            name: "fade",
+            leave(data) {
+              return gsap.to(data.current.container, {
+                opacity: 0,
+                duration: 0.5,
+              });
+            },
+            enter(data) {
+              return gsap.from(data.next.container, {
+                opacity: 0,
+                duration: 0.5,
+              });
+            },
+          },
+        ],
+      });
+    </script>
   </body>
 </html>
