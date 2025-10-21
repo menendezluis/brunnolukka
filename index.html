@@ -3,10 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Brunno Lukka — Listen Now</title>
+    <title>Brunno Lukka — Official Site</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      /* Fondo del video responsive */
       video.bg-video {
         position: absolute;
         top: 0;
@@ -18,68 +17,96 @@
       }
     </style>
   </head>
-  <body
-    <body
-    class="relative flex items-end justify-center min-h-[100dvh] overflow-hidden text-white"
-  >
+
+  <body class="relative min-h-[100dvh] bg-black text-white overflow-hidden">
     <!-- Video de fondo -->
     <video class="bg-video" autoplay muted loop playsinline>
-      <source src="./src/BrunnoLukka-LikeHouse(Video).mp4" type="video/mp4" />
-      Your browser does not support the video tag.
+      <source src="./src/bg-loop.mp4" type="video/mp4" />
     </video>
 
-    <!-- Overlay oscuro sutil -->
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-black/60 z-0"></div>
 
     <!-- Contenido principal -->
-    <!-- Overlay pegado al borde -->
-    <div class="absolute bottom-0 w-full bg-black/40 z-10">
-      <!-- Contenido con padding dentro del overlay -->
-      <div
-        class="flex flex-col items-center space-y-3 text-center px-4 py-6 md:py-4"
-      >
-        <h1
-          class="text-2xl md:text-3xl font-semibold tracking-wide drop-shadow-lg"
-        >
-          Brunno Lukka
-        </h1>
-        <p class="text-xs md:text-sm uppercase tracking-[3px] text-gray-300">
-          Listen on
-        </p>
+    <main
+      class="relative z-10 flex flex-col items-center justify-center text-center min-h-[100dvh] space-y-10 px-6"
+    >
+      <!-- Nombre -->
+      <h1 class="text-4xl md:text-6xl font-bold tracking-wide">Brunno Lukka</h1>
 
-        <!-- Botones -->
-        <div class="flex flex-wrap justify-center gap-3 mt-2">
-          <a
-            href="https://open.spotify.com/album/6FJDoeFRyM0I3P9OsmCpGl"
-            target="_blank"
-            class="px-3 md:px-4 py-2 bg-green-500/80 hover:bg-green-500 rounded-full text-xs md:text-sm font-semibold transition"
-            >Spotify</a
-          >
-          <a
-            href="https://www.youtube.com/watch?v=m2mRdY5RREA"
-            target="_blank"
-            class="px-3 md:px-4 py-2 bg-red-600/80 hover:bg-red-600 rounded-full text-xs md:text-sm font-semibold transition"
-            >YouTube</a
-          >
-          <a
-            href="https://www.deezer.com/en/album/834669452"
-            target="_blank"
-            class="px-3 md:px-4 py-2 bg-blue-500/80 hover:bg-blue-500 rounded-full text-xs md:text-sm font-semibold transition"
-            >Deezer</a
-          >
-          <a
-            href="https://music.apple.com/ar/album/like-house-feat-omar-trevi%C3%B1o-single/1845345782"
-            target="_blank"
-            class="px-3 md:px-4 py-2 bg-gray-300/80 hover:bg-gray-300 text-black rounded-full text-xs md:text-sm font-semibold transition"
-            >Apple Music</a
-          >
-          <a
-            href="https://music.amazon.es/albums/B0FVB5G2Y6"
-            target="_blank"
-            class="px-3 md:px-4 py-2 bg-yellow-500/80 hover:bg-yellow-500 text-black rounded-full text-xs md:text-sm font-semibold transition"
-            >Amazon</a
-          >
-        </div>
+      <!-- Redes sociales -->
+      <div class="flex flex-wrap justify-center gap-4">
+        <a
+          href="https://www.instagram.com/brunnolukka"
+          target="_blank"
+          class="text-gray-300 hover:text-white text-xl"
+          >Instagram</a
+        >
+        <a
+          href="https://open.spotify.com/artist/4Y4H5coOYsdCFUSCGg8tRK"
+          target="_blank"
+          class="text-gray-300 hover:text-white text-xl"
+          >Spotify</a
+        >
+        <a
+          href="https://soundcloud.com/brunnolukka"
+          target="_blank"
+          class="text-gray-300 hover:text-white text-xl"
+          >SoundCloud</a
+        >
+        <a
+          href="https://www.youtube.com/@brunnolukka"
+          target="_blank"
+          class="text-gray-300 hover:text-white text-xl"
+          >YouTube</a
+        >
+        <a
+          href="https://www.beatport.com/artist/brunno-lukka/1420444"
+          target="_blank"
+          class="text-gray-300 hover:text-white text-xl"
+          >Beatport</a
+        >
       </div>
-    </div>
+
+      <!-- Últimos lanzamientos -->
+      <section class="mt-10 space-y-6 w-full max-w-2xl">
+        <h2 class="text-lg uppercase tracking-widest text-gray-400">
+          Latest Releases
+        </h2>
+
+        <div class="flex flex-col space-y-4">
+          <a
+            href="./like-house.html"
+            class="bg-white/10 hover:bg-white/20 rounded-xl p-4 flex justify-between items-center transition"
+          >
+            <span>Like House (feat. Omar Treviño)</span>
+            <span class="text-sm text-gray-400">Listen →</span>
+          </a>
+
+          <a
+            href="./fly-bye.html"
+            class="bg-white/10 hover:bg-white/20 rounded-xl p-4 flex justify-between items-center transition"
+          >
+            <span>Fly Bye (Original Mix)</span>
+            <span class="text-sm text-gray-400">Listen →</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Contacto -->
+      <footer
+        class="mt-10 text-gray-400 text-sm flex flex-col items-center space-y-2"
+      >
+        <p>
+          Contact:
+          <a href="mailto:hi@brunnolukka.com" class="underline hover:text-white"
+            >hi@brunnolukka.com</a
+          >
+        </p>
+        <p class="text-xs md:text-sm uppercase tracking-widest text-gray-500">
+          Let the groove take your body
+        </p>
+      </footer>
+    </main>
   </body>
 </html>

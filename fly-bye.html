@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brunno Lukka — Listen Now</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Fondo del video responsive */
+      video.bg-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        min-height: 100%;
+        object-fit: cover;
+        z-index: -1;
+      }
+    </style>
+  </head>
+  <body
+    <body
+    class="relative flex items-end justify-center min-h-[100dvh] overflow-hidden text-white"
+  >
+    <!-- Video de fondo -->
+    <video class="bg-video" autoplay muted loop playsinline>
+      <source src="./src/BrunnoLukka-FlyBye.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Overlay oscuro sutil -->
+
+    <!-- Contenido principal -->
+    <!-- Overlay pegado al borde -->
+    <div class="absolute bottom-0 w-full bg-black/40 z-10">
+      <!-- Contenido con padding dentro del overlay -->
+      <div
+        class="flex flex-col items-center space-y-3 text-center px-4 py-6 md:py-4"
+      >
+        <h1
+          class="text-2xl md:text-3xl font-semibold tracking-wide drop-shadow-lg"
+        >
+          Brunno Lukka
+        </h1>
+        <p class="text-xs md:text-sm uppercase tracking-[3px] text-gray-300">
+          Listen on
+        </p>
+
+        <!-- Botones -->
+        <div class="flex flex-wrap justify-center gap-3 mt-2">
+          <a
+            href="https://open.spotify.com/album/4HyudMH03ullrWQlsm1BJa"
+            target="_blank"
+            class="px-3 md:px-4 py-2 bg-green-500/80 hover:bg-green-500 rounded-full text-xs md:text-sm font-semibold transition"
+            >Spotify</a
+          >
+          <a
+            href="https://www.youtube.com/watch?v=q7fCB8KGzbA"
+            target="_blank"
+            class="px-3 md:px-4 py-2 bg-red-600/80 hover:bg-red-600 rounded-full text-xs md:text-sm font-semibold transition"
+            >YouTube</a
+          >
+          <a
+            href="https://www.deezer.com/en/album/841486812"
+            target="_blank"
+            class="px-3 md:px-4 py-2 bg-blue-500/80 hover:bg-blue-500 rounded-full text-xs md:text-sm font-semibold transition"
+            >Deezer</a
+          >
+          <a
+            href="https://music.apple.com/ar/album/like-house-feat-omar-trevi%C3%B1o-single/1845345782"
+            target="_blank"
+            class="px-3 md:px-4 py-2 bg-gray-300/80 hover:bg-gray-300 text-black rounded-full text-xs md:text-sm font-semibold transition"
+            >Apple Music</a
+          >
+          <a
+            href="https://music.amazon.es/albums/B0FX3PPT1R"
+            target="_blank"
+            class="px-3 md:px-4 py-2 bg-yellow-500/80 hover:bg-yellow-500 text-black rounded-full text-xs md:text-sm font-semibold transition"
+            >Amazon</a
+          >
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
