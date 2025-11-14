@@ -26,20 +26,19 @@
     class="relative min-h-[100dvh] bg-black text-white overflow-hidden"
     data-barba="wrapper"
   >
-    <!-- Video de fondo -->
-    <video class="bg-video" autoplay muted loop playsinline>
-      <source src="./src/bg-loop.mp4" type="video/mp4" />
-    </video>
+    <div data-barba="container" data-barba-namespace="home">
+      <!-- Video de fondo -->
+      <video class="bg-video" autoplay muted loop playsinline>
+        <source src="./src/bg-loop.mp4" type="video/mp4" />
+      </video>
 
-    <!-- Overlay -->
-    <div class="absolute inset-0 bg-black/60 z-0"></div>
+      <!-- Overlay -->
+      <div class="absolute inset-0 bg-black/60 z-0"></div>
 
-    <!-- Contenido principal -->
-    <main
-      data-barba="container"
-      data-barba-namespace="home"
-      class="relative z-10 flex flex-col items-center justify-center text-center min-h-[100dvh] space-y-10 px-6"
-    >
+      <!-- Contenido principal -->
+      <main
+        class="relative z-10 flex flex-col items-center justify-center text-center min-h-[100dvh] space-y-10 px-6"
+      >
       <img
         src="./src/brunnolukka.png"
         alt="Brunno Lukka Profile"
@@ -146,6 +145,7 @@
         </p>
       </footer>
     </main>
+    </div>
 
     <!-- Barba.js + GSAP -->
     <script>

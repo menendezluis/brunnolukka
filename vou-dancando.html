@@ -24,25 +24,24 @@
     class="relative min-h-[100dvh] bg-black text-white overflow-hidden"
     data-barba="wrapper"
   >
-    <a href="./index.html" class="absolute top-6 left-6 z-20">
-      <img
-        src="./logobrunno.png"
-        alt="Brunno Lukka"
-        class="h-12 md:h-16 hover:opacity-80 transition"
-      />
-    </a>
+    <div data-barba="container" data-barba-namespace="vou-dancando">
+      <a href="./index.html" class="absolute top-6 left-6 z-20">
+        <img
+          src="./logobrunno.png"
+          alt="Brunno Lukka"
+          class="h-12 md:h-16 hover:opacity-80 transition"
+        />
+      </a>
 
-    <video class="bg-video" autoplay muted loop playsinline>
-      <source src="./src/bg-loop.mp4" type="video/mp4" />
-    </video>
+      <video class="bg-video" autoplay muted loop playsinline>
+        <source src="./src/bg-loop.mp4" type="video/mp4" />
+      </video>
 
-    <div class="absolute inset-0 bg-black/60 z-0"></div>
+      <div class="absolute inset-0 bg-black/60 z-0"></div>
 
-    <main
-      data-barba="container"
-      data-barba-namespace="vou-dancando"
-      class="relative z-10 flex flex-col items-center justify-end text-center min-h-[100dvh] space-y-6 px-4 pb-10"
-    >
+      <main
+        class="relative z-10 flex flex-col items-center justify-end text-center min-h-[100dvh] space-y-6 px-4 pb-10"
+      >
       <p class="text-xs md:text-sm uppercase tracking-[3px] text-gray-300">
         Club Weapon
       </p>
@@ -87,6 +86,7 @@
         >
       </div>
     </main>
+    </div>
 
     <script>
       barba.init({
