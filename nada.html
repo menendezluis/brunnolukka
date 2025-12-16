@@ -110,8 +110,8 @@
     </div>
 
     <script>
-      // Countdown timer for December 19, 2024
-      const releaseDate = new Date('2024-12-19T00:00:00').getTime();
+      // Countdown timer for December 19, 2025 (midnight local time)
+      const releaseDate = new Date(2025, 11, 19, 0, 0, 0).getTime(); // Month is 0-indexed (11 = December)
 
       function updateCountdown() {
         const now = new Date().getTime();

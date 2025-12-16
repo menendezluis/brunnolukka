@@ -19,11 +19,26 @@
         object-fit: cover;
         z-index: -1;
       }
+      /* Custom scrollbar for releases section */
+      .overflow-y-auto::-webkit-scrollbar {
+        width: 6px;
+      }
+      .overflow-y-auto::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+      }
+      .overflow-y-auto::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 10px;
+      }
+      .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.5);
+      }
     </style>
   </head>
 
   <body
-    class="relative min-h-[100dvh] bg-black text-white overflow-hidden"
+    class="relative min-h-[100dvh] bg-black text-white overflow-y-auto"
     data-barba="wrapper"
   >
     <div data-barba="container" data-barba-namespace="home">
@@ -37,7 +52,7 @@
 
       <!-- Contenido principal -->
       <main
-        class="relative z-10 flex flex-col items-center justify-center text-center min-h-[100dvh] space-y-10 px-6"
+        class="relative z-10 flex flex-col items-center justify-center text-center min-h-[100dvh] py-10 space-y-10 px-6"
       >
       <img
         src="./src/brunnolukka.png"
@@ -87,7 +102,7 @@
           Latest Releases
         </h2>
 
-        <div class="flex flex-col space-y-4">
+        <div class="flex flex-col space-y-4 max-h-[60vh] overflow-y-auto pr-2">
           <a
             href="./nada.html"
             class="bg-white/10 hover:bg-white/20 rounded-xl p-4 flex justify-between items-center transition"
