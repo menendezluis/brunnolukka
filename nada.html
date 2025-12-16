@@ -110,15 +110,25 @@
     </div>
 
     <script>
-      // Countdown timer for December 19, 2025 (midnight local time)
-      const releaseDate = new Date(2025, 11, 19, 0, 0, 0).getTime(); // Month is 0-indexed (11 = December)
+      // Countdown timer for December 19, 2024 (midnight local time)
+      const releaseDate = new Date(2024, 11, 19, 0, 0, 0).getTime(); // Month is 0-indexed (11 = December)
 
       function updateCountdown() {
+        const countdownEl = document.getElementById('countdown');
+        if (!countdownEl) return;
+
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+
+        if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
+
         const now = new Date().getTime();
         const distance = releaseDate - now;
 
         if (distance < 0) {
-          document.getElementById('countdown').innerHTML = '<p class="text-2xl md:text-3xl font-semibold">Released!</p>';
+          countdownEl.innerHTML = '<p class="text-2xl md:text-3xl font-semibold">Released!</p>';
           return;
         }
 
@@ -127,14 +137,23 @@
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        document.getElementById('days').textContent = String(days).padStart(2, '0');
-        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        daysEl.textContent = String(days).padStart(2, '0');
+        hoursEl.textContent = String(hours).padStart(2, '0');
+        minutesEl.textContent = String(minutes).padStart(2, '0');
+        secondsEl.textContent = String(seconds).padStart(2, '0');
       }
 
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
+      function initCountdown() {
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+      }
+
+      // Initialize when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCountdown);
+      } else {
+        initCountdown();
+      }
 
       barba.init({
         transitions: [
@@ -150,6 +169,10 @@
               return gsap.from(data.next.container, {
                 opacity: 0,
                 duration: 0.5,
+                onComplete: function() {
+                  // Reinitialize countdown after page transition
+                  initCountdown();
+                }
               });
             },
           },
