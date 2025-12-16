@@ -112,6 +112,7 @@
     <script>
       // Countdown timer for December 24, 2024 (midnight local time)
       const releaseDate = new Date(2024, 11, 24, 0, 0, 0).getTime(); // Month is 0-indexed (11 = December)
+      let countdownInterval = null;
 
       function updateCountdown() {
         const countdownEl = document.getElementById('countdown');
@@ -129,6 +130,10 @@
 
         if (distance < 0) {
           countdownEl.innerHTML = '<p class="text-2xl md:text-3xl font-semibold">Released!</p>';
+          if (countdownInterval) {
+            clearInterval(countdownInterval);
+            countdownInterval = null;
+          }
           return;
         }
 
@@ -144,15 +149,31 @@
       }
 
       function initCountdown() {
+        // Clear any existing interval
+        if (countdownInterval) {
+          clearInterval(countdownInterval);
+        }
+        
+        // Initial update
         updateCountdown();
-        setInterval(updateCountdown, 1000);
+        
+        // Set up interval
+        countdownInterval = setInterval(updateCountdown, 1000);
       }
 
-      // Initialize when DOM is ready
+      // Initialize countdown
+      function startCountdown() {
+        // Wait a bit for Barba.js to finish if it's active
+        setTimeout(() => {
+          initCountdown();
+        }, 100);
+      }
+
+      // Start countdown when page loads
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initCountdown);
+        document.addEventListener('DOMContentLoaded', startCountdown);
       } else {
-        initCountdown();
+        startCountdown();
       }
 
       barba.init({
@@ -160,6 +181,11 @@
           {
             name: "fade",
             leave(data) {
+              // Clear interval when leaving
+              if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+              }
               return gsap.to(data.current.container, {
                 opacity: 0,
                 duration: 0.5,
@@ -171,7 +197,7 @@
                 duration: 0.5,
                 onComplete: function() {
                   // Reinitialize countdown after page transition
-                  initCountdown();
+                  startCountdown();
                 }
               });
             },
