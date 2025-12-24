@@ -48,10 +48,10 @@
       <div class="absolute inset-0 bg-black/60 z-0"></div>
 
       <main
-        class="relative z-10 flex flex-col items-center justify-end text-center min-h-[100dvh] space-y-6 px-4 pb-10"
+        class="relative z-10 flex flex-col items-center justify-center md:justify-end text-center min-h-[100dvh] space-y-3 md:space-y-6 px-4 py-6 md:py-0 md:pb-10"
       >
       <!-- Extended Version Cover (Clickable) -->
-      <div class="mb-4">
+      <div class="mb-2 md:mb-4">
         <a
           href="./src/Waitformeextendedversion.wav"
           download="BrunnoLukka-WaitForMe-ExtendedVersion.wav"
@@ -61,32 +61,32 @@
           <img
             src="./src/waitformeextended.jpg"
             alt="Wait For Me Extended Version - Click to download"
-            class="w-64 md:w-80 h-64 md:h-80 object-cover rounded-lg shadow-2xl border-2 border-white/20 hover:border-white/40 transition-all"
+            class="w-48 h-48 md:w-80 md:h-80 object-cover rounded-lg shadow-2xl border-2 border-white/20 hover:border-white/40 transition-all"
           />
         </a>
       </div>
 
-      <p class="text-xs md:text-sm uppercase tracking-[3px] text-gray-300">
+      <p class="text-[10px] md:text-xs uppercase tracking-[2px] md:tracking-[3px] text-gray-300">
         Brunno Lukka
       </p>
-      <h1 class="text-3xl md:text-4xl font-semibold tracking-wide drop-shadow-lg">
+      <h1 class="text-2xl md:text-4xl font-semibold tracking-wide drop-shadow-lg">
         Wait For Me
       </h1>
-      <p class="text-sm md:text-base text-gray-300 max-w-2xl">
+      <p class="text-xs md:text-base text-gray-300 max-w-2xl px-2">
         Extended Version — A special gift for you
       </p>
 
       <!-- Audio Player -->
-      <div class="mt-4 flex flex-col items-center gap-4">
+      <div class="mt-2 md:mt-4 flex flex-col items-center gap-2 md:gap-4">
         <!-- Play/Pause Button -->
         <button
           id="playPauseBtn"
-          class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center transition-all hover:scale-110"
+          class="w-14 h-14 md:w-20 md:h-20 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center transition-all hover:scale-110 active:scale-95"
         >
-          <svg id="playIcon" class="w-8 h-8 md:w-10 md:h-10 ml-1" fill="currentColor" viewBox="0 0 24 24">
+          <svg id="playIcon" class="w-7 h-7 md:w-10 md:h-10 ml-1" fill="currentColor" viewBox="0 0 24 24">
             <path d="M8 5v14l11-7z"/>
           </svg>
-          <svg id="pauseIcon" class="w-8 h-8 md:w-10 md:h-10 hidden" fill="currentColor" viewBox="0 0 24 24">
+          <svg id="pauseIcon" class="w-7 h-7 md:w-10 md:h-10 hidden" fill="currentColor" viewBox="0 0 24 24">
             <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
           </svg>
         </button>
@@ -97,24 +97,25 @@
         </audio>
 
         <!-- File Info and Download -->
-        <div class="flex flex-col items-center gap-2">
-          <p class="text-xs text-gray-400">File size: 53 MB</p>
+        <div class="flex flex-col items-center gap-1.5 md:gap-2">
+          <p class="text-[10px] md:text-xs text-gray-400">File size: 53 MB</p>
           
           <!-- Download Button with Icon -->
           <a
             href="./src/Waitformeextendedversion.wav"
             download="BrunnoLukka-WaitForMe-ExtendedVersion.wav"
-            class="px-6 md:px-8 py-3 md:py-4 bg-white/20 hover:bg-white/30 rounded-full text-sm md:text-base font-semibold transition backdrop-blur-sm border border-white/30 flex items-center gap-2"
+            class="px-4 md:px-8 py-2 md:py-4 bg-white/20 hover:bg-white/30 rounded-full text-xs md:text-base font-semibold transition backdrop-blur-sm border border-white/30 flex items-center gap-2 active:scale-95"
           >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
             </svg>
-            Download Extended Version
+            <span class="hidden sm:inline">Download Extended Version</span>
+            <span class="sm:hidden">Download</span>
           </a>
         </div>
       </div>
 
-      <div class="flex flex-wrap justify-center gap-3 mt-2">
+      <div class="flex flex-wrap justify-center gap-2 md:gap-3 mt-2">
         <a
           href="#"
           target="_blank"
