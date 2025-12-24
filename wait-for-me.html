@@ -34,34 +34,21 @@
       </a>
 
       <video class="bg-video" autoplay muted loop playsinline>
-        <source src="./src/bg-loop.mp4" type="video/mp4" />
+        <source src="./src/waitformegift.mp4" type="video/mp4" />
       </video>
 
       <div class="absolute inset-0 bg-black/60 z-0"></div>
 
       <main
-        class="relative z-10 flex flex-col items-center justify-center text-center min-h-[100dvh] space-y-6 px-4"
+        class="relative z-10 flex flex-col items-center justify-end text-center min-h-[100dvh] space-y-6 px-4 pb-10"
       >
-      <!-- Countdown Timer -->
-      <div id="countdown" class="mb-8">
-        <div class="flex flex-wrap justify-center gap-4 md:gap-6">
-          <div class="flex flex-col items-center">
-            <div class="text-4xl md:text-6xl font-bold" id="days">00</div>
-            <div class="text-xs md:text-sm uppercase tracking-wider text-gray-400 mt-1">Days</div>
-          </div>
-          <div class="flex flex-col items-center">
-            <div class="text-4xl md:text-6xl font-bold" id="hours">00</div>
-            <div class="text-xs md:text-sm uppercase tracking-wider text-gray-400 mt-1">Hours</div>
-          </div>
-          <div class="flex flex-col items-center">
-            <div class="text-4xl md:text-6xl font-bold" id="minutes">00</div>
-            <div class="text-xs md:text-sm uppercase tracking-wider text-gray-400 mt-1">Minutes</div>
-          </div>
-          <div class="flex flex-col items-center">
-            <div class="text-4xl md:text-6xl font-bold" id="seconds">00</div>
-            <div class="text-xs md:text-sm uppercase tracking-wider text-gray-400 mt-1">Seconds</div>
-          </div>
-        </div>
+      <!-- Extended Version Cover -->
+      <div class="mb-4">
+        <img
+          src="./src/waitformeextended.jpg"
+          alt="Wait For Me Extended Version"
+          class="w-64 md:w-80 h-64 md:h-80 object-cover rounded-lg shadow-2xl border-2 border-white/20"
+        />
       </div>
 
       <p class="text-xs md:text-sm uppercase tracking-[3px] text-gray-300">
@@ -71,8 +58,19 @@
         Wait For Me
       </h1>
       <p class="text-sm md:text-base text-gray-300 max-w-2xl">
-        <!-- Add your track description here -->
+        Extended Version — A special gift for you
       </p>
+
+      <!-- Download Extended Version Button -->
+      <div class="mt-4">
+        <a
+          href="./src/Waitformeextendedversion.wav"
+          download="BrunnoLukka-WaitForMe-ExtendedVersion.wav"
+          class="px-6 md:px-8 py-3 md:py-4 bg-white/20 hover:bg-white/30 rounded-full text-sm md:text-base font-semibold transition backdrop-blur-sm border border-white/30"
+        >
+          Download Extended Version
+        </a>
+      </div>
 
       <div class="flex flex-wrap justify-center gap-3 mt-2">
         <a
@@ -110,82 +108,11 @@
     </div>
 
     <script>
-      // Countdown timer for December 24, 2024 (midnight local time)
-      const releaseDate = new Date(2024, 11, 24, 0, 0, 0).getTime(); // Month is 0-indexed (11 = December)
-      let countdownInterval = null;
-
-      function updateCountdown() {
-        const countdownEl = document.getElementById('countdown');
-        if (!countdownEl) return;
-
-        const daysEl = document.getElementById('days');
-        const hoursEl = document.getElementById('hours');
-        const minutesEl = document.getElementById('minutes');
-        const secondsEl = document.getElementById('seconds');
-
-        if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
-
-        const now = new Date().getTime();
-        const distance = releaseDate - now;
-
-        if (distance < 0) {
-          countdownEl.innerHTML = '<p class="text-2xl md:text-3xl font-semibold">Released!</p>';
-          if (countdownInterval) {
-            clearInterval(countdownInterval);
-            countdownInterval = null;
-          }
-          return;
-        }
-
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        daysEl.textContent = String(days).padStart(2, '0');
-        hoursEl.textContent = String(hours).padStart(2, '0');
-        minutesEl.textContent = String(minutes).padStart(2, '0');
-        secondsEl.textContent = String(seconds).padStart(2, '0');
-      }
-
-      function initCountdown() {
-        // Clear any existing interval
-        if (countdownInterval) {
-          clearInterval(countdownInterval);
-        }
-        
-        // Initial update
-        updateCountdown();
-        
-        // Set up interval
-        countdownInterval = setInterval(updateCountdown, 1000);
-      }
-
-      // Initialize countdown
-      function startCountdown() {
-        // Wait a bit for Barba.js to finish if it's active
-        setTimeout(() => {
-          initCountdown();
-        }, 100);
-      }
-
-      // Start countdown when page loads
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', startCountdown);
-      } else {
-        startCountdown();
-      }
-
       barba.init({
         transitions: [
           {
             name: "fade",
             leave(data) {
-              // Clear interval when leaving
-              if (countdownInterval) {
-                clearInterval(countdownInterval);
-                countdownInterval = null;
-              }
               return gsap.to(data.current.container, {
                 opacity: 0,
                 duration: 0.5,
@@ -195,10 +122,6 @@
               return gsap.from(data.next.container, {
                 opacity: 0,
                 duration: 0.5,
-                onComplete: function() {
-                  // Reinitialize countdown after page transition
-                  startCountdown();
-                }
               });
             },
           },
@@ -207,4 +130,3 @@
     </script>
   </body>
 </html>
-
