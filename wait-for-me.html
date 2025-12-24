@@ -15,7 +15,15 @@
         width: 100%;
         min-height: 100%;
         object-fit: cover;
+        object-position: left center;
         z-index: -1;
+      }
+      
+      /* On mobile, ensure video is positioned at top-left (0,0) to show Christmas tree */
+      @media (max-width: 768px) {
+        video.bg-video {
+          object-position: left top;
+        }
       }
     </style>
   </head>
