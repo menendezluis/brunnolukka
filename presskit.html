@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brunno Lukka — Press Kit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- html2pdf.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+      
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      
+      .neon-cyan {
+        color: #00f0ff;
+        text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+      }
+      
+      .neon-pink {
+        color: #ff00ff;
+        text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+      }
+      
+      .bg-pattern {
+        background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+        position: relative;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+      
+      .bg-pattern::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+          radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
+          linear-gradient(45deg, transparent 30%, rgba(0, 240, 255, 0.05) 50%, transparent 70%);
+        pointer-events: none;
+      }
+
+      .circular-frame {
+        border: 4px solid #00f0ff;
+        border-radius: 50%;
+        padding: 8px;
+        box-shadow: 0 0 30px rgba(0, 240, 255, 0.5), inset 0 0 30px rgba(0, 240, 255, 0.2);
+      }
+      
+      .circular-frame-pink {
+        border: 4px solid #ff00ff;
+        border-radius: 50%;
+        padding: 8px;
+        box-shadow: 0 0 30px rgba(255, 0, 255, 0.5), inset 0 0 30px rgba(255, 0, 255, 0.2);
+      }
+      
+      .square-frame {
+        border: 4px solid #00f0ff;
+        border-radius: 8px;
+        padding: 8px;
+        box-shadow: 0 0 30px rgba(0, 240, 255, 0.5), inset 0 0 30px rgba(0, 240, 255, 0.2);
+      }
+      
+      .triangle-frame {
+        position: relative;
+        padding: 8px;
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        background: linear-gradient(135deg, rgba(0, 240, 255, 0.3), rgba(0, 240, 255, 0.1));
+        box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+      }
+      
+      .triangle-frame::before {
+        content: '';
+        position: absolute;
+        top: -4px;
+        left: -4px;
+        right: -4px;
+        bottom: -4px;
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        background: #00f0ff;
+        z-index: -1;
+        box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+      }
+      
+      .triangle-frame img {
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      }
+      
+      .section-title {
+        color: #00f0ff;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 14px;
+        margin-bottom: 12px;
+      }
+      
+      .info-item {
+        margin-bottom: 8px;
+        font-size: 13px;
+      }
+      
+      .info-label {
+        color: #ff00ff;
+        font-weight: 600;
+        display: inline-block;
+        min-width: 120px;
+      }
+      
+      .info-value {
+        color: #ffffff;
+      }
+      
+      .discography-item {
+        color: #ffffff;
+        font-size: 13px;
+        margin-bottom: 6px;
+        padding-left: 20px;
+      }
+      
+      .geometric-shape {
+        position: absolute;
+        opacity: 0.1;
+        pointer-events: none;
+      }
+      
+      .shape-1 {
+        width: 200px;
+        height: 200px;
+        border: 2px solid #00f0ff;
+        transform: rotate(45deg);
+        top: 10%;
+        right: 5%;
+      }
+      
+      .shape-2 {
+        width: 150px;
+        height: 150px;
+        border: 2px solid #ff00ff;
+        border-radius: 50%;
+        bottom: 15%;
+        left: 3%;
+      }
+
+      /* Estilos para PDF */
+      @media print {
+        .w-full.h-screen {
+          page-break-after: always;
+          height: 100vh !important;
+        }
+      }
+
+      /* Clase para ocultar en PDF */
+      .hide-in-pdf {
+        display: none !important;
+      }
+
+      /* Ocultar iframe y mostrar imagen en PDF */
+      @media print {
+        .spotify-widget {
+          display: none !important;
+        }
+        .discography-image {
+          display: block !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="bg-pattern text-white min-h-screen overflow-y-auto">
+    <!-- Download PDF Button -->
+    <button
+      id="downloadPdfBtn"
+      class="fixed top-4 right-4 z-50 bg-white/10 hover:bg-white/20 border border-cyan-400/50 text-cyan-400 px-4 py-2 rounded-lg font-semibold transition-all shadow-lg hover:shadow-cyan-400/50 flex items-center gap-2"
+      onclick="downloadPDF()"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+      </svg>
+      Download PDF
+    </button>
+
+    <!-- Banner -->
+    <div class="w-full h-screen md:h-[70vh] relative">
+      <img
+        src="./src/bannerbrunno.png"
+        alt="Brunno Lukka Banner"
+        class="w-full h-full object-cover"
+      />
+      <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+        <div class="text-center">
+          <h1 class="neon-cyan text-5xl md:text-7xl font-bold mb-2">BRUNNO LUKKA</h1>
+          <p class="neon-pink text-xl md:text-2xl font-semibold">DJ / PRODUCER</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto p-6 md:p-10 space-y-8" id="mainContent">
+      <!-- Fila 1: Avatar | Personal Info + DJ Info -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="flex justify-center lg:justify-start">
+          <div class="w-72 h-72 md:w-96 md:h-96 overflow-hidden rounded-full">
+            <img
+              src="./src/brunnolukka.png"
+              alt="Brunno Lukka"
+              class="w-full h-full object-cover object-center rounded-full"
+            />
+          </div>
+        </div>
+        <div class="lg:col-span-2 space-y-8">
+          <!-- Personal Info -->
+          <div>
+            <h2 class="section-title">PERSONAL INFO</h2>
+            <div class="info-item">
+              <span class="info-label">Location:</span>
+              <span class="info-value">Buenos Aires, Available Worldwide</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Mobile:</span>
+              <span class="info-value">Contact via email</span>
+            </div>
+          </div>
+
+          <!-- DJ Info -->
+          <div>
+            <h2 class="section-title">DJ INFO</h2>
+            <div class="info-item">
+              <span class="info-label">DJ Since:</span>
+              <span class="info-value">Active</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Category:</span>
+              <span class="info-value">House DJ, Tech House DJ, Techno DJ, Electronic Music Producer</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Available For:</span>
+              <span class="info-value">Club, Celebration, Concert, Festival</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Set:</span>
+              <span class="info-value">1-3 hours, to be discussed</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Used Equipment:</span>
+              <span class="info-value">Preferred XDJ-700, CDJ-2000 or latest</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fila 2: bru1 | Discography + Next Releases -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="flex justify-center lg:justify-start self-center">
+          <div class="square-frame w-64 h-64 md:w-80 md:h-80">
+            <img
+              src="./src/bru1.png"
+              alt="Brunno Lukka"
+              class="w-full h-full object-cover rounded-lg"
+            />
+          </div>
+        </div>
+        <div class="lg:col-span-2 space-y-8">
+          <!-- Discography -->
+          <div>
+            <h2 class="section-title">DISCOGRAPHY</h2>
+            <p class="info-value mb-3">Some of the best releases</p>
+            
+            <!-- Spotify Widget (visible en web) -->
+            <div class="mt-4 spotify-widget">
+              <iframe 
+                style="border-radius:12px" 
+                src="https://open.spotify.com/embed/artist/4Y4H5coOYsdCFUSCGg8tRK?utm_source=generator&theme=0" 
+                width="100%" 
+                height="352" 
+                frameBorder="0" 
+                allowfullscreen="" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                loading="lazy"
+                class="rounded-lg"
+              ></iframe>
+            </div>
+            
+            <!-- Discography Image (visible solo en PDF) -->
+            <div class="mt-4 discography-image" style="display: none;">
+              <img 
+                src="./src/discography.png" 
+                alt="Discography" 
+                class="w-full rounded-lg"
+                style="max-width: 100%; height: auto;"
+              />
+            </div>
+            
+            
+          </div>
+
+          <!-- Next Releases -->
+          <div>
+            <h2 class="section-title">NEXT RELEASES</h2>
+            <p class="info-value mb-3">Upcoming tracks</p>
+            <div class="discography-item">01. Amor — Feb/13, Techno, 132 BPM</div>
+            <div class="discography-item">02. Vamos a Bailar — Feb/27, Tech House, 126 BPM</div>
+            <div class="discography-item">03. Havanna Loca — March/14, Tech House, 128 BPM</div>
+            <div class="discography-item">04. Bugatti — March/30, Tech House, 132 BPM</div>
+            <div class="discography-item">05. Catchy — TBA, Tech House, 128 BPM</div>
+            <div class="discography-item">06. Acid Techno — TBA, Techno, 136 BPM</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fila 3: bru2 | Career + Social Media + Biography -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="flex justify-center lg:justify-start">
+          <div class="circular-frame-pink w-64 h-64 md:w-80 md:h-80">
+            <img
+              src="./src/bru2.png"
+              alt="Brunno Lukka"
+              class="w-full h-full object-cover rounded-full"
+            />
+          </div>
+        </div>
+        <div class="lg:col-span-2 space-y-8">
+          <!-- Career -->
+          <div>
+            <h2 class="section-title">CAREER</h2>
+            <div class="info-item">
+              <span class="info-label">Production Studies:</span>
+              <span class="info-value">Carrera de Producción Musical Certificada, Arjaus, Buenos Aires</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">DJ Career:</span>
+              <span class="info-value">Carrera de DJ de Electrónica Certificada, Arjaus, Buenos Aires</span>
+            </div>
+          </div>
+
+          <!-- Social Media Stats -->
+          <div>
+            <h2 class="section-title">SOCIAL MEDIA</h2>
+            <div class="info-item">
+              <span class="info-label">Spotify:</span>
+              <a href="https://open.spotify.com/artist/4Y4H5coOYsdCFUSCGg8tRK" class="info-value neon-cyan hover:text-cyan-300 underline" target="_blank">
+                615 monthly listeners
+              </a>
+            </div>
+            <div class="info-item">
+              <span class="info-label">YouTube:</span>
+              <a href="https://www.youtube.com/@brunnolukka" class="info-value neon-cyan hover:text-cyan-300 underline" target="_blank">
+                15K subscribers
+              </a>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Instagram:</span>
+              <a href="https://www.instagram.com/brunnolukka" class="info-value neon-cyan hover:text-cyan-300 underline" target="_blank">
+                1.5K followers
+              </a>
+            </div>
+            <div class="info-item">
+              <span class="info-label">TikTok:</span>
+              <a href="https://www.tiktok.com/@brunnolukka" class="info-value neon-cyan hover:text-cyan-300 underline" target="_blank">
+                4K followers
+              </a>
+            </div>
+          </div>
+
+          <!-- Biography -->
+          <div>
+            <h2 class="section-title">BIOGRAPHY</h2>
+            <p class="info-value text-sm leading-relaxed">
+              Brunno Lukka is a dynamic DJ and producer known for crafting infectious house and tech house grooves that move dance floors worldwide. With a signature sound that blends Latin rhythms, modern electronic textures, and festival-ready energy, Brunno creates tracks that are both sophisticated and irresistibly danceable. From intimate club sets to festival stages, his music connects with audiences through powerful bass drops, memorable hooks, and an unwavering commitment to the groove. Let the groove take your body.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fila 4: Nada | Contacts -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div></div>
+        <div class="lg:col-span-2">
+          <!-- Contacts -->
+          <div>
+            <h2 class="section-title">CONTACTS</h2>
+            <div class="space-y-3">
+              <div class="info-item">
+                <span class="info-label">Booking:</span>
+                <a href="mailto:contact@brunnolukka.com" class="info-value neon-cyan hover:text-cyan-300 underline">
+                  contact@brunnolukka.com
+                </a>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Rmx Request:</span>
+                <a href="mailto:hi@brunnolukka.com" class="info-value neon-cyan hover:text-cyan-300 underline">
+                  hi@brunnolukka.com
+                </a>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Website:</span>
+                <a href="https://www.brunnolukka.com" class="info-value neon-cyan hover:text-cyan-300 underline" target="_blank">
+                  www.brunnolukka.com
+                </a>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Instagram:</span>
+                <a href="https://www.instagram.com/brunnolukka" class="info-value neon-cyan hover:text-cyan-300 underline" target="_blank">
+                  @brunnolukka
+                </a>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Spotify:</span>
+                <a href="https://open.spotify.com/artist/4Y4H5coOYsdCFUSCGg8tRK" class="info-value neon-cyan hover:text-cyan-300 underline" target="_blank">
+                  Brunno Lukka
+                </a>
+              </div>
+              <div class="info-item">
+                <span class="info-label">SoundCloud:</span>
+                <a href="https://soundcloud.com/brunnolukka" class="info-value neon-cyan hover:text-cyan-300 underline" target="_blank">
+                  brunnolukka
+                </a>
+              </div>
+              <div class="info-item">
+                <span class="info-label">YouTube:</span>
+                <a href="https://www.youtube.com/@brunnolukka" class="info-value neon-cyan hover:text-cyan-300 underline" target="_blank">
+                  @brunnolukka
+                </a>
+              </div>
+              <div class="info-item">
+                <span class="info-label">TikTok:</span>
+                <a href="https://www.tiktok.com/@brunnolukka" class="info-value neon-cyan hover:text-cyan-300 underline" target="_blank">
+                  @brunnolukka
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Back to Home -->
+      <div class="mt-12 text-center">
+        <a
+          href="./index.html"
+          class="inline-block px-6 py-3 bg-cyan-500/20 hover:bg-cyan-500/30 border-2 border-cyan-500 rounded-full text-cyan-400 font-semibold transition-all hover:scale-105"
+        >
+          ← Back to Home
+        </a>
+      </div>
+    </div>
+
+    <!-- Geometric Shapes -->
+    <div class="geometric-shape shape-1"></div>
+    <div class="geometric-shape shape-2"></div>
+
+    <script>
+      async function downloadPDF() {
+        // Ocultar el botón de descarga temporalmente
+        const downloadBtn = document.getElementById('downloadPdfBtn');
+        const originalDisplay = downloadBtn.style.display;
+        downloadBtn.style.display = 'none';
+
+        // Ocultar las formas geométricas que no son necesarias en el PDF
+        const shapes = document.querySelectorAll('.geometric-shape');
+        shapes.forEach(shape => shape.style.display = 'none');
+
+        // Ocultar iframe de Spotify y mostrar imagen para PDF
+        const spotifyWidget = document.querySelector('.spotify-widget');
+        const discographyImage = document.querySelector('.discography-image');
+        if (spotifyWidget) spotifyWidget.style.display = 'none';
+        if (discographyImage) discographyImage.style.display = 'block';
+
+        try {
+          // Esperar un momento para que las imágenes se carguen
+          await new Promise(resolve => setTimeout(resolve, 1000));
+
+          // Obtener el banner y el contenido
+          const banner = document.querySelector('.w-full.h-screen');
+          const content = document.querySelector('.relative.z-10.max-w-7xl');
+
+          // Agregar estilo para forzar salto de página después del banner
+          const mainContent = document.getElementById('mainContent');
+          if (mainContent) {
+            mainContent.style.pageBreakBefore = 'always';
+          }
+
+          // Configuración sin márgenes
+          const opt = {
+            margin: 0,
+            filename: 'Brunno_Lukka_PressKit.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { 
+              scale: 2,
+              useCORS: true,
+              allowTaint: true,
+              logging: false,
+              backgroundColor: '#0a0e27',
+              scrollX: 0,
+              scrollY: 0
+            },
+            jsPDF: { 
+              unit: 'mm', 
+              format: 'a4', 
+              orientation: 'portrait'
+            },
+            pagebreak: { 
+              mode: ['avoid-all', 'css', 'legacy'],
+              before: '#mainContent'
+            }
+          };
+
+          // Generar el PDF desde el body completo
+          await html2pdf().set(opt).from(document.body).save();
+          
+          // Restaurar elementos
+          downloadBtn.style.display = originalDisplay || 'flex';
+          shapes.forEach(shape => shape.style.display = '');
+          if (spotifyWidget) spotifyWidget.style.display = 'block';
+          if (discographyImage) discographyImage.style.display = 'none';
+        } catch (error) {
+          console.error('Error generating PDF:', error);
+          downloadBtn.style.display = originalDisplay || 'flex';
+          shapes.forEach(shape => shape.style.display = '');
+          if (spotifyWidget) spotifyWidget.style.display = 'block';
+          if (discographyImage) discographyImage.style.display = 'none';
+        }
+      }
+    </script>
+  </body>
+</html>
