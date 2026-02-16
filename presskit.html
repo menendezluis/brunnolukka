@@ -544,7 +544,7 @@
             <h2 class="section-title">LIVE SHOWS</h2>
             
             <!-- Sets -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6" id="setsContainer">
               <div class="bg-white/5 border border-cyan-400/30 rounded-xl p-6 hover:bg-white/10 transition">
                 <h3 class="text-white font-semibold text-lg mb-2 neon-cyan">Afro Tech Set</h3>
                 <div class="mb-3">
@@ -836,6 +836,15 @@
           iframe.style.display = 'none';
         });
 
+        // Reducir el tamaño de las cards de sets para PDF
+        const setsContainer = document.getElementById('setsContainer');
+        const originalSetsDisplay = setsContainer ? setsContainer.style.display : '';
+        const originalSetsGap = setsContainer ? setsContainer.style.gap : '';
+        const originalSetsPadding = setsContainer ? setsContainer.style.padding : '';
+        if (setsContainer) {
+          setsContainer.style.display = 'none'; // Ocultar completamente las cards de sets
+        }
+
         try {
           // Esperar un momento para que las imágenes se carguen
           await new Promise(resolve => setTimeout(resolve, 1000));
@@ -887,6 +896,12 @@
           allIframes.forEach((iframe, index) => {
             iframe.style.display = iframeStates[index] || '';
           });
+          // Restaurar sets container
+          if (setsContainer) {
+            setsContainer.style.display = originalSetsDisplay || '';
+            setsContainer.style.gap = originalSetsGap || '';
+            setsContainer.style.padding = originalSetsPadding || '';
+          }
         } catch (error) {
           console.error('Error generating PDF:', error);
           downloadBtn.style.display = originalDisplay || 'flex';
@@ -897,6 +912,12 @@
           allIframes.forEach((iframe, index) => {
             iframe.style.display = iframeStates[index] || '';
           });
+          // Restaurar sets container en caso de error
+          if (setsContainer) {
+            setsContainer.style.display = originalSetsDisplay || '';
+            setsContainer.style.gap = originalSetsGap || '';
+            setsContainer.style.padding = originalSetsPadding || '';
+          }
         }
       }
 
