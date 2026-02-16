@@ -828,6 +828,14 @@
         if (spotifyWidget) spotifyWidget.style.display = 'none';
         if (discographyImage) discographyImage.style.display = 'block';
 
+        // Ocultar todos los iframes (YouTube y SoundCloud) para PDF
+        const allIframes = document.querySelectorAll('iframe');
+        const iframeStates = [];
+        allIframes.forEach((iframe, index) => {
+          iframeStates[index] = iframe.style.display;
+          iframe.style.display = 'none';
+        });
+
         try {
           // Esperar un momento para que las imágenes se carguen
           await new Promise(resolve => setTimeout(resolve, 1000));
@@ -875,12 +883,20 @@
           shapes.forEach(shape => shape.style.display = '');
           if (spotifyWidget) spotifyWidget.style.display = 'block';
           if (discographyImage) discographyImage.style.display = 'none';
+          // Restaurar iframes
+          allIframes.forEach((iframe, index) => {
+            iframe.style.display = iframeStates[index] || '';
+          });
         } catch (error) {
           console.error('Error generating PDF:', error);
           downloadBtn.style.display = originalDisplay || 'flex';
           shapes.forEach(shape => shape.style.display = '');
           if (spotifyWidget) spotifyWidget.style.display = 'block';
           if (discographyImage) discographyImage.style.display = 'none';
+          // Restaurar iframes en caso de error
+          allIframes.forEach((iframe, index) => {
+            iframe.style.display = iframeStates[index] || '';
+          });
         }
       }
 
