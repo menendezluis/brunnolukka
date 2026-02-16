@@ -173,6 +173,64 @@
         }
       }
 
+      /* Gallery Mosaic Styles - Asymmetric Layout */
+      .gallery-item {
+        min-height: 200px;
+      }
+      /* Patrón asimétrico para desktop */
+      .gallery-item:nth-child(1) {
+        grid-column: span 2;
+        grid-row: span 2;
+        aspect-ratio: 1;
+      }
+      .gallery-item:nth-child(2) {
+        grid-column: span 1;
+        grid-row: span 1;
+        aspect-ratio: 1;
+      }
+      .gallery-item:nth-child(3) {
+        grid-column: span 1;
+        grid-row: span 2;
+        aspect-ratio: 1/2;
+      }
+      .gallery-item:nth-child(4) {
+        grid-column: span 1;
+        grid-row: span 1;
+        aspect-ratio: 1;
+      }
+      .gallery-item:nth-child(5) {
+        grid-column: span 2;
+        grid-row: span 1;
+        aspect-ratio: 2/1;
+      }
+      .gallery-item:nth-child(6) {
+        grid-column: span 1;
+        grid-row: span 1;
+        aspect-ratio: 1;
+      }
+      .gallery-item:nth-child(7) {
+        grid-column: span 1;
+        grid-row: span 2;
+        aspect-ratio: 1/2;
+      }
+      .gallery-item:nth-child(8) {
+        grid-column: span 1;
+        grid-row: span 1;
+        aspect-ratio: 1;
+      }
+      .gallery-item:nth-child(9) {
+        grid-column: span 2;
+        grid-row: span 1;
+        aspect-ratio: 2/1;
+      }
+      @media (max-width: 768px) {
+        .gallery-item {
+          grid-column: span 1 !important;
+          grid-row: span 1 !important;
+          aspect-ratio: 1;
+        }
+      }
+
       /* Slider para mobile */
       .banner-slider {
         display: none;
@@ -481,6 +539,52 @@
             </div>
           </div>
 
+          <!-- Live Shows -->
+          <div>
+            <h2 class="section-title">LIVE SHOWS</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 mt-4" id="liveShowsGallery">
+              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="./src/liveshows/1.png" data-title="Arjaus Hall" data-location="Buenos Aires, Argentina">
+                <img src="./src/liveshows/1.png" alt="Arjaus Hall" class="w-full h-full object-cover" />
+              </div>
+              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="./src/liveshows/2.png" data-title="Vinoteca Palermo" data-location="Buenos Aires, Argentina">
+                <img src="./src/liveshows/2.png" alt="Vinoteca Palermo" class="w-full h-full object-cover" />
+              </div>
+              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="./src/liveshows/3.png" data-title="The Secret Garden Club" data-location="Ciudad de Guatemala">
+                <img src="./src/liveshows/3.png" alt="The Secret Garden Club" class="w-full h-full object-cover" />
+              </div>
+              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="./src/liveshows/4.png" data-title="Circle Party" data-location="Zacapa, Guatemala">
+                <img src="./src/liveshows/4.png" alt="Circle Party" class="w-full h-full object-cover" />
+              </div>
+              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="./src/liveshows/5.jpg" data-title="Live Performance" data-location="DJ Set">
+                <img src="./src/liveshows/5.jpg" alt="Live Show" class="w-full h-full object-cover" />
+              </div>
+              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="./src/liveshows/6.jpg" data-title="Live Performance" data-location="DJ Set">
+                <img src="./src/liveshows/6.jpg" alt="Live Show" class="w-full h-full object-cover" />
+              </div>
+              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="./src/liveshows/7.jpg" data-title="Live Performance" data-location="DJ Set">
+                <img src="./src/liveshows/7.jpg" alt="Live Show" class="w-full h-full object-cover" />
+              </div>
+              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="./src/liveshows/8.jpg" data-title="Live Performance" data-location="DJ Set">
+                <img src="./src/liveshows/8.jpg" alt="Live Show" class="w-full h-full object-cover" />
+              </div>
+              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="./src/liveshows/9.png" data-title="Live Performance" data-location="DJ Set">
+                <img src="./src/liveshows/9.png" alt="Live Show" class="w-full h-full object-cover" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal -->
+          <div id="imageModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 backdrop-blur-sm">
+            <div class="relative max-w-5xl max-h-[90vh] p-4">
+              <button id="closeModal" class="absolute top-4 right-4 z-10 text-white hover:text-cyan-400 text-4xl font-bold transition-colors">&times;</button>
+              <img id="modalImage" src="" alt="" class="max-w-full max-h-[90vh] object-contain rounded-lg" />
+              <div class="mt-4 text-center">
+                <h3 id="modalTitle" class="text-white text-xl font-semibold"></h3>
+                <p id="modalLocation" class="text-white/70 text-sm mt-1"></p>
+              </div>
+            </div>
+          </div>
+
           <!-- Biography -->
           <div>
             <h2 class="section-title">BIOGRAPHY</h2>
@@ -699,6 +803,56 @@
           if (discographyImage) discographyImage.style.display = 'none';
         }
       }
+
+      // Gallery Modal
+      document.addEventListener('DOMContentLoaded', function() {
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalLocation = document.getElementById('modalLocation');
+        const closeModal = document.getElementById('closeModal');
+
+        galleryItems.forEach(item => {
+          item.addEventListener('click', function() {
+            const imageSrc = this.getAttribute('data-image');
+            const title = this.getAttribute('data-title');
+            const location = this.getAttribute('data-location');
+            
+            modalImage.src = imageSrc;
+            modalImage.alt = title;
+            modalTitle.textContent = title;
+            modalLocation.textContent = location;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+          });
+        });
+
+        closeModal.addEventListener('click', function() {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+          document.body.style.overflow = '';
+        });
+
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+          }
+        });
+
+        // Cerrar con ESC
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+          }
+        });
+      });
     </script>
   </body>
 </html>
