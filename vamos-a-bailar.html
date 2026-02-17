@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brunno Lukka — Vamos a Bailar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="https://unpkg.com/@barba/core"></script>
+    <style>
+      video.bg-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        min-height: 100%;
+        object-fit: cover;
+        z-index: -1;
+      }
+    </style>
+  </head>
+
+  <body
+    class="relative min-h-[100dvh] bg-black text-white overflow-hidden"
+    data-barba="wrapper"
+  >
+    <div data-barba="container" data-barba-namespace="vamos-a-bailar">
+      <a href="./index.html" class="absolute top-6 left-6 z-20">
+        <img
+          src="./logobrunno.png"
+          alt="Brunno Lukka"
+          class="h-12 md:h-16 hover:opacity-80 transition"
+        />
+      </a>
+
+      <video class="bg-video" autoplay muted loop playsinline>
+        <source src="./src/bg-loop.mp4" type="video/mp4" />
+      </video>
+
+      <div class="absolute inset-0 bg-black/60 z-0"></div>
+
+      <main
+        class="relative z-10 flex flex-col items-center justify-center text-center min-h-[100dvh] space-y-6 px-4"
+      >
+      <!-- Countdown Timer -->
+      <div id="countdown" class="mb-8">
+        <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+          <div class="flex flex-col items-center">
+            <div class="text-4xl md:text-6xl font-bold" id="days">00</div>
+            <div class="text-xs md:text-sm uppercase tracking-wider text-gray-400 mt-1">Days</div>
+          </div>
+          <div class="flex flex-col items-center">
+            <div class="text-4xl md:text-6xl font-bold" id="hours">00</div>
+            <div class="text-xs md:text-sm uppercase tracking-wider text-gray-400 mt-1">Hours</div>
+          </div>
+          <div class="flex flex-col items-center">
+            <div class="text-4xl md:text-6xl font-bold" id="minutes">00</div>
+            <div class="text-xs md:text-sm uppercase tracking-wider text-gray-400 mt-1">Minutes</div>
+          </div>
+          <div class="flex flex-col items-center">
+            <div class="text-4xl md:text-6xl font-bold" id="seconds">00</div>
+            <div class="text-xs md:text-sm uppercase tracking-wider text-gray-400 mt-1">Seconds</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-xs md:text-sm uppercase tracking-[3px] text-gray-300">
+        Brunno Lukka
+      </p>
+      <h1 class="text-3xl md:text-4xl font-semibold tracking-wide drop-shadow-lg">
+        Vamos a Bailar
+      </h1>
+      <p class="text-sm md:text-base text-gray-300 max-w-2xl">
+        Coming Soon - February 27, 2025
+      </p>
+      <p class="text-xs md:text-sm text-gray-400">
+        Tech House • 126 BPM
+      </p>
+    </main>
+    </div>
+
+    <script>
+      // Countdown timer for February 27, 2025 (midnight local time)
+      const releaseDate = new Date(2025, 1, 27, 0, 0, 0).getTime(); // Month is 0-indexed (1 = February)
+      let countdownInterval = null;
+
+      function updateCountdown() {
+        const countdownEl = document.getElementById('countdown');
+        if (!countdownEl) return;
+
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+
+        if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
+
+        const now = new Date().getTime();
+        const distance = releaseDate - now;
+
+        if (distance < 0) {
+          countdownEl.innerHTML = '<p class="text-2xl md:text-3xl font-semibold">Released!</p>';
+          if (countdownInterval) {
+            clearInterval(countdownInterval);
+            countdownInterval = null;
+          }
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        daysEl.textContent = String(days).padStart(2, '0');
+        hoursEl.textContent = String(hours).padStart(2, '0');
+        minutesEl.textContent = String(minutes).padStart(2, '0');
+        secondsEl.textContent = String(seconds).padStart(2, '0');
+      }
+
+      function initCountdown() {
+        if (countdownInterval) {
+          clearInterval(countdownInterval);
+        }
+        
+        updateCountdown();
+        countdownInterval = setInterval(updateCountdown, 1000);
+      }
+
+      function startCountdown() {
+        setTimeout(() => {
+          initCountdown();
+        }, 100);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', startCountdown);
+      } else {
+        startCountdown();
+      }
+
+      barba.init({
+        transitions: [
+          {
+            name: "fade",
+            leave(data) {
+              if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+              }
+              return gsap.to(data.current.container, {
+                opacity: 0,
+                duration: 0.5,
+              });
+            },
+            enter(data) {
+              return gsap.from(data.next.container, {
+                opacity: 0,
+                duration: 0.5,
+                onComplete: function() {
+                  startCountdown();
+                }
+              });
+            },
+          },
+        ],
+      });
+    </script>
+  </body>
+</html>
