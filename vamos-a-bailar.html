@@ -21,7 +21,7 @@
   </head>
 
   <body
-    class="relative min-h-[100dvh] bg-black text-white overflow-hidden"
+    class="relative min-h-[100dvh] bg-black text-white overflow-y-auto"
     data-barba="wrapper"
   >
     <div data-barba="container" data-barba-namespace="vamos-a-bailar">
@@ -42,127 +42,78 @@
       <main
         class="relative z-10 flex flex-col items-center justify-center text-center min-h-[100dvh] space-y-6 px-4 py-10"
       >
-      <!-- Spotify Player -->
-      <div class="w-full max-w-md mb-4">
-        <iframe
-          style="border-radius:12px"
-          src="https://open.spotify.com/embed/track/76sKA7gHHrcdsdjbUw0DVH?utm_source=generator&theme=0"
-          width="100%"
-          height="152"
-          frameBorder="0"
-          allowfullscreen=""
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"
-          class="rounded-lg"
-        ></iframe>
-      </div>
-
-      <!-- Countdown Timer -->
-      <div id="countdown" class="mb-8">
-        <div class="flex flex-wrap justify-center gap-4 md:gap-6">
-          <div class="flex flex-col items-center">
-            <div class="text-4xl md:text-6xl font-bold" id="days">00</div>
-            <div class="text-xs md:text-sm uppercase tracking-wider text-gray-400 mt-1">Days</div>
-          </div>
-          <div class="flex flex-col items-center">
-            <div class="text-4xl md:text-6xl font-bold" id="hours">00</div>
-            <div class="text-xs md:text-sm uppercase tracking-wider text-gray-400 mt-1">Hours</div>
-          </div>
-          <div class="flex flex-col items-center">
-            <div class="text-4xl md:text-6xl font-bold" id="minutes">00</div>
-            <div class="text-xs md:text-sm uppercase tracking-wider text-gray-400 mt-1">Minutes</div>
-          </div>
-          <div class="flex flex-col items-center">
-            <div class="text-4xl md:text-6xl font-bold" id="seconds">00</div>
-            <div class="text-xs md:text-sm uppercase tracking-wider text-gray-400 mt-1">Seconds</div>
-          </div>
+        <div class="w-full max-w-md mb-2">
+          <iframe
+            style="border-radius: 12px"
+            src="https://open.spotify.com/embed/track/76sKA7gHHrcdsdjbUw0DVH?utm_source=generator&theme=0"
+            width="100%"
+            height="152"
+            frameBorder="0"
+            allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            class="rounded-lg"
+          ></iframe>
         </div>
-      </div>
 
-      <p class="text-xs md:text-sm uppercase tracking-[3px] text-gray-300">
-        Brunno Lukka
-      </p>
-      <h1 class="text-3xl md:text-4xl font-semibold tracking-wide drop-shadow-lg">
-        Vamos a Bailar
-      </h1>
-      <p class="text-sm md:text-base text-gray-300 max-w-2xl">
-        Coming Soon - February 27, 2025
-      </p>
-      <p class="text-xs md:text-sm text-gray-400">
-        Tech House • 126 BPM
-      </p>
-    </main>
+        <p class="text-xs md:text-sm uppercase tracking-[3px] text-gray-300">
+          Brunno Lukka
+        </p>
+        <h1
+          class="text-3xl md:text-4xl font-semibold tracking-wide drop-shadow-lg"
+        >
+          Vamos a Bailar
+        </h1>
+        <p class="text-sm md:text-base text-gray-300 max-w-2xl">
+          Tech house con groove latino y energía de pista; 126 BPM, listo para el club.
+        </p>
+
+        <div class="flex flex-wrap justify-center gap-3 mt-2">
+          <a
+            href="https://open.spotify.com/track/76sKA7gHHrcdsdjbUw0DVH"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="px-3 md:px-4 py-2 bg-green-500/80 hover:bg-green-500 rounded-full text-xs md:text-sm font-semibold transition"
+            >Spotify</a
+          >
+          <a
+            href="https://music.apple.com/us/album/vamos-a-bailar/1875417506?i=1875417507"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="px-3 md:px-4 py-2 bg-gray-300/80 hover:bg-gray-300 text-black rounded-full text-xs md:text-sm font-semibold transition"
+            >Apple Music</a
+          >
+          <a
+            href="https://www.youtube.com/watch?v=BrG8s791wgE"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="px-3 md:px-4 py-2 bg-red-600/80 hover:bg-red-600 rounded-full text-xs md:text-sm font-semibold transition"
+            >YouTube</a
+          >
+          <a
+            href="https://www.deezer.com/track/3827050331"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="px-3 md:px-4 py-2 bg-blue-500/80 hover:bg-blue-500 rounded-full text-xs md:text-sm font-semibold transition"
+            >Deezer</a
+          >
+          <a
+            href="https://open.spotify.com/artist/4Y4H5coOYsdCFUSCGg8tRK"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="px-3 md:px-4 py-2 bg-yellow-500/80 hover:bg-yellow-500 text-black rounded-full text-xs md:text-sm font-semibold transition"
+            >Amazon Music</a
+          >
+        </div>
+      </main>
     </div>
 
     <script>
-      // Countdown timer for February 27, 2025 (midnight local time)
-      const releaseDate = new Date(2025, 1, 27, 0, 0, 0).getTime(); // Month is 0-indexed (1 = February)
-      let countdownInterval = null;
-
-      function updateCountdown() {
-        const countdownEl = document.getElementById('countdown');
-        if (!countdownEl) return;
-
-        const daysEl = document.getElementById('days');
-        const hoursEl = document.getElementById('hours');
-        const minutesEl = document.getElementById('minutes');
-        const secondsEl = document.getElementById('seconds');
-
-        if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
-
-        const now = new Date().getTime();
-        const distance = releaseDate - now;
-
-        if (distance < 0) {
-          countdownEl.innerHTML = '<p class="text-2xl md:text-3xl font-semibold">Released!</p>';
-          if (countdownInterval) {
-            clearInterval(countdownInterval);
-            countdownInterval = null;
-          }
-          return;
-        }
-
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        daysEl.textContent = String(days).padStart(2, '0');
-        hoursEl.textContent = String(hours).padStart(2, '0');
-        minutesEl.textContent = String(minutes).padStart(2, '0');
-        secondsEl.textContent = String(seconds).padStart(2, '0');
-      }
-
-      function initCountdown() {
-        if (countdownInterval) {
-          clearInterval(countdownInterval);
-        }
-        
-        updateCountdown();
-        countdownInterval = setInterval(updateCountdown, 1000);
-      }
-
-      function startCountdown() {
-        setTimeout(() => {
-          initCountdown();
-        }, 100);
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', startCountdown);
-      } else {
-        startCountdown();
-      }
-
       barba.init({
         transitions: [
           {
             name: "fade",
             leave(data) {
-              if (countdownInterval) {
-                clearInterval(countdownInterval);
-                countdownInterval = null;
-              }
               return gsap.to(data.current.container, {
                 opacity: 0,
                 duration: 0.5,
@@ -172,9 +123,6 @@
               return gsap.from(data.next.container, {
                 opacity: 0,
                 duration: 0.5,
-                onComplete: function() {
-                  startCountdown();
-                }
               });
             },
           },
