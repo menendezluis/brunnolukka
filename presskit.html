@@ -231,6 +231,38 @@
         }
       }
 
+      /* Live sets: horizontal scroll for many embeds */
+      .sets-scroll {
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: visible;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding-bottom: 4px;
+      }
+      .sets-scroll::-webkit-scrollbar {
+        display: none;
+      }
+      .sets-strip {
+        display: flex;
+        gap: 1rem;
+        width: max-content;
+        max-width: none;
+        padding: 2px 2px 6px;
+      }
+      .sets-card {
+        flex: 0 0 auto;
+        width: min(22rem, calc(100vw - 2.5rem));
+        scroll-snap-align: start;
+      }
+      @media (min-width: 768px) {
+        .sets-card {
+          width: 20rem;
+        }
+      }
+
       /* Slider para mobile */
       .banner-slider {
         display: none;
@@ -433,6 +465,7 @@
             <a href="https://open.spotify.com/track/76sKA7gHHrcdsdjbUw0DVH" target="_blank" class="bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 transition block">
                 <div class="neon-cyan font-semibold text-lg">Vamos a Bailar</div>
                 <div class="text-white/70 text-sm">Feb 27 • Tech House • 126 BPM</div>
+                <div class="text-cyan-400/90 text-xs mt-1">Top 60 Tech House chart</div>
             </a>
     
             <a href="https://open.spotify.com/track/4DVYJGVclMTXCLHlVzZjCD" target="_blank" class="bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 transition block">
@@ -475,26 +508,32 @@
 
         <!-- Sets -->
         <div class="mt-6">
-          <h3 class="text-white font-semibold text-lg mb-4 neon-cyan">Live Sets</h3>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="setsContainer">
-            <div class="bg-white/5 border border-cyan-400/30 rounded-xl p-4 hover:bg-white/10 transition">
+          <h3 class="text-white font-semibold text-lg mb-1 neon-cyan">Live Sets</h3>
+          <p class="text-white/45 text-xs mb-3">
+            Swipe or scroll sideways to browse sets — room to add more anytime.
+          </p>
+          <div class="sets-scroll" role="region" aria-label="Live DJ sets">
+          <div class="sets-strip" id="setsContainer">
+            <div class="sets-card bg-white/5 border border-cyan-400/30 rounded-xl p-4 hover:bg-white/10 transition">
               <h4 class="text-white font-semibold mb-2">Afro Tech Set</h4>
-              <div class="mb-2 iframe-container">
+              <div class="mb-2 iframe-container" style="height: 300px;">
                 <iframe 
                   width="100%" 
                   height="300" 
-                  scrolling="no" 
-                  frameborder="no" 
-                  allow="autoplay" 
-                  src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2220205739&color=%233f3abd&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-                  class="rounded-lg"
+                  src="https://www.youtube.com/embed/-2l7EUdg5Oc" 
+                  title="YouTube video player" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  referrerpolicy="strict-origin-when-cross-origin" 
+                  allowfullscreen
+                  class="w-full h-full rounded-lg"
                 ></iframe>
               </div>
-              <a href="https://soundcloud.com/brunno-lukka/set-december-25" target="_blank" class="text-cyan-400 hover:text-cyan-300 underline text-sm">
-                Listen on SoundCloud →
+              <a href="https://www.youtube.com/watch?v=-2l7EUdg5Oc" target="_blank" class="text-cyan-400 hover:text-cyan-300 underline text-sm">
+                Watch on YouTube →
               </a>
             </div>
-            <div class="bg-white/5 border border-cyan-400/30 rounded-xl p-4 hover:bg-white/10 transition">
+            <div class="sets-card bg-white/5 border border-cyan-400/30 rounded-xl p-4 hover:bg-white/10 transition">
               <h4 class="text-white font-semibold mb-2">Tech House Set</h4>
               <div class="mb-2 iframe-container" style="height: 300px;">
                 <iframe 
@@ -513,13 +552,13 @@
                 Watch on YouTube →
               </a>
             </div>
-            <div class="bg-white/5 border border-cyan-400/30 rounded-xl p-4 hover:bg-white/10 transition">
+            <div class="sets-card bg-white/5 border border-cyan-400/30 rounded-xl p-4 hover:bg-white/10 transition">
               <h4 class="text-white font-semibold mb-2">Warm Up Set</h4>
               <div class="mb-2 iframe-container" style="height: 300px;">
                 <iframe 
                   width="100%" 
                   height="300" 
-                  src="https://www.youtube.com/embed/B0VJDJvoiio?si=c82q9DAnNGjLnXmN" 
+                  src="https://www.youtube.com/embed/eos4lxpbDwE" 
                   title="YouTube video player" 
                   frameborder="0" 
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -528,10 +567,45 @@
                   class="w-full h-full rounded-lg"
                 ></iframe>
               </div>
-              <a href="https://www.youtube.com/watch?v=B0VJDJvoiio" target="_blank" class="text-cyan-400 hover:text-cyan-300 underline text-sm">
+              <a href="https://www.youtube.com/watch?v=eos4lxpbDwE" target="_blank" class="text-cyan-400 hover:text-cyan-300 underline text-sm">
                 Watch on YouTube →
               </a>
             </div>
+            <div class="sets-card bg-white/5 border border-cyan-400/30 rounded-xl p-4 hover:bg-white/10 transition">
+              <h4 class="text-white font-semibold mb-2">I Am Brunno</h4>
+              <div class="mb-2 iframe-container">
+                <iframe 
+                  width="100%" 
+                  height="300" 
+                  scrolling="no" 
+                  frameborder="no" 
+                  allow="autoplay" 
+                  src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2220205739&color=%233f3abd&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+                  class="rounded-lg"
+                ></iframe>
+              </div>
+              <a href="https://soundcloud.com/brunno-lukka/set-december-25" target="_blank" class="text-cyan-400 hover:text-cyan-300 underline text-sm">
+                Listen on SoundCloud →
+              </a>
+            </div>
+            <div class="sets-card bg-white/5 border border-cyan-400/30 rounded-xl p-4 hover:bg-white/10 transition">
+              <h4 class="text-white font-semibold mb-2">Deep Tech Session</h4>
+              <div class="mb-2 iframe-container">
+                <iframe 
+                  width="100%" 
+                  height="300" 
+                  scrolling="no" 
+                  frameborder="no" 
+                  allow="autoplay" 
+                  src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Fbrunno-lukka%2Fdeep-tech-session&color=%233f3abd&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+                  class="rounded-lg"
+                ></iframe>
+              </div>
+              <a href="https://soundcloud.com/brunno-lukka/deep-tech-session" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:text-cyan-300 underline text-sm">
+                Listen on SoundCloud →
+              </a>
+            </div>
+          </div>
           </div>
         </div>
         </div>
