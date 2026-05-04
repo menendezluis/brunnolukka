@@ -223,6 +223,13 @@
         grid-row: span 1;
         aspect-ratio: 2/1;
       }
+      /* Hero above mosaic: full width, not mosaic cells */
+      .live-shows-hero-wrap .gallery-item {
+        grid-column: unset !important;
+        grid-row: unset !important;
+        aspect-ratio: unset !important;
+        min-height: 0 !important;
+      }
       @media (max-width: 768px) {
         .gallery-item {
           grid-column: span 1 !important;
@@ -698,6 +705,21 @@
           <!-- Live Shows -->
           <div>
             <h2 class="section-title">LIVE SHOWS</h2>
+
+            <div class="live-shows-hero-wrap w-full mb-4 md:mb-6">
+              <div
+                class="gallery-item cursor-pointer overflow-hidden rounded-xl border border-cyan-400/30 hover:opacity-95 transition-opacity shadow-lg shadow-cyan-500/10"
+                data-image="./src/secret1.JPG"
+                data-title="The Secret Garden Club"
+                data-location="Ciudad de Guatemala"
+              >
+                <img
+                  src="./src/secret1.JPG"
+                  alt="The Secret Garden Club — Guatemala"
+                  class="w-full h-[min(78vh,640px)] md:h-[min(72vh,720px)] object-cover object-center block"
+                />
+              </div>
+            </div>
             
             <!-- Venues -->
             <div class="mb-6">
@@ -718,15 +740,15 @@
               </div>
             </div>
             
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 mt-4" id="liveShowsGallery">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4" id="liveShowsGallery">
               <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="./src/liveshows/1.png" data-title="Arjaus Hall" data-location="Buenos Aires, Argentina">
                 <img src="./src/liveshows/1.png" alt="Arjaus Hall" class="w-full h-full object-cover" />
               </div>
               <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="./src/liveshows/2.png" data-title="Vinoteca Palermo" data-location="Buenos Aires, Argentina">
                 <img src="./src/liveshows/2.png" alt="Vinoteca Palermo" class="w-full h-full object-cover" />
               </div>
-              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="./src/secret1.JPG" data-title="The Secret Garden Club" data-location="Ciudad de Guatemala">
-                <img src="./src/secret1.JPG" alt="The Secret Garden Club" class="w-full h-full object-cover" />
+              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="./src/liveshows/3.png" data-title="The Secret Garden Club" data-location="Ciudad de Guatemala">
+                <img src="./src/liveshows/3.png" alt="The Secret Garden Club" class="w-full h-full object-cover" />
               </div>
               <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="./src/liveshows/4.png" data-title="Circle Party" data-location="Zacapa, Guatemala">
                 <img src="./src/liveshows/4.png" alt="Circle Party" class="w-full h-full object-cover" />
