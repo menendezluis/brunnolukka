@@ -62,7 +62,7 @@
 
         <div class="bg-white/10 border border-cyan-400/40 rounded-xl px-5 py-4 max-w-xl w-full">
           <p class="text-xs uppercase tracking-widest text-cyan-300 mb-1">Release Schedule</p>
-          <p class="text-sm text-white/90">15 de mayo: Beatport + Spotify</p>
+          <p class="text-sm text-white/90">15 de mayo: Beatport + YouTube</p>
           <p class="text-sm text-white/90">22 de mayo: All platforms</p>
         </div>
 
@@ -82,11 +82,11 @@
             >Beatport</a
           >
           <a
-            href="https://open.spotify.com/artist/4Y4H5coOYsdCFUSCGg8tRK"
+            href="https://www.youtube.com/@brunnolukka"
             target="_blank"
             rel="noopener noreferrer"
-            class="px-3 md:px-4 py-2 bg-green-500/80 hover:bg-green-500 rounded-full text-xs md:text-sm font-semibold transition"
-            >Spotify</a
+            class="px-3 md:px-4 py-2 bg-red-600/80 hover:bg-red-600 rounded-full text-xs md:text-sm font-semibold transition"
+            >YouTube</a
           >
         </div>
       </main>
@@ -101,7 +101,7 @@
         const diff = countdownTarget - now;
 
         if (diff <= 0) {
-          countdownEl.textContent = "Out now on Beatport + Spotify";
+          countdownEl.textContent = "Out now on Beatport + YouTube";
           return;
         }
 
