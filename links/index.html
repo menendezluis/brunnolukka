@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brunno Lukka — Links</title>
+    <meta
+      name="description"
+      content="All official links — music, sets and press for Brunno Lukka."
+    />
+    <meta property="og:title" content="Brunno Lukka — Links" />
+    <meta property="og:image" content="../src/brunnolukka.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap");
+
+      body {
+        font-family: "Inter", sans-serif;
+      }
+
+      video.bg-video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        min-height: 100%;
+        object-fit: cover;
+        z-index: -2;
+      }
+
+      .neon-cyan {
+        color: #00f0ff;
+        text-shadow: 0 0 10px rgba(0, 240, 255, 0.45);
+      }
+
+      .link-btn {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        width: 100%;
+        min-height: 62px;
+        padding: 0.9rem 3rem;
+        border-radius: 9999px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.07);
+        backdrop-filter: blur(4px);
+        font-weight: 700;
+        font-size: 1.05rem;
+        letter-spacing: 0.02em;
+        transition: all 0.2s ease;
+      }
+
+      .link-btn:hover {
+        border-color: rgba(0, 240, 255, 0.6);
+        background: rgba(0, 240, 255, 0.14);
+        box-shadow: 0 0 24px rgba(0, 240, 255, 0.22);
+        transform: translateY(-2px);
+      }
+
+      .link-btn .icon {
+        position: absolute;
+        left: 1.25rem;
+        width: 26px;
+        height: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .link-btn .icon svg {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body class="min-h-[100dvh] bg-black text-white">
+    <video class="bg-video" autoplay muted loop playsinline>
+      <source src="../src/bg-loop.mp4" type="video/mp4" />
+    </video>
+    <div class="fixed inset-0 bg-black/70 z-[-1]"></div>
+
+    <main class="relative z-10 max-w-md mx-auto px-6 py-12 pb-16">
+      <header class="text-center mb-9">
+        <img
+          src="../src/brunnolukka.png"
+          alt="Brunno Lukka"
+          class="w-28 h-28 mx-auto rounded-full object-cover border-2 border-cyan-400/50 shadow-lg shadow-cyan-500/20 mb-4"
+        />
+        <h1 class="text-2xl md:text-3xl font-extrabold tracking-wide">Brunno Lukka</h1>
+        <p class="text-xs text-cyan-300/90 mt-1.5 uppercase tracking-[0.25em]">
+          DJ / Producer
+        </p>
+        <p class="text-xs text-white/50 mt-1.5">Tech House · Hard Groove</p>
+      </header>
+
+      <nav class="space-y-4">
+        <a
+          href="https://open.spotify.com/artist/4Y4H5coOYsdCFUSCGg8tRK"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-btn"
+        >
+          <span class="icon" style="color: #1db954">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.52 17.34c-.24.36-.66.48-1.02.24-2.82-1.74-6.36-2.1-10.56-1.14-.42.12-.78-.18-.9-.54-.12-.42.18-.78.54-.9 4.56-1.02 8.52-.6 11.64 1.32.42.18.48.66.3 1.02zm1.44-3.3c-.3.42-.84.6-1.26.3-3.24-1.98-8.16-2.58-11.94-1.38-.48.12-1.02-.12-1.14-.6-.12-.48.12-1.02.6-1.14 4.38-1.32 9.78-.66 13.5 1.62.36.18.54.78.24 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.1 9.3c-.6.18-1.2-.18-1.38-.72-.18-.6.18-1.2.72-1.38 4.32-1.32 11.4-1.02 15.9 1.62.54.3.72 1.02.42 1.56-.3.42-1.02.66-1.56.3z"
+              />
+            </svg>
+          </span>
+          Spotify
+        </a>
+
+        <a
+          href="https://www.youtube.com/@brunnolukka"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-btn"
+        >
+          <span class="icon" style="color: #ff0000">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M23.5 6.2a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.51A3.02 3.02 0 0 0 .5 6.2C0 8.08 0 12 0 12s0 3.92.5 5.8a3.02 3.02 0 0 0 2.12 2.14c1.88.51 9.38.51 9.38.51s7.5 0 9.38-.51a3.02 3.02 0 0 0 2.12-2.14C24 15.92 24 12 24 12s0-3.92-.5-5.8zM9.6 15.6V8.4l6.24 3.6-6.24 3.6z"
+              />
+            </svg>
+          </span>
+          YouTube
+        </a>
+
+        <a
+          href="https://www.youtube.com/watch?v=CKsWw1d2MJk&t=2617s"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-btn"
+        >
+          <span class="icon" style="color: #00f0ff">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"
+              />
+            </svg>
+          </span>
+          Latest Set
+        </a>
+
+        <a href="../presskit/" class="link-btn">
+          <span class="icon" style="color: #ff00ff">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5zM8 12h8v2H8v-2zm0 4h8v2H8v-2z"
+              />
+            </svg>
+          </span>
+          Press Kit
+        </a>
+      </nav>
+
+      <p class="text-center text-xs text-white/35 mt-10">
+        <a href="../index.html" class="neon-cyan hover:text-cyan-200 transition"
+          >brunnolukka.com</a
+        >
+      </p>
+    </main>
+  </body>
+</html>
