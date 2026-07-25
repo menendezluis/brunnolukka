@@ -9,6 +9,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+      html {
+        background: #000000;
+      }
       
       body {
         font-family: 'Inter', sans-serif;
@@ -35,6 +39,7 @@
       .presskit-below-header {
         position: relative;
         isolation: isolate;
+        background: #000000;
       }
 
       .presskit-below-header > :not(.presskit-sky-layer) {
@@ -55,7 +60,10 @@
 
       .presskit-sky-layer {
         position: absolute;
-        inset: 0;
+        top: -9rem;
+        left: 0;
+        right: 0;
+        bottom: 0;
         overflow: hidden;
         pointer-events: none;
         z-index: 0;
@@ -289,7 +297,6 @@
         z-index: 6;
         pointer-events: none;
         opacity: 0.6;
-        mix-blend-mode: plus-lighter;
         box-shadow: 0 0 28px rgba(0, 240, 255, 0.28);
       }
 
@@ -299,7 +306,7 @@
         width: 100%;
         height: 100vh;
         overflow: visible;
-        background: transparent;
+        background: #000000;
         z-index: 2;
       }
       @media (min-width: 768px) {
@@ -320,7 +327,7 @@
           rgba(0, 0, 0, 0.85) 62%,
           rgba(0, 0, 0, 0.45) 78%,
           rgba(0, 0, 0, 0.12) 92%,
-          transparent 100%
+          rgba(0, 0, 0, 0) 100%
         );
         mask-image: linear-gradient(
           to bottom,
@@ -329,7 +336,7 @@
           rgba(0, 0, 0, 0.85) 62%,
           rgba(0, 0, 0, 0.45) 78%,
           rgba(0, 0, 0, 0.12) 92%,
-          transparent 100%
+          rgba(0, 0, 0, 0) 100%
         );
       }
       .presskit-header-media {
@@ -380,8 +387,9 @@
         background: linear-gradient(
           to bottom,
           rgba(0, 0, 0, 0) 0%,
-          rgba(0, 0, 0, 0.35) 45%,
-          rgba(0, 0, 0, 0.92) 100%
+          rgba(0, 0, 0, 0.45) 40%,
+          rgba(0, 0, 0, 0.88) 75%,
+          #000000 100%
         );
       }
       .presskit-header-bridge {
@@ -469,6 +477,27 @@
       /* PDF export: proportional images + centered gallery (html2canvas-safe) */
       body.pdf-export {
         overflow: visible !important;
+        background: #000000 !important;
+      }
+
+      body.pdf-export .bg-pattern,
+      body.pdf-export .presskit-below-header,
+      body.pdf-export #mainContent {
+        background: #000000 !important;
+        page-break-before: always;
+        break-before: page;
+      }
+
+      body.pdf-export .presskit-sky-layer {
+        top: 0 !important;
+      }
+
+      body.pdf-export .presskit-sky-layer .starfield {
+        display: none !important;
+      }
+
+      body.pdf-export .presskit-sky-layer .bg-sky {
+        background: #000000 !important;
       }
 
       body.pdf-export .presskit-header {
@@ -581,8 +610,7 @@
       }
 
       body.pdf-export #imageModal,
-      body.pdf-export .geometric-shape,
-      body.pdf-export .presskit-sky-layer {
+      body.pdf-export .geometric-shape {
         display: none !important;
       }
 
@@ -601,6 +629,141 @@
       body.pdf-export #mainContent > .grid > div:first-child {
         display: flex !important;
         justify-content: center !important;
+      }
+
+      .pdf-only-panel {
+        display: none;
+      }
+
+      .pdf-set-preview {
+        display: none;
+      }
+
+      body.pdf-export .pdf-only-panel {
+        display: block !important;
+        width: 100%;
+        padding: 0.75rem 2rem 1.25rem;
+        box-sizing: border-box;
+        background: #000000;
+      }
+
+      body.pdf-export .pdf-contacts-inner {
+        margin-left: auto;
+        width: min(100%, 360px);
+        text-align: left;
+      }
+
+      body.pdf-export .pdf-contacts-inner .info-item {
+        font-size: 12px;
+        margin-bottom: 6px;
+      }
+
+      body.pdf-export #contactsSectionMain,
+      body.pdf-export .back-to-home,
+      body.pdf-export .sets-card-pdf-hide {
+        display: none !important;
+      }
+
+      body.pdf-export #careerSection {
+        text-align: center !important;
+        max-width: 640px;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+
+      body.pdf-export #careerSection .info-item {
+        margin-bottom: 10px;
+      }
+
+      body.pdf-export #careerSection .info-label {
+        display: block;
+        min-width: unset;
+        margin-bottom: 2px;
+      }
+
+      body.pdf-export .latest-releases-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 0.45rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      body.pdf-export .latest-releases-grid > a {
+        padding: 0.45rem 0.55rem !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      body.pdf-export .latest-releases-grid .font-semibold.text-lg {
+        font-size: 0.82rem !important;
+        line-height: 1.2 !important;
+      }
+
+      body.pdf-export .latest-releases-grid .text-sm,
+      body.pdf-export .latest-releases-grid .text-xs {
+        font-size: 0.62rem !important;
+        line-height: 1.25 !important;
+        margin-top: 0.15rem !important;
+      }
+
+      body.pdf-export .latest-releases-block {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+
+      body.pdf-export .sets-scroll {
+        overflow: visible !important;
+      }
+
+      body.pdf-export .sets-scroll-hint {
+        display: none !important;
+      }
+
+      body.pdf-export .sets-strip {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: flex-start !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        flex-wrap: wrap !important;
+        gap: 0.85rem !important;
+        padding: 0 !important;
+      }
+
+      body.pdf-export .sets-card {
+        width: 220px !important;
+        flex: 0 0 220px !important;
+        max-width: 220px !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+
+      body.pdf-export .sets-card h4 {
+        font-size: 0.82rem !important;
+        white-space: normal !important;
+      }
+
+      body.pdf-export .sets-card a.text-sm {
+        font-size: 0.65rem !important;
+      }
+
+      body.pdf-export .pdf-set-preview {
+        display: block !important;
+      }
+
+      body.pdf-export .pdf-set-preview img {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 16 / 9;
+        object-fit: cover !important;
+        display: block !important;
+        border-radius: 0.5rem;
+        margin-bottom: 0.35rem;
+      }
+
+      body.pdf-export .iframe-container {
+        display: none !important;
       }
 
       /* Live sets: horizontal scroll for many embeds */
@@ -736,7 +899,7 @@
     <!-- Download PDF Button -->
     <button
       id="downloadPdfBtn"
-      class="fixed top-4 right-4 z-50 bg-white/10 hover:bg-white/20 border border-cyan-400/50 text-cyan-400 px-4 py-2 rounded-lg font-semibold transition-all shadow-lg hover:shadow-cyan-400/50 flex items-center gap-2"
+      class="fixed top-4 right-4 z-50 bg-black/90 hover:bg-black border border-cyan-400/50 text-cyan-400 px-4 py-2 rounded-lg font-semibold transition-all shadow-lg hover:shadow-cyan-400/50 flex items-center gap-2"
       onclick="downloadPDF()"
     >
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -779,6 +942,35 @@
         </div>
       </div>
       <div class="presskit-header-fade" aria-hidden="true"></div>
+    </div>
+
+    <!-- Contacts: visible only in PDF export, first page below header -->
+    <div id="pdfContactsPanel" class="pdf-only-panel" aria-hidden="true">
+      <div class="pdf-contacts-inner">
+        <h2 class="section-title">CONTACTS</h2>
+        <div class="space-y-2">
+          <div class="info-item">
+            <span class="info-label">Booking:</span>
+            <span class="info-value">contact@brunnolukka.com</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">YouTube:</span>
+            <span class="info-value">@brunnolukka · 114K subscribers</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Spotify:</span>
+            <span class="info-value">Brunno Lukka · 14K monthly listeners</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Instagram:</span>
+            <span class="info-value">@brunnolukka · 4.5K followers</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">TikTok:</span>
+            <span class="info-value">@brunnolukka · 4.1K followers</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="presskit-below-header" id="presskitBelowHeader">
@@ -894,11 +1086,11 @@
         </div>
     
         <!-- Latest releases (out now) -->
-        <div>
+        <div class="latest-releases-block">
             <h2 class="section-title">LATEST RELEASES</h2>
             <p class="info-value mb-4">Out now on all platforms</p>
     
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 latest-releases-grid">
             <a href="../lose-control.html" class="bg-white/5 border border-cyan-400/30 rounded-xl p-4 hover:bg-white/10 transition block">
                 <div class="neon-cyan font-semibold text-lg">Lose Control</div>
                 <div class="text-white/70 text-sm mt-1">July 24, 2026 • Tech House • 128 BPM</div>
@@ -952,13 +1144,16 @@
         <!-- Sets -->
         <div class="mt-6">
           <h3 class="text-white font-semibold text-lg mb-1 neon-cyan">Live Sets</h3>
-          <p class="text-white/45 text-xs mb-3">
+          <p class="text-white/45 text-xs mb-3 sets-scroll-hint">
             Swipe or scroll sideways to browse sets — room to add more anytime.
           </p>
           <div class="sets-scroll" role="region" aria-label="Live DJ sets">
           <div class="sets-strip" id="setsContainer">
             <div class="sets-card bg-white/5 border border-cyan-400/30 rounded-xl p-4 hover:bg-white/10 transition">
               <h4 class="text-white font-semibold mb-2">Latest Set — Live</h4>
+              <div class="pdf-set-preview" aria-hidden="true">
+                <img src="https://img.youtube.com/vi/MnupG_6yGXE/hqdefault.jpg" alt="Latest Set — Live preview" />
+              </div>
               <div class="mb-2 iframe-container" style="height: 300px;">
                 <iframe
                   width="100%"
@@ -978,6 +1173,9 @@
             </div>
             <div class="sets-card bg-white/5 border border-cyan-400/30 rounded-xl p-4 hover:bg-white/10 transition">
               <h4 class="text-white font-semibold mb-2" title="In The Groove — Hard Groove & Tech House">In The Groove</h4>
+              <div class="pdf-set-preview" aria-hidden="true">
+                <img src="https://img.youtube.com/vi/hpJiDzzTT3E/hqdefault.jpg" alt="In The Groove preview" />
+              </div>
               <div class="mb-2 iframe-container" style="height: 300px;">
                 <iframe
                   width="100%"
@@ -995,7 +1193,7 @@
                 Watch on YouTube →
               </a>
             </div>
-            <div class="sets-card bg-white/5 border border-cyan-400/30 rounded-xl p-4 hover:bg-white/10 transition">
+            <div class="sets-card sets-card-pdf-hide bg-white/5 border border-cyan-400/30 rounded-xl p-4 hover:bg-white/10 transition">
               <h4 class="text-white font-semibold mb-2">Warm Up Set</h4>
               <div class="mb-2 iframe-container" style="height: 300px;">
                 <iframe 
@@ -1060,7 +1258,7 @@
         </div>
         <div class="lg:col-span-2 space-y-8">
           <!-- Career -->
-          <div>
+          <div id="careerSection">
             <h2 class="section-title">CAREER</h2>
             <div class="info-item">
               <span class="info-label">Production Studies:</span>
@@ -1206,7 +1404,7 @@
       </div>
 
       <!-- Fila 4: Nada | Contacts -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8" id="contactsSectionMain">
         <div></div>
         <div class="lg:col-span-2">
           <!-- Contacts -->
@@ -1260,7 +1458,7 @@
       </div>
 
       <!-- Back to Home -->
-      <div class="mt-12 text-center">
+      <div class="mt-12 text-center back-to-home">
         <a
           href="../index.html"
           class="inline-block px-6 py-3 bg-cyan-500/20 hover:bg-cyan-500/30 border-2 border-cyan-500 rounded-full text-cyan-400 font-semibold transition-all hover:scale-105"
@@ -1361,9 +1559,8 @@
         const shapes = document.querySelectorAll('.geometric-shape');
         shapes.forEach(shape => shape.style.display = 'none');
 
-        const skyLayer = document.getElementById('presskitSkyLayer');
-        const skyLayerDisplay = skyLayer ? skyLayer.style.display : '';
-        if (skyLayer) skyLayer.style.display = 'none';
+        const htmlBg = document.documentElement.style.background;
+        document.documentElement.style.background = '#000000';
 
         // Ocultar iframe de Spotify y mostrar imagen para PDF
         const spotifyWidget = document.querySelector('.spotify-widget');
@@ -1425,9 +1622,15 @@
               logging: false,
               backgroundColor: '#000000',
               scrollX: 0,
-              scrollY: -window.scrollY,
-              windowWidth: document.documentElement.scrollWidth,
-              windowHeight: document.documentElement.scrollHeight
+              scrollY: 0,
+              onclone: function (clonedDoc) {
+                clonedDoc.documentElement.style.background = '#000000';
+                clonedDoc.body.style.background = '#000000';
+                var below = clonedDoc.getElementById('presskitBelowHeader');
+                var main = clonedDoc.getElementById('mainContent');
+                if (below) below.style.background = '#000000';
+                if (main) main.style.background = '#000000';
+              }
             },
             jsPDF: { 
               unit: 'mm', 
@@ -1445,9 +1648,9 @@
           
           // Restaurar elementos
           document.body.classList.remove('pdf-export');
+          document.documentElement.style.background = htmlBg;
           downloadBtn.style.display = originalDisplay || 'flex';
           shapes.forEach(shape => shape.style.display = '');
-          if (skyLayer) skyLayer.style.display = skyLayerDisplay;
           if (spotifyWidget) spotifyWidget.style.display = 'block';
           if (discographyImage) discographyImage.style.display = 'none';
           // Restaurar header video
@@ -1468,9 +1671,9 @@
         } catch (error) {
           console.error('Error generating PDF:', error);
           document.body.classList.remove('pdf-export');
+          document.documentElement.style.background = htmlBg;
           downloadBtn.style.display = originalDisplay || 'flex';
           shapes.forEach(shape => shape.style.display = '');
-          if (skyLayer) skyLayer.style.display = skyLayerDisplay;
           if (spotifyWidget) spotifyWidget.style.display = 'block';
           if (discographyImage) discographyImage.style.display = 'none';
           if (headerVideo) headerVideo.style.display = '';
