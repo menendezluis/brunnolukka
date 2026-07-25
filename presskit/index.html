@@ -495,7 +495,57 @@
       body.pdf-export #pdfPageOne {
         page-break-after: always;
         break-after: page;
-        background: #000000;
+        background: #000000 !important;
+        min-height: 1050px;
+        box-sizing: border-box;
+        padding-bottom: 1.5rem;
+      }
+
+      body.pdf-export #pdfPageOne .presskit-header-overlay,
+      body.pdf-export #pdfPageOne .pdf-contacts-inner {
+        position: relative;
+        z-index: 2;
+      }
+
+      body.pdf-export #pdfPageDiscography {
+        page-break-before: always;
+        break-before: page;
+        page-break-after: always;
+        break-after: page;
+      }
+
+      body.pdf-export .pdf-hide-row-photo {
+        display: none !important;
+      }
+
+      body.pdf-export #pdfPageLiveSets {
+        page-break-before: always;
+        break-before: page;
+        page-break-after: always;
+        break-after: page;
+      }
+
+      body.pdf-export #gallerySection {
+        page-break-before: always;
+        break-before: page;
+      }
+
+      body.pdf-export .next-releases-block {
+        display: none !important;
+      }
+
+      body.pdf-export #gallerySection .section-title {
+        text-align: center !important;
+      }
+
+      body.pdf-export .gallery-pdf-anchor {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 180px !important;
+        height: 180px !important;
+        text-decoration: none;
+        color: inherit;
       }
 
       body.pdf-export #mainContent {
@@ -1109,7 +1159,7 @@
 
      <!-- Fila 2: bru3 | Discography + Next Releases -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div class="flex justify-center lg:justify-start self-center">
+        <div class="flex justify-center lg:justify-start self-center pdf-hide-row-photo">
         <div class="square-frame w-64 h-64 md:w-80 md:h-80">
             <img
             src="../src/bru3.png"
@@ -1120,10 +1170,11 @@
         </div>
     
         <div class="lg:col-span-2 space-y-8">
+        <div id="pdfPageDiscography" class="space-y-8">
         <!-- Discography -->
-        <div>
+        <div id="discographySection">
             <h2 class="section-title">DISCOGRAPHY</h2>
-            <p class="info-value mb-3">Some of the best releases</p>
+            <p class="info-value mb-3">Popular tracks & best releases</p>
     
             <!-- Spotify Widget (visible en web) -->
             <div class="mt-4 spotify-widget">
@@ -1143,8 +1194,8 @@
             <!-- Discography Image (visible solo en PDF) -->
             <div class="mt-4 discography-image" style="display: none;">
             <img
-                src="../src/discography.png"
-                alt="Discography"
+                src="../src/liveshows/image.png"
+                alt="Popular tracks"
                 class="w-full rounded-lg"
                 style="max-width: 100%; height: auto;"
             />
@@ -1181,9 +1232,10 @@
             </a>
             </div>
         </div>
+        </div>
 
         <!-- Upcoming -->
-        <div>
+        <div class="next-releases-block">
             <h2 class="section-title">NEXT RELEASES</h2>
             <p class="info-value mb-4">Coming soon</p>
     
@@ -1208,8 +1260,9 @@
             </div>
         </div>
 
+        <div id="pdfPageLiveSets" class="space-y-8">
         <!-- Sets -->
-        <div class="mt-6">
+        <div class="mt-6" id="liveSetsSection">
           <h3 class="text-white font-semibold text-lg mb-1 neon-cyan">Live Sets</h3>
           <p class="text-white/45 text-xs mb-3 sets-scroll-hint">
             Swipe or scroll sideways to browse sets — room to add more anytime.
@@ -1282,11 +1335,31 @@
           </div>
           </div>
         </div>
-        </div>
-    </div>
 
-      <!-- Awards & Recognition -->
-      <div class="w-full">
+        <!-- Venues -->
+        <div class="mb-2" id="venuesSection">
+          <h3 class="text-white font-semibold text-lg mb-4 neon-cyan">Venues</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="info-item">
+              <span class="info-value">Boiler Room — Spaceship Studios</span>
+            </div>
+            <div class="info-item">
+              <span class="info-value">The Secret Garden — Guatemala</span>
+            </div>
+            <div class="info-item">
+              <span class="info-value">Circle Party — Guatemala</span>
+            </div>
+            <div class="info-item">
+              <span class="info-value">Arjaus Hall Showcase — Buenos Aires</span>
+            </div>
+            <div class="info-item">
+              <span class="info-value">Vinoteca Session — Buenos Aires</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Awards & Recognition -->
+        <div class="w-full" id="awardsSection">
         <h2 class="section-title text-center mb-6">AWARDS & RECOGNITION</h2>
         <div class="bg-white/5 border border-cyan-400/30 rounded-xl p-6 md:p-8 hover:bg-white/10 transition">
           <div class="flex flex-col md:flex-row items-center gap-6">
@@ -1310,8 +1383,11 @@
             </div>
           </div>
         </div>
-      </div>
-  
+        </div>
+        </div>
+        </div>
+    </div>
+
       <!-- Fila 3: bru2 | Career + Social Media + Biography -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8" id="careerSocialRow">
         <div class="flex justify-center lg:justify-start">
@@ -1375,58 +1451,36 @@
             <img src="../src/bannerbio.jpg" alt="Brunno Lukka Bio Banner" />
           </div>
 
-          <!-- Live Shows -->
-          <div>
-            <h2 class="section-title">LIVE SHOWS</h2>
-            
-            <!-- Venues -->
-            <div class="mb-6">
-              <h3 class="text-white font-semibold text-lg mb-4 neon-cyan">Venues</h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="info-item">
-                  <span class="info-value">Boiler Room — Spaceship Studios</span>
-                </div>
-                <div class="info-item">
-                  <span class="info-value">The Secret Garden — Guatemala</span>
-                </div>
-                <div class="info-item">
-                  <span class="info-value">Circle Party — Guatemala</span>
-                </div>
-                <div class="info-item">
-                  <span class="info-value">Arjaus Hall Showcase — Buenos Aires</span>
-                </div>
-                <div class="info-item">
-                  <span class="info-value">Vinoteca Session — Buenos Aires</span>
-                </div>
-              </div>
-            </div>
+          <!-- Gallery -->
+          <div id="gallerySection">
+            <h2 class="section-title text-center">GALLERY</h2>
             
             <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 mt-4" id="liveShowsGallery">
-              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="../src/secret1.JPG" data-title="The Secret Garden Club" data-location="Ciudad de Guatemala">
+              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" id="gallery-secret1" data-image="../src/secret1.JPG" data-title="The Secret Garden Club" data-location="Ciudad de Guatemala">
                 <img src="../src/secret1.JPG" alt="The Secret Garden Club" class="w-full h-full object-cover" />
               </div>
-              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="../src/liveshows/2.png" data-title="Vinoteca Palermo" data-location="Buenos Aires, Argentina">
+              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" id="gallery-vinoteca" data-image="../src/liveshows/2.png" data-title="Vinoteca Palermo" data-location="Buenos Aires, Argentina">
                 <img src="../src/liveshows/2.png" alt="Vinoteca Palermo" class="w-full h-full object-cover" />
               </div>
-              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="../src/liveshows/1.png" data-title="Arjaus Hall" data-location="Buenos Aires, Argentina">
+              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" id="gallery-arjaus" data-image="../src/liveshows/1.png" data-title="Arjaus Hall" data-location="Buenos Aires, Argentina">
                 <img src="../src/liveshows/1.png" alt="Arjaus Hall" class="w-full h-full object-cover" />
               </div>
-              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="../src/liveshows/4.png" data-title="Circle Party" data-location="Zacapa, Guatemala">
+              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" id="gallery-circle" data-image="../src/liveshows/4.png" data-title="Circle Party" data-location="Zacapa, Guatemala">
                 <img src="../src/liveshows/4.png" alt="Circle Party" class="w-full h-full object-cover" />
               </div>
-              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="../src/liveshows/5.jpg" data-title="Live Performance" data-location="DJ Set">
+              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" id="gallery-live5" data-image="../src/liveshows/5.jpg" data-title="Live Performance" data-location="DJ Set">
                 <img src="../src/liveshows/5.jpg" alt="Live Show" class="w-full h-full object-cover" />
               </div>
-              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="../src/liveshows/6.jpg" data-title="Live Performance" data-location="DJ Set">
+              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" id="gallery-live6" data-image="../src/liveshows/6.jpg" data-title="Live Performance" data-location="DJ Set">
                 <img src="../src/liveshows/6.jpg" alt="Live Show" class="w-full h-full object-cover" />
               </div>
-              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="../src/liveshows/7.jpg" data-title="Live Performance" data-location="DJ Set">
+              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" id="gallery-live7" data-image="../src/liveshows/7.jpg" data-title="Live Performance" data-location="DJ Set">
                 <img src="../src/liveshows/7.jpg" alt="Live Show" class="w-full h-full object-cover" />
               </div>
-              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="../src/liveshows/8.jpg" data-title="Live Performance" data-location="DJ Set">
+              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" id="gallery-live8" data-image="../src/liveshows/8.jpg" data-title="Live Performance" data-location="DJ Set">
                 <img src="../src/liveshows/8.jpg" alt="Live Show" class="w-full h-full object-cover" />
               </div>
-              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" data-image="../src/liveshows/3.png" data-title="The Secret Garden Club" data-location="Ciudad de Guatemala">
+              <div class="gallery-item cursor-pointer overflow-hidden rounded-lg hover:opacity-80 transition-opacity" id="gallery-secret3" data-image="../src/liveshows/3.png" data-title="The Secret Garden Club" data-location="Ciudad de Guatemala">
                 <img src="../src/liveshows/3.png" alt="The Secret Garden Club" class="w-full h-full object-cover" />
               </div>
             </div>
@@ -1621,6 +1675,29 @@
         window.addEventListener('resize', initStars);
       })();
 
+      function wrapGalleryLinksForPdf() {
+        var restored = [];
+        var base = window.location.href.split('#')[0];
+        document.querySelectorAll('#liveShowsGallery .gallery-item').forEach(function (item) {
+          if (!item.id) return;
+          var link = document.createElement('a');
+          link.href = base + '#' + item.id;
+          link.className = 'gallery-pdf-anchor';
+          item.parentNode.insertBefore(link, item);
+          link.appendChild(item);
+          restored.push({ link: link, item: item, parent: link.parentNode });
+        });
+        return restored;
+      }
+
+      function unwrapGalleryLinksForPdf(restored) {
+        if (!restored) return;
+        restored.forEach(function (entry) {
+          entry.parent.insertBefore(entry.item, entry.link);
+          entry.link.remove();
+        });
+      }
+
       async function downloadPDF() {
         // Ocultar el botón de descarga temporalmente
         const downloadBtn = document.getElementById('downloadPdfBtn');
@@ -1668,6 +1745,8 @@
         document.body.classList.add('pdf-export');
         window.scrollTo(0, 0);
 
+        var galleryLinkRestore = wrapGalleryLinksForPdf();
+
         try {
           // Esperar a que el layout PDF se aplique y las imágenes carguen
           await new Promise(resolve => setTimeout(resolve, 1200));
@@ -1702,6 +1781,7 @@
                 }
                 if (pageOne) {
                   pageOne.style.background = '#000000';
+                  pageOne.style.minHeight = '1050px';
                 }
                 var skyBg = clonedDoc.querySelector('.presskit-sky-layer .bg-sky');
                 if (skyBg) {
@@ -1716,15 +1796,15 @@
             },
             pagebreak: { 
               mode: ['css', 'legacy'],
-              before: [],
-              after: [],
-              avoid: ['.gallery-item', '.sets-card', '.latest-releases-block']
+              before: ['#pdfPageDiscography', '#pdfPageLiveSets', '#gallerySection'],
+              avoid: ['.gallery-item', '.sets-card', '.latest-releases-block', '#pdfPageOne']
             }
           };
 
           await html2pdf().set(opt).from(document.body).save();
           
           // Restaurar elementos
+          unwrapGalleryLinksForPdf(galleryLinkRestore);
           document.body.classList.remove('pdf-export');
           document.documentElement.style.background = htmlBg;
           downloadBtn.style.display = originalDisplay || 'flex';
@@ -1748,6 +1828,7 @@
           });
         } catch (error) {
           console.error('Error generating PDF:', error);
+          unwrapGalleryLinksForPdf(galleryLinkRestore);
           document.body.classList.remove('pdf-export');
           document.documentElement.style.background = htmlBg;
           downloadBtn.style.display = originalDisplay || 'flex';
@@ -1865,45 +1946,73 @@
         const modalLocation = document.getElementById('modalLocation');
         const closeModal = document.getElementById('closeModal');
 
+        function openGalleryItem(item, updateHash) {
+          const imageSrc = item.getAttribute('data-image');
+          const title = item.getAttribute('data-title');
+          const location = item.getAttribute('data-location');
+
+          modalImage.src = imageSrc;
+          modalImage.alt = title;
+          modalTitle.textContent = title;
+          modalLocation.textContent = location;
+
+          modal.classList.remove('hidden');
+          modal.classList.add('flex');
+          document.body.style.overflow = 'hidden';
+
+          if (updateHash !== false && item.id) {
+            history.replaceState(null, '', '#' + item.id);
+            setTimeout(function () {
+              item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+          }
+        }
+
+        function closeGalleryModal(clearHash) {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+          document.body.style.overflow = '';
+          if (clearHash !== false && window.location.hash) {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+          }
+        }
+
+        function openGalleryFromHash() {
+          const hash = window.location.hash.replace('#', '');
+          if (!hash) return;
+          const item = document.getElementById(hash);
+          if (item && item.classList.contains('gallery-item')) {
+            openGalleryItem(item, false);
+            setTimeout(function () {
+              item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+          }
+        }
+
         galleryItems.forEach(item => {
           item.addEventListener('click', function() {
-            const imageSrc = this.getAttribute('data-image');
-            const title = this.getAttribute('data-title');
-            const location = this.getAttribute('data-location');
-            
-            modalImage.src = imageSrc;
-            modalImage.alt = title;
-            modalTitle.textContent = title;
-            modalLocation.textContent = location;
-            
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            document.body.style.overflow = 'hidden';
+            openGalleryItem(this, true);
           });
         });
 
         closeModal.addEventListener('click', function() {
-          modal.classList.add('hidden');
-          modal.classList.remove('flex');
-          document.body.style.overflow = '';
+          closeGalleryModal(true);
         });
 
         modal.addEventListener('click', function(e) {
           if (e.target === modal) {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            document.body.style.overflow = '';
+            closeGalleryModal(true);
           }
         });
 
-        // Cerrar con ESC
         document.addEventListener('keydown', function(e) {
           if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            document.body.style.overflow = '';
+            closeGalleryModal(true);
           }
         });
+
+        openGalleryFromHash();
+        window.addEventListener('hashchange', openGalleryFromHash);
       });
     </script>
   </body>
