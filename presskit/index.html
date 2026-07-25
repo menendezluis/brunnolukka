@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Brunno Lukka — Press Kit</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- html2pdf.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- Print / Save as PDF uses the browser print engine (Chrome → Save as PDF) -->
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
 
@@ -396,25 +395,72 @@
         display: none;
       }
 
-      /* Estilos para PDF */
+      /* Print / Save as PDF — same engine as Chrome Print */
       @media print {
-        .w-full.h-screen {
-          page-break-after: always;
-          height: 100vh !important;
+        @page {
+          size: A4 portrait;
+          margin: 0;
+        }
+
+        html,
+        body {
+          background: #000000 !important;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+
+        #downloadPdfBtn,
+        .printable-preview-banner,
+        .geometric-shape,
+        .pdf-web-only,
+        #contactsSectionMain,
+        .back-to-home,
+        #imageModal,
+        #headerAudioBtn,
+        .sets-scroll-hint,
+        .iframe-container,
+        .spotify-widget,
+        .next-releases-block,
+        .pdf-hide-row-photo,
+        .sets-card-pdf-hide,
+        .banner-static,
+        .banner-slider,
+        .presskit-header-fade,
+        .presskit-header-shape,
+        .presskit-header-video {
+          display: none !important;
+        }
+
+        .discography-image,
+        .pdf-only-panel,
+        .pdf-set-preview,
+        .banner-bio-pdf {
+          display: block !important;
+        }
+
+        /* Preview sheet sizing must not apply to real print */
+        body.printable-preview.pdf-export .pdf-page,
+        body.printable-preview.pdf-export #pdfPageOne {
+          min-height: auto !important;
+          height: auto !important;
+          overflow: visible !important;
+          outline: none !important;
+          box-shadow: none !important;
+          margin-bottom: 0 !important;
+        }
+
+        body.pdf-export #pdfPageOne {
+          min-height: auto !important;
+          height: auto !important;
+        }
+
+        body.pdf-export #pdfPageOne .pdf-page-fill {
+          display: none !important;
         }
       }
 
       .hide-in-pdf {
         display: none !important;
-      }
-
-      @media print {
-        .spotify-widget {
-          display: none !important;
-        }
-        .discography-image {
-          display: block !important;
-        }
       }
 
       /* Gallery Mosaic Styles - Asymmetric Layout */
@@ -504,8 +550,6 @@
       }
 
       body.pdf-export .pdf-page {
-        page-break-after: always;
-        break-after: page;
         box-sizing: border-box;
         width: 100%;
         max-width: var(--pdf-page-w);
@@ -617,10 +661,9 @@
       }
 
       body.pdf-export #pdfPageOne {
-        page-break-after: always;
         break-after: page;
+        page-break-after: always;
         background: #000000 !important;
-        min-height: var(--pdf-page-h);
         max-width: var(--pdf-page-w);
         margin-left: auto;
         margin-right: auto;
@@ -631,6 +674,11 @@
       }
 
       body.pdf-export #pdfPageOne .pdf-page-fill {
+        display: none;
+      }
+
+      body.printable-preview.pdf-export #pdfPageOne .pdf-page-fill {
+        display: block !important;
         flex: 1 1 auto;
         background: #000000;
         min-height: 2rem;
@@ -643,8 +691,8 @@
       }
 
       body.pdf-export #pdfPageProfile {
-        page-break-before: always;
         break-before: page;
+        page-break-before: always;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -986,10 +1034,6 @@
         background: transparent;
       }
 
-      body.pdf-export #pdfPageOne .pdf-page-fill {
-        display: block !important;
-      }
-
       body.pdf-export #pdfPageOne .pdf-contacts-inner {
         margin-left: auto;
         width: min(100%, 360px);
@@ -1291,7 +1335,7 @@
   </head>
 
   <body class="bg-pattern text-white min-h-screen overflow-y-auto">
-    <!-- Download PDF Button -->
+    <!-- Save as PDF (opens Chrome print → Save as PDF) -->
     <button
       id="downloadPdfBtn"
       class="fixed top-4 right-4 z-50 bg-black/90 hover:bg-black border border-cyan-400/50 text-cyan-400 px-4 py-2 rounded-lg font-semibold transition-all shadow-lg hover:shadow-cyan-400/50 flex items-center gap-2"
@@ -1300,13 +1344,13 @@
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
       </svg>
-      Download PDF
+      Save as PDF
     </button>
 
     <div id="printablePreviewBanner" class="printable-preview-banner" aria-live="polite">
       <span>Printable preview — this is what the PDF will look like</span>
       <a id="exitPrintablePreview" href="#">Exit preview</a>
-      <button type="button" onclick="downloadPDF()">Download PDF</button>
+      <button type="button" onclick="downloadPDF()">Save as PDF</button>
     </div>
 
     <!-- Page 1 (PDF): header + contacts -->
@@ -2137,86 +2181,46 @@
 
       async function downloadPDF() {
         var downloadBtn = document.getElementById('downloadPdfBtn');
-        var originalDisplay = downloadBtn ? downloadBtn.style.display : '';
+        var previewBanner = document.getElementById('printablePreviewBanner');
+        var originalBtnDisplay = downloadBtn ? downloadBtn.style.display : '';
+        var originalBannerDisplay = previewBanner ? previewBanner.style.display : '';
         var wasPreview = window.__printablePreviewActive;
         var state = wasPreview ? null : applyPrintableMode();
 
         if (downloadBtn) {
           downloadBtn.style.display = 'none';
         }
-        var previewBanner = document.getElementById('printablePreviewBanner');
         if (previewBanner) {
           previewBanner.style.display = 'none';
         }
 
-        try {
-          await new Promise(function (resolve) { setTimeout(resolve, wasPreview ? 400 : 1200); });
+        document.body.classList.add('printing');
 
-          var opt = {
-            margin: 0,
-            filename: 'Brunno_Lukka_PressKit.pdf',
-            enableLinks: true,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: {
-              scale: 2,
-              useCORS: true,
-              allowTaint: true,
-              logging: false,
-              backgroundColor: null,
-              scrollX: 0,
-              scrollY: 0,
-              onclone: function (clonedDoc) {
-                var gradient = 'radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 55%, #000000 100%)';
-                clonedDoc.documentElement.style.background = gradient;
-                clonedDoc.documentElement.style.backgroundColor = '#000000';
-                clonedDoc.body.style.background = gradient;
-                clonedDoc.body.style.backgroundColor = '#000000';
-                var below = clonedDoc.getElementById('presskitBelowHeader');
-                var main = clonedDoc.getElementById('mainContent');
-                var pageOne = clonedDoc.getElementById('pdfPageOne');
-                if (below) below.style.background = 'transparent';
-                if (main) main.style.background = 'transparent';
-                if (pageOne) {
-                  pageOne.style.background = '#000000';
-                  pageOne.style.minHeight = '1123px';
-                }
-                var skyBg = clonedDoc.querySelector('.presskit-sky-layer .bg-sky');
-                if (skyBg) skyBg.style.background = gradient;
-              }
-            },
-            jsPDF: {
-              unit: 'mm',
-              format: 'a4',
-              orientation: 'portrait'
-            },
-            pagebreak: {
-              mode: ['css', 'legacy'],
-              before: [
-                '#pdfPageProfile',
-                '#pdfPageDiscography',
-                '#pdfPageLiveSets',
-                '#pdfPageCareerSocial',
-                '#gallerySection',
-                '#pdfPageBio'
-              ],
-              avoid: ['.gallery-item', '.sets-card', '.latest-releases-block']
-            }
-          };
-
-          await html2pdf().set(opt).from(document.body).save();
-        } catch (error) {
-          console.error('Error generating PDF:', error);
-        } finally {
+        function cleanup() {
+          document.body.classList.remove('printing');
           if (!wasPreview) {
             restorePrintableMode(state);
           }
           if (downloadBtn) {
-            downloadBtn.style.display = originalDisplay || 'flex';
+            downloadBtn.style.display = originalBtnDisplay || 'flex';
           }
           if (previewBanner && wasPreview) {
-            previewBanner.style.display = 'flex';
+            previewBanner.style.display = originalBannerDisplay || 'flex';
           }
         }
+
+        window.addEventListener('afterprint', cleanup, { once: true });
+        setTimeout(function () {
+          if (document.body.classList.contains('printing')) {
+            cleanup();
+          }
+        }, 3000);
+
+        await new Promise(function (resolve) {
+          setTimeout(resolve, wasPreview ? 150 : 500);
+        });
+
+        window.print();
       }
 
       document.addEventListener('DOMContentLoaded', function () {
