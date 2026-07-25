@@ -474,6 +474,57 @@
         }
       }
 
+      body.printable-preview .printable-preview-banner {
+        display: flex !important;
+      }
+
+      body.printable-preview #downloadPdfBtn {
+        top: 3.25rem;
+      }
+
+      body.printable-preview.pdf-export #pdfPageOne,
+      body.printable-preview.pdf-export #pdfPageDiscography,
+      body.printable-preview.pdf-export #pdfPageLiveSets,
+      body.printable-preview.pdf-export #gallerySection {
+        outline: 1px dashed rgba(0, 240, 255, 0.22);
+        outline-offset: 4px;
+      }
+
+      .printable-preview-banner {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        padding: 0.55rem 1rem;
+        background: rgba(0, 0, 0, 0.88);
+        border-bottom: 1px solid rgba(0, 240, 255, 0.35);
+        color: #00f0ff;
+        font-size: 0.82rem;
+        backdrop-filter: blur(8px);
+      }
+
+      .printable-preview-banner a,
+      .printable-preview-banner button {
+        color: #00f0ff;
+        text-decoration: underline;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        padding: 0;
+      }
+
+      .printable-preview-banner button:hover,
+      .printable-preview-banner a:hover {
+        color: #7df9ff;
+      }
+
       /* PDF export: proportional images + centered gallery (html2canvas-safe) */
       body.pdf-export {
         overflow: visible !important;
@@ -1009,6 +1060,12 @@
       </svg>
       Download PDF
     </button>
+
+    <div id="printablePreviewBanner" class="printable-preview-banner" aria-live="polite">
+      <span>Printable preview — this is what the PDF will look like</span>
+      <a id="exitPrintablePreview" href="#">Exit preview</a>
+      <button type="button" onclick="downloadPDF()">Download PDF</button>
+    </div>
 
     <!-- Page 1 (PDF): header + contacts -->
     <div id="pdfPageOne">
@@ -1698,7 +1755,212 @@
         });
       }
 
+      function isPrintablePreviewRequested() {
+        var params = new URLSearchParams(window.location.search);
+        return params.has('printable') || params.get('print') === '1' || params.get('print') === 'true';
+      }
+
+      function getNormalPresskitUrl() {
+        var url = new URL(window.location.href);
+        url.searchParams.delete('printable');
+        url.searchParams.delete('print');
+        var qs = url.searchParams.toString();
+        return url.pathname + (qs ? '?' + qs : '') + url.hash;
+      }
+
+      function applyPrintableMode() {
+        var state = {
+          shapesHidden: [],
+          htmlBg: document.documentElement.style.background,
+          galleryLinks: null,
+          spotifyWidget: document.querySelector('.spotify-widget'),
+          spotifyDisplay: '',
+          discographyImage: document.querySelector('.discography-image'),
+          discographyDisplay: '',
+          iframeStates: [],
+          iframeContainerStates: [],
+          headerEl: document.getElementById('presskitHeader'),
+          headerVideo: document.getElementById('headerVideo'),
+          headerVideoDisplay: '',
+          headerAudioBtn: document.getElementById('headerAudioBtn'),
+          headerAudioDisplay: '',
+          headerVideoWasReady: false,
+        };
+
+        document.querySelectorAll('.geometric-shape').forEach(function (shape) {
+          state.shapesHidden.push(shape.style.display);
+          shape.style.display = 'none';
+        });
+
+        document.documentElement.style.background = '#000000';
+
+        if (state.spotifyWidget) {
+          state.spotifyDisplay = state.spotifyWidget.style.display;
+          state.spotifyWidget.style.display = 'none';
+        }
+        if (state.discographyImage) {
+          state.discographyDisplay = state.discographyImage.style.display;
+          state.discographyImage.style.display = 'block';
+        }
+
+        document.querySelectorAll('iframe').forEach(function (iframe, index) {
+          state.iframeStates[index] = iframe.style.display;
+          iframe.style.display = 'none';
+        });
+
+        document.querySelectorAll('.iframe-container').forEach(function (container, index) {
+          state.iframeContainerStates[index] = container.style.display;
+          container.style.display = 'none';
+        });
+
+        if (state.headerEl) {
+          state.headerVideoWasReady = state.headerEl.classList.contains('is-video-ready');
+        }
+        if (state.headerVideo) {
+          state.headerVideoDisplay = state.headerVideo.style.display;
+          state.headerVideo.style.display = 'none';
+        }
+        if (state.headerAudioBtn) {
+          state.headerAudioDisplay = state.headerAudioBtn.style.display;
+          state.headerAudioBtn.style.display = 'none';
+        }
+        if (state.headerEl) {
+          state.headerEl.classList.remove('is-video-ready');
+        }
+
+        document.body.classList.add('pdf-export');
+        state.galleryLinks = wrapGalleryLinksForPdf();
+        window.scrollTo(0, 0);
+        return state;
+      }
+
+      function restorePrintableMode(state) {
+        if (!state) return;
+        unwrapGalleryLinksForPdf(state.galleryLinks);
+        document.body.classList.remove('pdf-export');
+        document.body.classList.remove('printable-preview');
+        document.documentElement.style.background = state.htmlBg;
+
+        document.querySelectorAll('.geometric-shape').forEach(function (shape, index) {
+          shape.style.display = state.shapesHidden[index] || '';
+        });
+
+        if (state.spotifyWidget) {
+          state.spotifyWidget.style.display = state.spotifyDisplay || 'block';
+        }
+        if (state.discographyImage) {
+          state.discographyImage.style.display = state.discographyDisplay || 'none';
+        }
+
+        document.querySelectorAll('iframe').forEach(function (iframe, index) {
+          iframe.style.display = state.iframeStates[index] || '';
+        });
+        document.querySelectorAll('.iframe-container').forEach(function (container, index) {
+          container.style.display = state.iframeContainerStates[index] || '';
+        });
+
+        if (state.headerVideo) {
+          state.headerVideo.style.display = state.headerVideoDisplay || '';
+        }
+        if (state.headerAudioBtn) {
+          state.headerAudioBtn.style.display = state.headerAudioDisplay || '';
+          if (state.headerVideoWasReady) {
+            state.headerAudioBtn.classList.add('is-visible');
+          }
+        }
+        if (state.headerEl && state.headerVideoWasReady) {
+          state.headerEl.classList.add('is-video-ready');
+        }
+      }
+
+      function enterPrintablePreview() {
+        if (window.__printablePreviewActive) return;
+        window.__printablePreviewActive = true;
+        window.__printableState = applyPrintableMode();
+        document.body.classList.add('printable-preview');
+        var exitLink = document.getElementById('exitPrintablePreview');
+        if (exitLink) {
+          exitLink.href = getNormalPresskitUrl();
+        }
+      }
+
       async function downloadPDF() {
+        var downloadBtn = document.getElementById('downloadPdfBtn');
+        var originalDisplay = downloadBtn ? downloadBtn.style.display : '';
+        var wasPreview = window.__printablePreviewActive;
+        var state = wasPreview ? null : applyPrintableMode();
+
+        if (downloadBtn) {
+          downloadBtn.style.display = 'none';
+        }
+
+        try {
+          await new Promise(function (resolve) { setTimeout(resolve, wasPreview ? 400 : 1200); });
+
+          var opt = {
+            margin: 0,
+            filename: 'Brunno_Lukka_PressKit.pdf',
+            enableLinks: true,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: {
+              scale: 2,
+              useCORS: true,
+              allowTaint: true,
+              logging: false,
+              backgroundColor: null,
+              scrollX: 0,
+              scrollY: 0,
+              onclone: function (clonedDoc) {
+                var gradient = 'radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 55%, #000000 100%)';
+                clonedDoc.documentElement.style.background = gradient;
+                clonedDoc.documentElement.style.backgroundColor = '#000000';
+                clonedDoc.body.style.background = gradient;
+                clonedDoc.body.style.backgroundColor = '#000000';
+                var below = clonedDoc.getElementById('presskitBelowHeader');
+                var main = clonedDoc.getElementById('mainContent');
+                var pageOne = clonedDoc.getElementById('pdfPageOne');
+                if (below) below.style.background = 'transparent';
+                if (main) main.style.background = 'transparent';
+                if (pageOne) {
+                  pageOne.style.background = '#000000';
+                  pageOne.style.minHeight = '1050px';
+                }
+                var skyBg = clonedDoc.querySelector('.presskit-sky-layer .bg-sky');
+                if (skyBg) skyBg.style.background = gradient;
+              }
+            },
+            jsPDF: {
+              unit: 'mm',
+              format: 'a4',
+              orientation: 'portrait'
+            },
+            pagebreak: {
+              mode: ['css', 'legacy'],
+              before: ['#pdfPageDiscography', '#pdfPageLiveSets', '#gallerySection'],
+              avoid: ['.gallery-item', '.sets-card', '.latest-releases-block', '#pdfPageOne']
+            }
+          };
+
+          await html2pdf().set(opt).from(document.body).save();
+        } catch (error) {
+          console.error('Error generating PDF:', error);
+        } finally {
+          if (!wasPreview) {
+            restorePrintableMode(state);
+          }
+          if (downloadBtn) {
+            downloadBtn.style.display = originalDisplay || 'flex';
+          }
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        if (isPrintablePreviewRequested()) {
+          enterPrintablePreview();
+        }
+      });
+
+      async function downloadPDFLegacy() {
         // Ocultar el botón de descarga temporalmente
         const downloadBtn = document.getElementById('downloadPdfBtn');
         const originalDisplay = downloadBtn.style.display;
