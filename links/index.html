@@ -82,14 +82,96 @@
         color: rgba(255, 255, 255, 0.5);
         margin-top: 0.15rem;
       }
+
+      .bg-sky {
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        background: radial-gradient(
+          ellipse at bottom,
+          #1b2735 0%,
+          #090a0f 55%,
+          #000000 100%
+        );
+        opacity: 0.78;
+      }
+
+      .starfield {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .stars {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: transparent;
+        border-radius: 50%;
+      }
+
+      .stars-small {
+        width: 1px;
+        height: 1px;
+        animation: drift 90s linear infinite, twinkle 5s ease-in-out infinite;
+      }
+
+      .stars-medium {
+        width: 2px;
+        height: 2px;
+        animation: drift 130s linear infinite, twinkle 6.5s ease-in-out infinite 1.2s;
+      }
+
+      .stars-big {
+        width: 3px;
+        height: 3px;
+        animation: drift 170s linear infinite, twinkle 8s ease-in-out infinite 2.4s;
+      }
+
+      .stars::after {
+        content: "";
+        position: absolute;
+        top: 2000px;
+        left: 0;
+        width: inherit;
+        height: inherit;
+        background: transparent;
+        border-radius: 50%;
+      }
+
+      @keyframes drift {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(-2000px);
+        }
+      }
+
+      @keyframes twinkle {
+        0%,
+        100% {
+          opacity: 0.35;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
     </style>
   </head>
 
-  <body class="min-h-[100dvh] bg-black text-white">
+  <body class="min-h-[100dvh] bg-black text-white overflow-x-hidden">
     <video class="bg-video" autoplay muted loop playsinline>
       <source src="../src/bg-loop.mp4" type="video/mp4" />
     </video>
-    <div class="fixed inset-0 bg-black/70 z-[-1]"></div>
+    <div class="bg-sky" aria-hidden="true"></div>
+    <div class="starfield" aria-hidden="true">
+      <div class="stars stars-small" id="stars-small"></div>
+      <div class="stars stars-medium" id="stars-medium"></div>
+      <div class="stars stars-big" id="stars-big"></div>
+    </div>
 
     <main class="relative z-10 max-w-md mx-auto px-6 py-12 pb-16">
       <header class="text-center mb-9">
@@ -171,6 +253,48 @@
 
     <script src="../redirects.js"></script>
     <script>
+      (function () {
+        function starShadows(count, width, height) {
+          var shadows = [];
+          for (var i = 0; i < count; i++) {
+            shadows.push(
+              Math.floor(Math.random() * width) +
+                "px " +
+                Math.floor(Math.random() * height) +
+                "px #FFF"
+            );
+          }
+          return shadows.join(", ");
+        }
+
+        function initStars() {
+          var w = Math.max(window.innerWidth, 1200);
+          var h = 2000;
+          var layers = [
+            { id: "stars-small", count: 45 },
+            { id: "stars-medium", count: 14 },
+            { id: "stars-big", count: 6 },
+          ];
+
+          layers.forEach(function (layer) {
+            var el = document.getElementById(layer.id);
+            if (!el) return;
+            var shadow = starShadows(layer.count, w, h);
+            el.style.boxShadow = shadow;
+            var afterStyle = document.createElement("style");
+            afterStyle.textContent =
+              "#" +
+              layer.id +
+              "::after { box-shadow: " +
+              shadow +
+              "; }";
+            document.head.appendChild(afterStyle);
+          });
+        }
+
+        initStars();
+      })();
+
       (function () {
         var r = window.BRUNNO_REDIRECTS;
         if (!r) return;
