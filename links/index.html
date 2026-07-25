@@ -73,6 +73,15 @@
         width: 100%;
         height: 100%;
       }
+
+      .link-sub {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        color: rgba(255, 255, 255, 0.5);
+        margin-top: 0.15rem;
+      }
     </style>
   </head>
 
@@ -96,13 +105,12 @@
         <p class="text-xs text-white/50 mt-1.5">Tech House · Hard Groove</p>
       </header>
 
+      <!--
+        These buttons point to STABLE redirects.
+        To update destinations, edit only: /redirects.js
+      -->
       <nav class="space-y-4">
-        <a
-          href="https://open.spotify.com/artist/4Y4H5coOYsdCFUSCGg8tRK"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="link-btn"
-        >
+        <a href="../latest/" class="link-btn">
           <span class="icon" style="color: #1db954">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path
@@ -110,39 +118,36 @@
               />
             </svg>
           </span>
-          Spotify
+          <span class="text-center">
+            Latest
+            <span class="link-sub" id="label-latest">newest release</span>
+          </span>
         </a>
 
-        <a
-          href="https://www.youtube.com/@brunnolukka"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="link-btn"
-        >
-          <span class="icon" style="color: #ff0000">
+        <a href="../toptrack/" class="link-btn">
+          <span class="icon" style="color: #ff00ff">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path
-                d="M23.5 6.2a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.51A3.02 3.02 0 0 0 .5 6.2C0 8.08 0 12 0 12s0 3.92.5 5.8a3.02 3.02 0 0 0 2.12 2.14c1.88.51 9.38.51 9.38.51s7.5 0 9.38-.51a3.02 3.02 0 0 0 2.12-2.14C24 15.92 24 12 24 12s0-3.92-.5-5.8zM9.6 15.6V8.4l6.24 3.6-6.24 3.6z"
+                d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.1L12 16.9 5.7 21.1 8 14 2 9.4h7.6L12 2z"
               />
             </svg>
           </span>
-          YouTube
+          <span class="text-center">
+            Top Track
+            <span class="link-sub" id="label-toptrack">most played</span>
+          </span>
         </a>
 
-        <a
-          href="https://www.youtube.com/watch?v=CKsWw1d2MJk&t=2617s"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="link-btn"
-        >
+        <a href="../lastset/" class="link-btn">
           <span class="icon" style="color: #00f0ff">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path
-                d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"
-              />
+              <path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z" />
             </svg>
           </span>
-          Latest Set
+          <span class="text-center">
+            Last Set
+            <span class="link-sub" id="label-lastset">newest DJ set</span>
+          </span>
         </a>
 
         <a href="../presskit/" class="link-btn">
@@ -163,5 +168,22 @@
         >
       </p>
     </main>
+
+    <script src="../redirects.js"></script>
+    <script>
+      (function () {
+        var r = window.BRUNNO_REDIRECTS;
+        if (!r) return;
+        if (r.latest && r.latest.label) {
+          document.getElementById("label-latest").textContent = r.latest.label;
+        }
+        if (r.toptrack && r.toptrack.label) {
+          document.getElementById("label-toptrack").textContent = r.toptrack.label;
+        }
+        if (r.lastset && r.lastset.label) {
+          document.getElementById("label-lastset").textContent = r.lastset.label;
+        }
+      })();
+    </script>
   </body>
 </html>

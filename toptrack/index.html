@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brunno Lukka — Top Track</title>
+    <meta name="robots" content="noindex" />
+    <style>
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        background: #000;
+        color: #fff;
+        font-family: system-ui, sans-serif;
+      }
+      a {
+        color: #00f0ff;
+      }
+    </style>
+  </head>
+  <body>
+    <p id="msg">Opening top track…</p>
+    <script src="../redirects.js"></script>
+    <script>
+      (function () {
+        var entry = window.BRUNNO_REDIRECTS && window.BRUNNO_REDIRECTS.toptrack;
+        if (!entry || !entry.url) {
+          document.getElementById("msg").textContent = "Redirect not configured.";
+          return;
+        }
+        document.getElementById("msg").innerHTML =
+          'Opening <strong>' +
+          (entry.label || "top track") +
+          '</strong>… <a href="' +
+          entry.url +
+          '">tap here if nothing happens</a>';
+        window.location.replace(entry.url);
+      })();
+    </script>
+  </body>
+</html>
