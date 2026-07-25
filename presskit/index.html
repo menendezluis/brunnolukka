@@ -468,6 +468,55 @@
         body.pdf-export #pdfPageOne .pdf-page-fill {
           display: none !important;
         }
+
+        /* Chrome print: masks become black holes; links get default underlines */
+        .presskit-header-clip {
+          -webkit-mask-image: none !important;
+          mask-image: none !important;
+        }
+
+        .presskit-header-fade,
+        .presskit-header-overlay {
+          display: none !important;
+        }
+
+        #headerVideo,
+        .presskit-header-video {
+          display: none !important;
+          visibility: hidden !important;
+          width: 0 !important;
+          height: 0 !important;
+        }
+
+        #headerStill {
+          display: block !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+        }
+
+        body.pdf-export a,
+        body.pdf-export a.social-link,
+        body.pdf-export .social-link,
+        body.pdf-export .underline {
+          text-decoration: none !important;
+        }
+
+        body.pdf-export a[href]:after {
+          content: none !important;
+        }
+
+        body.pdf-export .neon-cyan,
+        body.pdf-export .neon-pink {
+          text-shadow: none !important;
+        }
+
+        body.pdf-export .social-stat {
+          border: none !important;
+          background: transparent !important;
+          box-shadow: none !important;
+          padding: 0 !important;
+          margin-left: 0 !important;
+        }
       }
 
       .hide-in-pdf {
