@@ -310,6 +310,76 @@
         }
       }
 
+      /* Press kit header: image first, then deferred video (same box, no layout jump) */
+      .presskit-header {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        background: #0a0e27;
+      }
+      @media (min-width: 768px) {
+        .presskit-header {
+          height: 70vh;
+        }
+      }
+      .presskit-header-media {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+      }
+      .presskit-header-video {
+        opacity: 0;
+        transition: opacity 1.2s ease;
+        pointer-events: none;
+      }
+      .presskit-header.is-video-ready .presskit-header-video {
+        opacity: 1;
+      }
+      .presskit-header-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.4);
+        pointer-events: none;
+      }
+      .presskit-header-overlay .text-center {
+        pointer-events: none;
+      }
+      #headerAudioBtn {
+        position: absolute;
+        top: 4.75rem;
+        right: 1rem;
+        z-index: 30;
+        display: none;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.55rem 0.9rem;
+        border-radius: 9999px;
+        border: 1px solid rgba(0, 240, 255, 0.45);
+        background: rgba(0, 0, 0, 0.55);
+        color: #00f0ff;
+        font-size: 0.8rem;
+        font-weight: 600;
+        backdrop-filter: blur(6px);
+        cursor: pointer;
+        transition: background 0.2s ease, border-color 0.2s ease;
+      }
+      #headerAudioBtn:hover {
+        background: rgba(0, 240, 255, 0.15);
+        border-color: rgba(0, 240, 255, 0.75);
+      }
+      #headerAudioBtn.is-visible {
+        display: inline-flex;
+      }
+
       /* Slider para mobile */
       .banner-slider {
         display: none;
@@ -384,14 +454,31 @@
       Download PDF
     </button>
 
-    <!-- Banner -->
-    <div class="w-full h-screen md:h-[70vh] relative">
+    <!-- Banner: image first; video loads after full page load, same box (no dimension jump) -->
+    <div class="presskit-header w-full h-screen md:h-[70vh]" id="presskitHeader">
       <img
+        id="headerStill"
         src="../src/header-presskit.jpg"
         alt="Brunno Lukka Banner"
-        class="w-full h-full object-cover"
+        class="presskit-header-media"
       />
-      <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+      <video
+        id="headerVideo"
+        class="presskit-header-media presskit-header-video"
+        muted
+        loop
+        playsinline
+        preload="none"
+        aria-hidden="true"
+      ></video>
+      <button type="button" id="headerAudioBtn" aria-label="Unmute header video">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+        </svg>
+        <span id="headerAudioLabel">Unmute</span>
+      </button>
+      <div class="presskit-header-overlay">
         <div class="text-center">
           <h1 class="neon-cyan text-5xl md:text-7xl font-bold mb-2">BRUNNO LUKKA</h1>
           <p class="neon-pink text-xl md:text-2xl font-semibold">DJ / PRODUCER</p>
@@ -945,12 +1032,21 @@
           container.style.display = 'none'; // Ocultar solo los contenedores de iframes
         });
 
+        // Header: force still image for PDF (hide deferred video + audio btn)
+        const headerEl = document.getElementById('presskitHeader');
+        const headerVideo = document.getElementById('headerVideo');
+        const headerAudioBtn = document.getElementById('headerAudioBtn');
+        const headerVideoWasReady = headerEl && headerEl.classList.contains('is-video-ready');
+        if (headerVideo) headerVideo.style.display = 'none';
+        if (headerAudioBtn) headerAudioBtn.style.display = 'none';
+        if (headerEl) headerEl.classList.remove('is-video-ready');
+
         try {
           // Esperar un momento para que las imágenes se carguen
           await new Promise(resolve => setTimeout(resolve, 1000));
 
           // Obtener el banner y el contenido
-          const banner = document.querySelector('.w-full.h-screen');
+          const banner = document.getElementById('presskitHeader');
           const content = document.querySelector('.relative.z-10.max-w-7xl');
 
           // Agregar estilo para forzar salto de página después del banner
@@ -992,6 +1088,13 @@
           shapes.forEach(shape => shape.style.display = '');
           if (spotifyWidget) spotifyWidget.style.display = 'block';
           if (discographyImage) discographyImage.style.display = 'none';
+          // Restaurar header video
+          if (headerVideo) headerVideo.style.display = '';
+          if (headerAudioBtn) {
+            headerAudioBtn.style.display = '';
+            if (headerVideoWasReady) headerAudioBtn.classList.add('is-visible');
+          }
+          if (headerEl && headerVideoWasReady) headerEl.classList.add('is-video-ready');
           // Restaurar iframes
           allIframes.forEach((iframe, index) => {
             iframe.style.display = iframeStates[index] || '';
@@ -1006,6 +1109,12 @@
           shapes.forEach(shape => shape.style.display = '');
           if (spotifyWidget) spotifyWidget.style.display = 'block';
           if (discographyImage) discographyImage.style.display = 'none';
+          if (headerVideo) headerVideo.style.display = '';
+          if (headerAudioBtn) {
+            headerAudioBtn.style.display = '';
+            if (headerVideoWasReady) headerAudioBtn.classList.add('is-visible');
+          }
+          if (headerEl && headerVideoWasReady) headerEl.classList.add('is-video-ready');
           // Restaurar iframes en caso de error
           allIframes.forEach((iframe, index) => {
             iframe.style.display = iframeStates[index] || '';
@@ -1016,6 +1125,91 @@
           });
         }
       }
+
+      // Deferred header video: image first, load MP4 only after full page load
+      (function initDeferredHeaderVideo() {
+        const HEADER_VIDEO_SRC = '../src/header-presskit.mp4';
+        const header = document.getElementById('presskitHeader');
+        const video = document.getElementById('headerVideo');
+        const audioBtn = document.getElementById('headerAudioBtn');
+        const audioLabel = document.getElementById('headerAudioLabel');
+        if (!header || !video || !audioBtn) return;
+
+        let started = false;
+
+        function revealVideo() {
+          if (header.classList.contains('is-video-ready')) return;
+          header.classList.add('is-video-ready');
+          audioBtn.classList.add('is-visible');
+        }
+
+        function startVideoLoad() {
+          if (started) return;
+          started = true;
+
+          video.muted = true;
+          video.defaultMuted = true;
+          video.setAttribute('muted', '');
+          video.playsInline = true;
+
+          const source = document.createElement('source');
+          source.src = HEADER_VIDEO_SRC;
+          source.type = 'video/mp4';
+          video.appendChild(source);
+          video.load();
+
+          const tryPlay = () => {
+            const playPromise = video.play();
+            if (playPromise && typeof playPromise.then === 'function') {
+              playPromise.then(revealVideo).catch(function () {
+                // Autoplay blocked — still show frame once data is ready
+                if (video.readyState >= 2) revealVideo();
+              });
+            } else {
+              revealVideo();
+            }
+          };
+
+          video.addEventListener('canplaythrough', tryPlay, { once: true });
+          video.addEventListener('loadeddata', function () {
+            if (video.readyState >= 2) tryPlay();
+          }, { once: true });
+        }
+
+        function scheduleAfterEverything() {
+          // Wait for window load (all resources), then a short idle beat
+          // so Spotify/YouTube embeds can settle before the 16MB MP4.
+          const kickoff = () => {
+            const run = () => setTimeout(startVideoLoad, 1200);
+            if ('requestIdleCallback' in window) {
+              requestIdleCallback(run, { timeout: 2500 });
+            } else {
+              run();
+            }
+          };
+
+          if (document.readyState === 'complete') {
+            kickoff();
+          } else {
+            window.addEventListener('load', kickoff, { once: true });
+          }
+        }
+
+        audioBtn.addEventListener('click', function () {
+          if (video.muted) {
+            video.muted = false;
+            audioLabel.textContent = 'Mute';
+            audioBtn.setAttribute('aria-label', 'Mute header video');
+            video.play().catch(function () {});
+          } else {
+            video.muted = true;
+            audioLabel.textContent = 'Unmute';
+            audioBtn.setAttribute('aria-label', 'Unmute header video');
+          }
+        });
+
+        scheduleAfterEverything();
+      })();
 
       // Gallery Modal
       document.addEventListener('DOMContentLoaded', function() {
