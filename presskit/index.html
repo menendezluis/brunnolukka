@@ -770,10 +770,16 @@
       }
 
       body.pdf-export #pdfPageCareerSocial,
-      body.pdf-export #gallerySection {
+      body.pdf-export #gallerySection,
+      body.pdf-export #pdfPageBio {
         display: flex;
         flex-direction: column;
         justify-content: center;
+      }
+
+      body.pdf-export #pdfPageBio {
+        page-break-after: auto;
+        break-after: auto;
       }
 
       body.pdf-export #pdfPageDiscography.space-y-6 > * + * {
@@ -797,27 +803,6 @@
       body.pdf-export #gallerySection {
         page-break-after: auto;
         break-after: auto;
-      }
-
-      body.pdf-export #pdfPageBio {
-        page-break-after: auto;
-        break-after: auto;
-        align-items: stretch !important;
-        justify-content: flex-start !important;
-      }
-
-      body.pdf-export #pdfPageBio .pdf-bio-content,
-      body.pdf-export #pdfBioContacts {
-        width: 100%;
-        max-width: 100%;
-      }
-
-      body.pdf-export #pdfBioContacts {
-        margin-top: 1.75rem;
-      }
-
-      body.pdf-export #pdfBioContacts .section-title {
-        margin-bottom: 0.65rem;
       }
 
       body.pdf-export .next-releases-block .info-value.mb-4,
@@ -1138,15 +1123,6 @@
 
       body.pdf-export .pdf-page-one-body.pdf-only-panel {
         padding: 1.25rem 0 1rem;
-      }
-
-      body.pdf-export #pdfBioContacts.pdf-only-panel {
-        padding: 0;
-      }
-
-      body.pdf-export #pdfBioContacts .info-item {
-        font-size: 12px;
-        margin-bottom: 6px;
       }
 
       body.pdf-export .pdf-page-one-title {
@@ -1990,7 +1966,6 @@
 
       <!-- Page 7: Biography -->
           <div id="pdfPageBio" class="pdf-page" data-page="Page 7">
-            <div class="pdf-bio-content">
             <h2 class="section-title">BIOGRAPHY</h2>
             <div class="info-value text-sm leading-relaxed space-y-3">
 
@@ -2015,45 +1990,6 @@
                 </p>
               
               </div>
-            </div>
-
-            <div id="pdfBioContacts" class="pdf-only-panel" aria-hidden="true">
-              <h2 class="section-title">CONTACTS</h2>
-              <div class="space-y-2">
-                <div class="info-item">
-                  <span class="info-label">Booking:</span>
-                  <a href="mailto:contact@brunnolukka.com" class="social-link">contact@brunnolukka.com</a>
-                </div>
-                <div class="info-item">
-                  <span class="info-label">YouTube:</span>
-                  <span class="info-value">
-                    <a href="https://www.youtube.com/@brunnolukka" class="social-link">@brunnolukka</a>
-                    · <a href="https://www.youtube.com/@brunnolukka" class="social-link social-stat">114K subscribers</a>
-                  </span>
-                </div>
-                <div class="info-item">
-                  <span class="info-label">Spotify:</span>
-                  <span class="info-value">
-                    <a href="https://open.spotify.com/artist/4Y4H5coOYsdCFUSCGg8tRK" class="social-link">Brunno Lukka</a>
-                    · <a href="https://open.spotify.com/artist/4Y4H5coOYsdCFUSCGg8tRK" class="social-link social-stat">14K monthly listeners</a>
-                  </span>
-                </div>
-                <div class="info-item">
-                  <span class="info-label">Instagram:</span>
-                  <span class="info-value">
-                    <a href="https://www.instagram.com/brunnolukka" class="social-link">@brunnolukka</a>
-                    · <a href="https://www.instagram.com/brunnolukka" class="social-link social-stat">4.5K followers</a>
-                  </span>
-                </div>
-                <div class="info-item">
-                  <span class="info-label">TikTok:</span>
-                  <span class="info-value">
-                    <a href="https://www.tiktok.com/@brunnolukka" class="social-link">@brunnolukka</a>
-                    · <a href="https://www.tiktok.com/@brunnolukka" class="social-link social-stat">4.1K followers</a>
-                  </span>
-                </div>
-              </div>
-            </div>
           </div>
 
       <!-- Fila 4: Nada | Contacts (web only) -->
