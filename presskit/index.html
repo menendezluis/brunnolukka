@@ -770,16 +770,27 @@
       }
 
       body.pdf-export #pdfPageCareerSocial,
-      body.pdf-export #gallerySection,
-      body.pdf-export #pdfPageBio {
+      body.pdf-export #gallerySection {
         display: flex;
         flex-direction: column;
         justify-content: center;
       }
 
       body.pdf-export #pdfPageBio {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
         page-break-after: auto;
         break-after: auto;
+      }
+
+      body.pdf-export .pdf-bio-spacer {
+        display: block !important;
+        min-height: 10.5rem;
+        margin-top: 1.75rem;
+        padding: 0 !important;
+        visibility: hidden;
+        pointer-events: none;
       }
 
       body.pdf-export #pdfPageDiscography.space-y-6 > * + * {
@@ -1990,6 +2001,8 @@
                 </p>
               
               </div>
+
+            <div class="pdf-bio-spacer pdf-only-panel" aria-hidden="true">&nbsp;</div>
           </div>
 
       <!-- Fila 4: Nada | Contacts (web only) -->
