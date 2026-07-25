@@ -297,6 +297,13 @@
         width: min(22rem, calc(100vw - 2.5rem));
         scroll-snap-align: start;
       }
+      .sets-card h4 {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.3;
+        margin-bottom: 0.5rem;
+      }
       @media (min-width: 768px) {
         .sets-card {
           width: 20rem;
@@ -578,7 +585,7 @@
               </a>
             </div>
             <div class="sets-card bg-white/5 border border-cyan-400/30 rounded-xl p-4 hover:bg-white/10 transition">
-              <h4 class="text-white font-semibold mb-2">In The Groove — Hard Groove & Tech House</h4>
+              <h4 class="text-white font-semibold mb-2" title="In The Groove — Hard Groove & Tech House">In The Groove</h4>
               <div class="mb-2 iframe-container" style="height: 300px;">
                 <iframe
                   width="100%"
