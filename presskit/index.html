@@ -614,8 +614,7 @@
       body.printable-preview.pdf-export #pdfPageDiscography,
       body.printable-preview.pdf-export #pdfPageLiveSets,
       body.printable-preview.pdf-export #pdfPageCareerSocial,
-      body.printable-preview.pdf-export #gallerySection,
-      body.printable-preview.pdf-export #pdfPageBio {
+      body.printable-preview.pdf-export #gallerySection {
         outline: 1px dashed rgba(0, 240, 255, 0.28);
         outline-offset: -1px;
         box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
@@ -810,8 +809,7 @@
       body.pdf-export #pdfPageDiscography,
       body.pdf-export #pdfPageLiveSets,
       body.pdf-export #pdfPageCareerSocial,
-      body.pdf-export #gallerySection,
-      body.pdf-export #pdfPageBio {
+      body.pdf-export #gallerySection {
         page-break-before: always;
         break-before: page;
         page-break-inside: avoid;
@@ -822,15 +820,15 @@
       body.pdf-export #gallerySection {
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
       }
 
-      body.pdf-export #pdfPageBio {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        page-break-after: auto;
-        break-after: auto;
+      body.pdf-export #gallerySection #pdfPageBio {
+        margin-top: 1.25rem;
+        padding-top: 0.75rem;
+        width: 100%;
+        page-break-before: avoid;
+        break-before: avoid;
       }
 
       body.pdf-export #pdfPageDiscography.space-y-6 > * + * {
@@ -1981,7 +1979,7 @@
       </div>
       </div>
 
-      <!-- Page 6: Gallery -->
+      <!-- Page 6: Gallery + Biography -->
           <div id="gallerySection" class="pdf-page" data-page="Page 6">
             <h2 class="section-title text-center">GALLERY</h2>
             
@@ -2014,11 +2012,9 @@
                 <img src="../src/liveshows/3.png" alt="The Secret Garden Club" class="w-full h-full object-cover" />
               </div>
             </div>
-          </div>
 
-      <!-- Page 7: Biography -->
-          <div id="pdfPageBio" class="pdf-page" data-page="Page 7">
-            <h2 class="section-title">BIOGRAPHY</h2>
+            <div id="pdfPageBio">
+            <h2 class="section-title mt-6">BIOGRAPHY</h2>
             <div class="info-value text-sm leading-relaxed space-y-3">
 
                 <p>
@@ -2042,6 +2038,7 @@
                 </p>
               
               </div>
+            </div>
           </div>
 
       <!-- Back to Home -->
