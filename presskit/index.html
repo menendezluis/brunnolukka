@@ -477,15 +477,30 @@
       /* PDF export: proportional images + centered gallery (html2canvas-safe) */
       body.pdf-export {
         overflow: visible !important;
-        background: #000000 !important;
+        background: radial-gradient(
+          ellipse at bottom,
+          #1b2735 0%,
+          #090a0f 55%,
+          #000000 100%
+        ) !important;
+        background-color: #000000 !important;
       }
 
       body.pdf-export .bg-pattern,
       body.pdf-export .presskit-below-header,
       body.pdf-export #mainContent {
-        background: #000000 !important;
-        page-break-before: always;
-        break-before: page;
+        background: transparent !important;
+      }
+
+      body.pdf-export #pdfPageOne {
+        page-break-after: always;
+        break-after: page;
+        background: #000000;
+      }
+
+      body.pdf-export #mainContent {
+        page-break-before: auto !important;
+        break-before: auto !important;
       }
 
       body.pdf-export .presskit-sky-layer {
@@ -497,7 +512,12 @@
       }
 
       body.pdf-export .presskit-sky-layer .bg-sky {
-        background: #000000 !important;
+        background: radial-gradient(
+          ellipse at bottom,
+          #1b2735 0%,
+          #090a0f 55%,
+          #000000 100%
+        ) !important;
       }
 
       body.pdf-export .presskit-header {
@@ -528,18 +548,8 @@
         display: none !important;
       }
 
-      body.pdf-export .banner-static {
-        display: block !important;
-        height: 320px !important;
-        max-height: 320px !important;
-        overflow: hidden !important;
-      }
-
-      body.pdf-export .banner-static img {
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: cover !important;
-        object-position: center !important;
+      .banner-bio-pdf {
+        display: none;
       }
 
       body.pdf-export .w-72.h-72,
@@ -644,7 +654,7 @@
         width: 100%;
         padding: 0.75rem 2rem 1.25rem;
         box-sizing: border-box;
-        background: #000000;
+        background: transparent;
       }
 
       body.pdf-export .pdf-contacts-inner {
@@ -660,8 +670,50 @@
 
       body.pdf-export #contactsSectionMain,
       body.pdf-export .back-to-home,
-      body.pdf-export .sets-card-pdf-hide {
+      body.pdf-export .sets-card-pdf-hide,
+      body.pdf-export .banner-static {
         display: none !important;
+      }
+
+      body.pdf-export #socialMediaSection {
+        text-align: center !important;
+        max-width: 560px;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+
+      body.pdf-export #socialMediaSection .info-item {
+        margin-bottom: 8px;
+      }
+
+      body.pdf-export #socialMediaSection .info-label {
+        display: block;
+        min-width: unset;
+        margin-bottom: 2px;
+      }
+
+      body.pdf-export #careerSocialRow > div:first-child {
+        display: none !important;
+      }
+
+      body.pdf-export #careerSocialRow .lg\:col-span-2 {
+        width: 100% !important;
+      }
+
+      body.pdf-export .banner-bio-pdf {
+        display: block !important;
+        max-width: 560px;
+        margin: 0.75rem auto 0;
+        border-radius: 0.5rem;
+        overflow: hidden;
+      }
+
+      body.pdf-export .banner-bio-pdf img {
+        width: 100% !important;
+        height: 200px !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        display: block !important;
       }
 
       body.pdf-export #careerSection {
@@ -908,6 +960,8 @@
       Download PDF
     </button>
 
+    <!-- Page 1 (PDF): header + contacts -->
+    <div id="pdfPageOne">
     <!-- Banner: image first; video loads after full page load, same box (no dimension jump) -->
     <div class="presskit-header w-full h-screen md:h-[70vh]" id="presskitHeader">
       <div class="presskit-header-clip">
@@ -951,26 +1005,39 @@
         <div class="space-y-2">
           <div class="info-item">
             <span class="info-label">Booking:</span>
-            <span class="info-value">contact@brunnolukka.com</span>
+            <a href="mailto:contact@brunnolukka.com" class="social-link">contact@brunnolukka.com</a>
           </div>
           <div class="info-item">
             <span class="info-label">YouTube:</span>
-            <span class="info-value">@brunnolukka · 114K subscribers</span>
+            <span class="info-value">
+              <a href="https://www.youtube.com/@brunnolukka" class="social-link">@brunnolukka</a>
+              · <a href="https://www.youtube.com/@brunnolukka" class="social-link social-stat">114K subscribers</a>
+            </span>
           </div>
           <div class="info-item">
             <span class="info-label">Spotify:</span>
-            <span class="info-value">Brunno Lukka · 14K monthly listeners</span>
+            <span class="info-value">
+              <a href="https://open.spotify.com/artist/4Y4H5coOYsdCFUSCGg8tRK" class="social-link">Brunno Lukka</a>
+              · <a href="https://open.spotify.com/artist/4Y4H5coOYsdCFUSCGg8tRK" class="social-link social-stat">14K monthly listeners</a>
+            </span>
           </div>
           <div class="info-item">
             <span class="info-label">Instagram:</span>
-            <span class="info-value">@brunnolukka · 4.5K followers</span>
+            <span class="info-value">
+              <a href="https://www.instagram.com/brunnolukka" class="social-link">@brunnolukka</a>
+              · <a href="https://www.instagram.com/brunnolukka" class="social-link social-stat">4.5K followers</a>
+            </span>
           </div>
           <div class="info-item">
             <span class="info-label">TikTok:</span>
-            <span class="info-value">@brunnolukka · 4.1K followers</span>
+            <span class="info-value">
+              <a href="https://www.tiktok.com/@brunnolukka" class="social-link">@brunnolukka</a>
+              · <a href="https://www.tiktok.com/@brunnolukka" class="social-link social-stat">4.1K followers</a>
+            </span>
           </div>
         </div>
       </div>
+    </div>
     </div>
 
     <div class="presskit-below-header" id="presskitBelowHeader">
@@ -1246,7 +1313,7 @@
       </div>
   
       <!-- Fila 3: bru2 | Career + Social Media + Biography -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8" id="careerSocialRow">
         <div class="flex justify-center lg:justify-start">
           <div class="circular-frame-pink w-64 h-64 md:w-80 md:h-80">
             <img
@@ -1271,7 +1338,7 @@
           </div>
 
           <!-- Social Media Stats -->
-          <div>
+          <div id="socialMediaSection">
             <h2 class="section-title">SOCIAL MEDIA</h2>
             <div class="info-item">
               <span class="info-label">YouTube:</span>
@@ -1301,6 +1368,11 @@
                 · <a href="https://www.tiktok.com/@brunnolukka" class="social-link social-stat" target="_blank" rel="noopener noreferrer">4.1K followers</a>
               </span>
             </div>
+          </div>
+
+          <!-- Bio banner (PDF only — below social media) -->
+          <div class="banner-bio-pdf pdf-only-panel" aria-hidden="true">
+            <img src="../src/bannerbio.jpg" alt="Brunno Lukka Bio Banner" />
           </div>
 
           <!-- Live Shows -->
@@ -1600,36 +1672,41 @@
           // Esperar a que el layout PDF se aplique y las imágenes carguen
           await new Promise(resolve => setTimeout(resolve, 1200));
 
-          // Obtener el banner y el contenido
-          const banner = document.getElementById('presskitHeader');
-          const content = document.querySelector('.relative.z-10.max-w-7xl');
-
-          // Agregar estilo para forzar salto de página después del banner
-          const mainContent = document.getElementById('mainContent');
-          if (mainContent) {
-            mainContent.style.pageBreakBefore = 'always';
-          }
-
-          // Configuración sin márgenes
-          const opt = {
+          var opt = {
             margin: 0,
             filename: 'Brunno_Lukka_PressKit.pdf',
+            enableLinks: true,
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { 
               scale: 2,
               useCORS: true,
               allowTaint: true,
               logging: false,
-              backgroundColor: '#000000',
+              backgroundColor: null,
               scrollX: 0,
               scrollY: 0,
               onclone: function (clonedDoc) {
-                clonedDoc.documentElement.style.background = '#000000';
-                clonedDoc.body.style.background = '#000000';
+                var gradient = 'radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 55%, #000000 100%)';
+                clonedDoc.documentElement.style.background = gradient;
+                clonedDoc.documentElement.style.backgroundColor = '#000000';
+                clonedDoc.body.style.background = gradient;
+                clonedDoc.body.style.backgroundColor = '#000000';
                 var below = clonedDoc.getElementById('presskitBelowHeader');
                 var main = clonedDoc.getElementById('mainContent');
-                if (below) below.style.background = '#000000';
-                if (main) main.style.background = '#000000';
+                var pageOne = clonedDoc.getElementById('pdfPageOne');
+                if (below) {
+                  below.style.background = 'transparent';
+                }
+                if (main) {
+                  main.style.background = 'transparent';
+                }
+                if (pageOne) {
+                  pageOne.style.background = '#000000';
+                }
+                var skyBg = clonedDoc.querySelector('.presskit-sky-layer .bg-sky');
+                if (skyBg) {
+                  skyBg.style.background = gradient;
+                }
               }
             },
             jsPDF: { 
@@ -1638,12 +1715,13 @@
               orientation: 'portrait'
             },
             pagebreak: { 
-              mode: ['avoid-all', 'css', 'legacy'],
-              before: '#mainContent'
+              mode: ['css', 'legacy'],
+              before: [],
+              after: [],
+              avoid: ['.gallery-item', '.sets-card', '.latest-releases-block']
             }
           };
 
-          // Generar el PDF desde el body completo
           await html2pdf().set(opt).from(document.body).save();
           
           // Restaurar elementos
