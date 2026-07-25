@@ -437,6 +437,19 @@
           display: block !important;
         }
 
+        body.printable-preview {
+          padding-top: 0 !important;
+        }
+
+        body.printable-preview .printable-preview-banner,
+        body.printing .printable-preview-banner {
+          display: none !important;
+        }
+
+        body.printable-preview .pdf-page::after {
+          display: none !important;
+        }
+
         /* Preview sheet sizing must not apply to real print */
         body.printable-preview.pdf-export .pdf-page,
         body.printable-preview.pdf-export #pdfPageOne {
@@ -519,6 +532,15 @@
         }
       }
 
+      body.printing {
+        padding-top: 0 !important;
+      }
+
+      body.printing .printable-preview-banner,
+      body.printing #downloadPdfBtn {
+        display: none !important;
+      }
+
       body.printable-preview .printable-preview-banner {
         display: flex !important;
       }
@@ -590,6 +612,7 @@
         padding: 0 !important;
       }
 
+      /* Preview-only: page outlines + sheet height on screen */
       body.printable-preview.pdf-export #presskitBelowHeader {
         margin: 0 !important;
         padding: 0 !important;
@@ -657,6 +680,23 @@
       body.pdf-export .presskit-below-header,
       body.pdf-export #mainContent {
         background: transparent !important;
+      }
+
+      body.pdf-export #mainContent {
+        max-width: var(--pdf-page-w) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding: 0 !important;
+      }
+
+      body.pdf-export #presskitBelowHeader {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: transparent !important;
+      }
+
+      body.pdf-export #presskitBelowHeader::before {
+        display: none !important;
       }
 
       body.pdf-export #pdfPageOne {
@@ -2190,14 +2230,14 @@
         var wasPreview = window.__printablePreviewActive;
         var state = wasPreview ? null : applyPrintableMode();
 
+        document.body.classList.add('printing');
+
         if (downloadBtn) {
           downloadBtn.style.display = 'none';
         }
         if (previewBanner) {
           previewBanner.style.display = 'none';
         }
-
-        document.body.classList.add('printing');
 
         function cleanup() {
           document.body.classList.remove('printing');
