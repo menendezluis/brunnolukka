@@ -425,7 +425,6 @@
         .sets-card-pdf-hide,
         .banner-static,
         .banner-slider,
-        .presskit-header-fade,
         .presskit-header-shape,
         .presskit-header-video {
           display: none !important;
@@ -808,11 +807,16 @@
         min-height: 360px !important;
         max-height: 360px !important;
         flex-shrink: 0;
+        overflow: hidden;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
       }
 
+      body.pdf-export .presskit-header-overlay,
+      body.pdf-export .presskit-header-fade,
       body.pdf-export .presskit-header-clip {
-        -webkit-mask-image: none !important;
-        mask-image: none !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
       }
 
       body.pdf-export .presskit-header-media {
@@ -822,7 +826,6 @@
         object-position: center !important;
       }
 
-      body.pdf-export .presskit-header-fade,
       body.pdf-export .presskit-header-shape,
       body.pdf-export #headerAudioBtn {
         display: none !important;
