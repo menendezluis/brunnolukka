@@ -413,7 +413,7 @@
         .printable-preview-banner,
         .geometric-shape,
         .pdf-web-only,
-        #contactsSectionMain,
+        #presskitBioContacts,
         .back-to-home,
         #imageModal,
         #headerAudioBtn,
@@ -784,13 +784,12 @@
         break-after: auto;
       }
 
-      body.pdf-export .pdf-bio-spacer {
-        display: block !important;
-        min-height: 10.5rem;
-        margin-top: 1.75rem;
-        padding: 0 !important;
-        visibility: hidden;
-        pointer-events: none;
+      body.pdf-export #presskitBioContacts {
+        display: none !important;
+      }
+
+      body.pdf-export #presskitBioContacts .section-title {
+        margin-bottom: 0.65rem;
       }
 
       body.pdf-export #pdfPageDiscography.space-y-6 > * + * {
@@ -1178,7 +1177,7 @@
         margin-bottom: 6px;
       }
 
-      body.pdf-export #contactsSectionMain,
+      body.pdf-export #presskitBioContacts,
       body.pdf-export .back-to-home,
       body.pdf-export .sets-card-pdf-hide,
       body.pdf-export .banner-static,
@@ -2002,62 +2001,44 @@
               
               </div>
 
-            <div class="pdf-bio-spacer pdf-only-panel" aria-hidden="true">&nbsp;</div>
-          </div>
-
-      <!-- Fila 4: Nada | Contacts (web only) -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 pdf-web-only" id="contactsSectionMain">
-        <div></div>
-        <div class="lg:col-span-2">
-          <!-- Contacts -->
-          <div>
-            <h2 class="section-title">CONTACTS</h2>
-            <div class="space-y-3">
-          
-              <div class="info-item">
-                <span class="info-label">Booking:</span>
-                <a href="mailto:contact@brunnolukka.com" class="social-link">
-                  contact@brunnolukka.com
-                </a>
+            <div id="presskitBioContacts" class="mt-10">
+              <h2 class="section-title">CONTACTS</h2>
+              <div class="space-y-3">
+                <div class="info-item">
+                  <span class="info-label">Booking:</span>
+                  <a href="mailto:contact@brunnolukka.com" class="social-link">contact@brunnolukka.com</a>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">YouTube:</span>
+                  <span class="info-value">
+                    <a href="https://www.youtube.com/@brunnolukka" class="social-link" target="_blank" rel="noopener noreferrer">@brunnolukka</a>
+                    · <a href="https://www.youtube.com/@brunnolukka" class="social-link social-stat" target="_blank" rel="noopener noreferrer">114K subscribers</a>
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Spotify:</span>
+                  <span class="info-value">
+                    <a href="https://open.spotify.com/artist/4Y4H5coOYsdCFUSCGg8tRK" class="social-link" target="_blank" rel="noopener noreferrer">Brunno Lukka</a>
+                    · <a href="https://open.spotify.com/artist/4Y4H5coOYsdCFUSCGg8tRK" class="social-link social-stat" target="_blank" rel="noopener noreferrer">14K monthly listeners</a>
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Instagram:</span>
+                  <span class="info-value">
+                    <a href="https://www.instagram.com/brunnolukka" class="social-link" target="_blank" rel="noopener noreferrer">@brunnolukka</a>
+                    · <a href="https://www.instagram.com/brunnolukka" class="social-link social-stat" target="_blank" rel="noopener noreferrer">4.5K followers</a>
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">TikTok:</span>
+                  <span class="info-value">
+                    <a href="https://www.tiktok.com/@brunnolukka" class="social-link" target="_blank" rel="noopener noreferrer">@brunnolukka</a>
+                    · <a href="https://www.tiktok.com/@brunnolukka" class="social-link social-stat" target="_blank" rel="noopener noreferrer">4.1K followers</a>
+                  </span>
+                </div>
               </div>
-
-              <div class="info-item">
-                <span class="info-label">YouTube:</span>
-                <span class="info-value">
-                  <a href="https://www.youtube.com/@brunnolukka" class="social-link" target="_blank" rel="noopener noreferrer">@brunnolukka</a>
-                  · <a href="https://www.youtube.com/@brunnolukka" class="social-link social-stat" target="_blank" rel="noopener noreferrer">114K subscribers</a>
-                </span>
-              </div>
-
-              <div class="info-item">
-                <span class="info-label">Spotify:</span>
-                <span class="info-value">
-                  <a href="https://open.spotify.com/artist/4Y4H5coOYsdCFUSCGg8tRK" class="social-link" target="_blank" rel="noopener noreferrer">Brunno Lukka</a>
-                  · <a href="https://open.spotify.com/artist/4Y4H5coOYsdCFUSCGg8tRK" class="social-link social-stat" target="_blank" rel="noopener noreferrer">14K monthly listeners</a>
-                </span>
-              </div>
-
-              <div class="info-item">
-                <span class="info-label">Instagram:</span>
-                <span class="info-value">
-                  <a href="https://www.instagram.com/brunnolukka" class="social-link" target="_blank" rel="noopener noreferrer">@brunnolukka</a>
-                  · <a href="https://www.instagram.com/brunnolukka" class="social-link social-stat" target="_blank" rel="noopener noreferrer">4.5K followers</a>
-                </span>
-              </div>
-
-              <div class="info-item">
-                <span class="info-label">TikTok:</span>
-                <span class="info-value">
-                  <a href="https://www.tiktok.com/@brunnolukka" class="social-link" target="_blank" rel="noopener noreferrer">@brunnolukka</a>
-                  · <a href="https://www.tiktok.com/@brunnolukka" class="social-link social-stat" target="_blank" rel="noopener noreferrer">4.1K followers</a>
-                </span>
-              </div>
-
             </div>
           </div>
-          
-        </div>
-      </div>
 
       <!-- Back to Home -->
       <div class="mt-12 text-center back-to-home pdf-web-only">
