@@ -44,6 +44,7 @@
 
       .presskit-header.is-collapsed {
         overflow: visible;
+        z-index: 30;
       }
 
       .presskit-header.is-collapsed .presskit-header-clip {
@@ -214,8 +215,11 @@
       }
 
       .presskit-header.is-collapsed #headerCollapseBtn {
-        bottom: auto;
+        position: fixed;
         top: calc(var(--header-peek-height) + 0.35rem);
+        right: 1rem;
+        bottom: auto;
+        z-index: 40;
       }
 
       .overflow-y-auto {
@@ -592,6 +596,7 @@
         var started = false;
         var revealed = false;
         var collapsed = false;
+        var collapseAnimating = false;
         var fullHeaderHeight = 0;
         var peekHeight =
           parseFloat(
@@ -621,8 +626,15 @@
         }
 
         function toggleHeaderCollapse() {
-          if (!revealed) return;
+          if (!revealed || collapseAnimating) return;
           var nextCollapsed = !collapsed;
+          collapseAnimating = true;
+
+          if (nextCollapsed) {
+            setCollapseUi(true);
+          }
+
+          gsap.killTweensOf(header);
           gsap.to(header, {
             height: nextCollapsed ? peekHeight : fullHeaderHeight,
             duration: 0.6,
@@ -638,6 +650,7 @@
             },
             onComplete: function () {
               setCollapseUi(nextCollapsed);
+              collapseAnimating = false;
               if (!nextCollapsed) {
                 gsap.to([overlay, fade], {
                   opacity: 1,
