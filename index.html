@@ -8,6 +8,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
     <script src="https://unpkg.com/@barba/core"></script>
     <style>
+      :root {
+        --header-target-height: 100vh;
+      }
+
+      @media (min-width: 768px) {
+        :root {
+          --header-target-height: 70vh;
+        }
+      }
+
+      body.is-pre-reveal {
+        overflow: hidden;
+      }
+
       .site-below-header {
         position: relative;
         background: #000000;
@@ -16,16 +30,15 @@
       .presskit-header {
         position: relative;
         width: 100%;
-        height: 100vh;
-        overflow: visible;
+        height: 0;
+        overflow: hidden;
         background: #000000;
         z-index: 2;
+        will-change: height;
       }
 
-      @media (min-width: 768px) {
-        .presskit-header {
-          height: 70vh;
-        }
+      .presskit-header.is-revealed {
+        overflow: visible;
       }
 
       .presskit-header-clip {
@@ -58,6 +71,7 @@
         inset: 0;
         width: 100%;
         height: 100%;
+        min-height: var(--header-target-height);
         object-fit: cover;
         object-position: center;
         display: block;
@@ -65,8 +79,6 @@
 
       .presskit-header-video {
         opacity: 0;
-        transition: opacity 1.2s ease;
-        pointer-events: none;
       }
 
       .presskit-header-overlay {
@@ -75,7 +87,6 @@
         z-index: 2;
         pointer-events: none;
         opacity: 0;
-        transition: opacity 1.2s ease;
         background: linear-gradient(
           to bottom,
           rgba(0, 0, 0, 0.5) 0%,
@@ -94,7 +105,6 @@
         z-index: 3;
         pointer-events: none;
         opacity: 0;
-        transition: opacity 1.2s ease;
         background: linear-gradient(
           to bottom,
           rgba(0, 0, 0, 0) 0%,
@@ -104,10 +114,20 @@
         );
       }
 
-      .presskit-header.is-video-ready .presskit-header-video,
-      .presskit-header.is-video-ready .presskit-header-overlay,
-      .presskit-header.is-video-ready .presskit-header-fade {
-        opacity: 1;
+      .header-reveal-flash {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        pointer-events: none;
+        opacity: 0;
+        background:
+          radial-gradient(circle at 50% 18%, rgba(255, 0, 255, 0.55) 0%, transparent 42%),
+          radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.22) 0%, transparent 28%);
+      }
+
+      #siteMain.is-pre-reveal {
+        min-height: 100dvh;
+        justify-content: center;
       }
 
       #headerAudioBtn {
@@ -151,7 +171,8 @@
     </style>
   </head>
 
-  <body class="bg-black text-white overflow-y-auto" data-barba="wrapper">
+  <body class="bg-black text-white overflow-y-auto is-pre-reveal" data-barba="wrapper">
+    <div id="headerRevealFlash" class="header-reveal-flash" aria-hidden="true"></div>
     <div data-barba="container" data-barba-namespace="home">
       <div class="presskit-header w-full" id="siteHeader">
         <div class="presskit-header-clip">
@@ -177,7 +198,7 @@
       </div>
 
       <div class="site-below-header">
-        <main class="relative z-10 flex flex-col items-center justify-center text-center py-10 space-y-10 px-6">
+        <main id="siteMain" class="relative z-10 flex flex-col items-center text-center py-10 space-y-10 px-6 is-pre-reveal">
           <img
             src="./src/brunnolukka.png"
             alt="Brunno Lukka Profile"
@@ -495,14 +516,80 @@
         var video = document.getElementById("headerVideo");
         var audioBtn = document.getElementById("headerAudioBtn");
         var audioLabel = document.getElementById("headerAudioLabel");
-        if (!header || !video || !audioBtn) return;
+        var flash = document.getElementById("headerRevealFlash");
+        var main = document.getElementById("siteMain");
+        var overlay = header ? header.querySelector(".presskit-header-overlay") : null;
+        var fade = header ? header.querySelector(".presskit-header-fade") : null;
+        if (!header || !video || !audioBtn || !flash) return;
 
         var started = false;
+        var revealed = false;
 
-        function revealVideo() {
-          if (header.classList.contains("is-video-ready")) return;
-          header.classList.add("is-video-ready");
-          audioBtn.classList.add("is-visible");
+        function getHeaderTargetHeight() {
+          return window.innerWidth >= 768
+            ? window.innerHeight * 0.7
+            : window.innerHeight;
+        }
+
+        function playRevealSequence() {
+          if (revealed) return;
+          revealed = true;
+
+          var targetH = getHeaderTargetHeight();
+          document.documentElement.style.setProperty(
+            "--header-target-height",
+            targetH + "px"
+          );
+
+          var playPromise = video.play();
+          var startTimeline = function () {
+            var tl = gsap.timeline({
+              onComplete: function () {
+                document.body.classList.remove("is-pre-reveal");
+                if (main) main.classList.remove("is-pre-reveal");
+                header.classList.add("is-revealed");
+                audioBtn.classList.add("is-visible");
+              },
+            });
+
+            tl.to(flash, {
+              opacity: 1,
+              duration: 0.07,
+              ease: "power2.out",
+            })
+              .to(flash, {
+                opacity: 0,
+                duration: 0.5,
+                ease: "power2.inOut",
+              })
+              .to(
+                header,
+                {
+                  height: targetH,
+                  duration: 1.15,
+                  ease: "power3.inOut",
+                },
+                "-=0.35"
+              )
+              .to(
+                video,
+                { opacity: 1, duration: 0.85, ease: "power2.out" },
+                "-=1.05"
+              )
+              .to(
+                [overlay, fade],
+                { opacity: 1, duration: 0.75, ease: "power2.out" },
+                "-=0.95"
+              );
+          };
+
+          if (playPromise && typeof playPromise.then === "function") {
+            playPromise.then(startTimeline).catch(function () {
+              if (video.readyState >= 2) startTimeline();
+            });
+          } else {
+            startTimeline();
+          }
         }
 
         function startVideoLoad() {
@@ -520,22 +607,13 @@
           video.appendChild(source);
           video.load();
 
-          function tryPlay() {
-            var playPromise = video.play();
-            if (playPromise && typeof playPromise.then === "function") {
-              playPromise.then(revealVideo).catch(function () {
-                if (video.readyState >= 2) revealVideo();
-              });
-            } else {
-              revealVideo();
-            }
-          }
-
-          video.addEventListener("canplaythrough", tryPlay, { once: true });
+          video.addEventListener("canplaythrough", playRevealSequence, {
+            once: true,
+          });
           video.addEventListener(
             "loadeddata",
             function () {
-              if (video.readyState >= 2) tryPlay();
+              if (video.readyState >= 3) playRevealSequence();
             },
             { once: true }
           );
@@ -544,10 +622,10 @@
         function scheduleAfterEverything() {
           function kickoff() {
             var run = function () {
-              setTimeout(startVideoLoad, 1200);
+              setTimeout(startVideoLoad, 600);
             };
             if ("requestIdleCallback" in window) {
-              requestIdleCallback(run, { timeout: 2500 });
+              requestIdleCallback(run, { timeout: 2000 });
             } else {
               run();
             }
