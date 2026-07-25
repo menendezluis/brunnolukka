@@ -483,11 +483,84 @@
       }
 
       body.printable-preview.pdf-export #pdfPageOne,
+      body.printable-preview.pdf-export #pdfPageProfile,
       body.printable-preview.pdf-export #pdfPageDiscography,
       body.printable-preview.pdf-export #pdfPageLiveSets,
-      body.printable-preview.pdf-export #gallerySection {
-        outline: 1px dashed rgba(0, 240, 255, 0.22);
-        outline-offset: 4px;
+      body.printable-preview.pdf-export #pdfPageCareerSocial,
+      body.printable-preview.pdf-export #gallerySection,
+      body.printable-preview.pdf-export #pdfPageBio {
+        outline: 1px dashed rgba(0, 240, 255, 0.28);
+        outline-offset: -1px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+      }
+
+      body.printable-preview.pdf-export #pdfPageOne {
+        margin-bottom: 0.75rem;
+      }
+
+      :root {
+        --pdf-page-w: 794px;
+        --pdf-page-h: 1123px;
+      }
+
+      body.pdf-export .pdf-page {
+        page-break-after: always;
+        break-after: page;
+        box-sizing: border-box;
+        width: 100%;
+        max-width: var(--pdf-page-w);
+        margin-left: auto;
+        margin-right: auto;
+        padding: 1.75rem 2rem;
+        position: relative;
+        background: radial-gradient(
+          ellipse at bottom,
+          #1b2735 0%,
+          #090a0f 55%,
+          #000000 100%
+        );
+        background-color: #000000;
+      }
+
+      body.printable-preview.pdf-export .pdf-page {
+        min-height: var(--pdf-page-h);
+        height: var(--pdf-page-h);
+        margin-bottom: 0.75rem;
+        overflow: hidden;
+      }
+
+      body.printable-preview.pdf-export #pdfPageOne {
+        min-height: var(--pdf-page-h);
+        height: var(--pdf-page-h);
+        overflow: hidden;
+      }
+
+      body.printable-preview {
+        background: #0a0a0a !important;
+        padding-top: 2.75rem;
+      }
+
+      body.printable-preview #mainContent {
+        max-width: var(--pdf-page-w) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding: 0 !important;
+      }
+
+      body.printable-preview.pdf-export #presskitBelowHeader {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: transparent !important;
+      }
+
+      body.printable-preview.pdf-export #presskitBelowHeader::before {
+        display: none !important;
+      }
+
+      body.printable-preview.pdf-export #pdfPageOne {
+        max-width: var(--pdf-page-w);
+        margin-left: auto;
+        margin-right: auto;
       }
 
       .printable-preview-banner {
@@ -547,9 +620,20 @@
         page-break-after: always;
         break-after: page;
         background: #000000 !important;
-        min-height: 1050px;
+        min-height: var(--pdf-page-h);
+        max-width: var(--pdf-page-w);
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
         box-sizing: border-box;
-        padding-bottom: 1.5rem;
+      }
+
+      body.pdf-export #pdfPageOne .pdf-page-fill {
+        flex: 1 1 auto;
+        background: #000000;
+        min-height: 2rem;
       }
 
       body.pdf-export #pdfPageOne .presskit-header-overlay,
@@ -558,30 +642,80 @@
         z-index: 2;
       }
 
-      body.pdf-export #pdfPageDiscography {
+      body.pdf-export #pdfPageProfile {
         page-break-before: always;
         break-before: page;
-        page-break-after: always;
-        break-after: page;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
 
-      body.pdf-export .pdf-hide-row-photo {
-        display: none !important;
+      body.pdf-export #pdfPageProfile > .grid.lg\:grid-cols-3 {
+        display: grid !important;
+        grid-template-columns: 210px 1fr !important;
+        gap: 1.25rem !important;
+        align-items: start !important;
+        width: 100%;
       }
 
-      body.pdf-export #pdfPageLiveSets {
+      body.pdf-export #pdfPageProfile > .grid > div:first-child {
+        display: flex !important;
+        justify-content: flex-start !important;
+      }
+
+      body.pdf-export #pdfPageProfile .space-y-8 > * + * {
+        margin-top: 1rem !important;
+      }
+
+      body.pdf-export #pdfPageDiscography,
+      body.pdf-export #pdfPageLiveSets,
+      body.pdf-export #pdfPageCareerSocial,
+      body.pdf-export #gallerySection,
+      body.pdf-export #pdfPageBio {
         page-break-before: always;
         break-before: page;
-        page-break-after: always;
-        break-after: page;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+
+      body.pdf-export #pdfPageCareerSocial,
+      body.pdf-export #gallerySection,
+      body.pdf-export #pdfPageBio {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      body.pdf-export #pdfPageDiscography.space-y-6 > * + * {
+        margin-top: 0.85rem !important;
+      }
+
+      body.pdf-export #pdfPageLiveSets.space-y-5 > * + * {
+        margin-top: 0.65rem !important;
+      }
+
+      body.pdf-export #venuesSection .info-item {
+        margin-bottom: 0.35rem;
+        font-size: 0.78rem;
+      }
+
+      body.pdf-export #venuesSection h3 {
+        margin-bottom: 0.65rem !important;
+        font-size: 1rem !important;
       }
 
       body.pdf-export #gallerySection {
-        page-break-before: always;
-        break-before: page;
+        page-break-after: auto;
+        break-after: auto;
       }
 
-      body.pdf-export .next-releases-block {
+      body.pdf-export #pdfPageBio {
+        page-break-after: auto;
+        break-after: auto;
+      }
+
+      body.pdf-export .next-releases-block,
+      body.pdf-export .pdf-hide-row-photo {
         display: none !important;
       }
 
@@ -622,9 +756,10 @@
       }
 
       body.pdf-export .presskit-header {
-        height: 420px !important;
-        min-height: 420px !important;
-        max-height: 420px !important;
+        height: 360px !important;
+        min-height: 360px !important;
+        max-height: 360px !important;
+        flex-shrink: 0;
       }
 
       body.pdf-export .presskit-header-clip {
@@ -681,7 +816,74 @@
       body.pdf-export .discography-image img {
         width: 100% !important;
         height: auto !important;
+        max-height: 250px !important;
         object-fit: contain !important;
+      }
+
+      body.pdf-export #pdfPageProfile .w-72.h-72,
+      body.pdf-export #pdfPageProfile .md\:w-96.md\:h-96 {
+        width: 200px !important;
+        height: 200px !important;
+        max-width: 200px !important;
+        max-height: 200px !important;
+      }
+
+      body.pdf-export #pdfPageProfile .info-item {
+        font-size: 12px;
+        margin-bottom: 6px;
+      }
+
+      body.pdf-export #pdfPageDiscography .section-title,
+      body.pdf-export #pdfPageLiveSets .section-title,
+      body.pdf-export #pdfPageBio .section-title {
+        margin-bottom: 0.65rem;
+      }
+
+      body.pdf-export #pdfPageDiscography .info-value.mb-3,
+      body.pdf-export #pdfPageDiscography .info-value.mb-4,
+      body.pdf-export .latest-releases-block .info-value.mb-4 {
+        margin-bottom: 0.5rem !important;
+        font-size: 0.8rem;
+      }
+
+      body.pdf-export #awardsSection .flex-col {
+        gap: 0.75rem !important;
+      }
+
+      body.pdf-export #awardsSection img {
+        max-width: 130px !important;
+        margin: 0 auto;
+      }
+
+      body.pdf-export #awardsSection h3 {
+        font-size: 1.1rem !important;
+        margin-bottom: 0.5rem !important;
+      }
+
+      body.pdf-export #awardsSection p {
+        font-size: 0.78rem !important;
+        margin-bottom: 0.35rem !important;
+      }
+
+      body.pdf-export #awardsSection .rounded-xl {
+        padding: 1rem !important;
+      }
+
+      body.pdf-export #pdfPageBio .info-value {
+        font-size: 0.78rem !important;
+        line-height: 1.45 !important;
+      }
+
+      body.pdf-export #pdfPageBio .space-y-3 > * + * {
+        margin-top: 0.5rem !important;
+      }
+
+      body.pdf-export #mainContent > .grid {
+        gap: 1.25rem !important;
+      }
+
+      body.pdf-export #mainContent.space-y-8 > * + * {
+        margin-top: 0 !important;
       }
 
       body.pdf-export #liveShowsGallery {
@@ -729,8 +931,34 @@
         image-rendering: auto !important;
       }
 
+      body.pdf-export #mainContent .grid.lg\:grid-cols-3 {
+        display: block !important;
+      }
+
       body.pdf-export #mainContent > .grid {
-        grid-template-columns: 1fr !important;
+        gap: 0 !important;
+        margin: 0 !important;
+      }
+
+      body.pdf-export #mainContent .lg\:col-span-2.space-y-8 > * + * {
+        margin-top: 0 !important;
+      }
+
+      body.pdf-export #mainContent > .grid > .lg\:col-span-2 {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      body.printable-preview .pdf-page::after {
+        content: attr(data-page);
+        position: absolute;
+        top: 0.65rem;
+        right: 0.85rem;
+        font-size: 0.65rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(0, 240, 255, 0.45);
+        pointer-events: none;
       }
 
       body.pdf-export #mainContent .lg\:col-span-2 {
@@ -758,10 +986,20 @@
         background: transparent;
       }
 
-      body.pdf-export .pdf-contacts-inner {
+      body.pdf-export #pdfPageOne .pdf-page-fill {
+        display: block !important;
+      }
+
+      body.pdf-export #pdfPageOne .pdf-contacts-inner {
         margin-left: auto;
         width: min(100%, 360px);
         text-align: left;
+        padding: 0.5rem 2rem 1rem;
+      }
+
+      body.pdf-export #pdfPageOne.pdf-page {
+        padding: 0;
+        background: #000000 !important;
       }
 
       body.pdf-export .pdf-contacts-inner .info-item {
@@ -772,7 +1010,9 @@
       body.pdf-export #contactsSectionMain,
       body.pdf-export .back-to-home,
       body.pdf-export .sets-card-pdf-hide,
-      body.pdf-export .banner-static {
+      body.pdf-export .banner-static,
+      body.pdf-export .banner-slider,
+      body.pdf-export .pdf-web-only {
         display: none !important;
       }
 
@@ -811,7 +1051,7 @@
 
       body.pdf-export .banner-bio-pdf img {
         width: 100% !important;
-        height: 200px !important;
+        height: 180px !important;
         object-fit: cover !important;
         object-position: center !important;
         display: block !important;
@@ -885,11 +1125,12 @@
       }
 
       body.pdf-export .sets-card {
-        width: 220px !important;
-        flex: 0 0 220px !important;
-        max-width: 220px !important;
+        width: 200px !important;
+        flex: 0 0 200px !important;
+        max-width: 200px !important;
         page-break-inside: avoid;
         break-inside: avoid;
+        padding: 0.65rem !important;
       }
 
       body.pdf-export .sets-card h4 {
@@ -909,6 +1150,7 @@
         width: 100% !important;
         height: auto !important;
         aspect-ratio: 16 / 9;
+        max-height: 90px !important;
         object-fit: cover !important;
         display: block !important;
         border-radius: 0.5rem;
@@ -1068,7 +1310,7 @@
     </div>
 
     <!-- Page 1 (PDF): header + contacts -->
-    <div id="pdfPageOne">
+    <div id="pdfPageOne" class="pdf-page" data-page="Page 1">
     <!-- Banner: image first; video loads after full page load, same box (no dimension jump) -->
     <div class="presskit-header w-full h-screen md:h-[70vh]" id="presskitHeader">
       <div class="presskit-header-clip">
@@ -1145,6 +1387,7 @@
         </div>
       </div>
     </div>
+    <div class="pdf-page-fill pdf-only-panel" aria-hidden="true"></div>
     </div>
 
     <div class="presskit-below-header" id="presskitBelowHeader">
@@ -1158,6 +1401,8 @@
       </div>
 
     <div class="relative z-[1] max-w-7xl mx-auto p-6 md:p-10 space-y-8" id="mainContent">
+      <!-- Page 2: Profile -->
+      <div id="pdfPageProfile" class="pdf-page" data-page="Page 2">
       <!-- Fila 1: Avatar | Personal Info + DJ Info -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div class="flex justify-center lg:justify-start">
@@ -1213,8 +1458,9 @@
           
         </div>
       </div>
+      </div>
 
-     <!-- Fila 2: bru3 | Discography + Next Releases -->
+     <!-- Fila 2: bru3 | Discography + Releases + Sets -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div class="flex justify-center lg:justify-start self-center pdf-hide-row-photo">
         <div class="square-frame w-64 h-64 md:w-80 md:h-80">
@@ -1227,7 +1473,8 @@
         </div>
     
         <div class="lg:col-span-2 space-y-8">
-        <div id="pdfPageDiscography" class="space-y-8">
+        <!-- Page 3: Discography + Latest Releases -->
+        <div id="pdfPageDiscography" class="pdf-page space-y-6" data-page="Page 3">
         <!-- Discography -->
         <div id="discographySection">
             <h2 class="section-title">DISCOGRAPHY</h2>
@@ -1317,9 +1564,10 @@
             </div>
         </div>
 
-        <div id="pdfPageLiveSets" class="space-y-8">
+        <!-- Page 4: Live Sets + Venues + Awards -->
+        <div id="pdfPageLiveSets" class="pdf-page space-y-5" data-page="Page 4">
         <!-- Sets -->
-        <div class="mt-6" id="liveSetsSection">
+        <div id="liveSetsSection">
           <h3 class="text-white font-semibold text-lg mb-1 neon-cyan">Live Sets</h3>
           <p class="text-white/45 text-xs mb-3 sets-scroll-hint">
             Swipe or scroll sideways to browse sets — room to add more anytime.
@@ -1445,7 +1693,9 @@
         </div>
     </div>
 
-      <!-- Fila 3: bru2 | Career + Social Media + Biography -->
+      <!-- Page 5: Career + Social + Banner -->
+      <div id="pdfPageCareerSocial" class="pdf-page" data-page="Page 5">
+      <!-- Fila 3: bru2 | Career + Social Media -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8" id="careerSocialRow">
         <div class="flex justify-center lg:justify-start">
           <div class="circular-frame-pink w-64 h-64 md:w-80 md:h-80">
@@ -1508,8 +1758,12 @@
             <img src="../src/bannerbio.jpg" alt="Brunno Lukka Bio Banner" />
           </div>
 
-          <!-- Gallery -->
-          <div id="gallerySection">
+        </div>
+      </div>
+      </div>
+
+      <!-- Page 6: Gallery -->
+          <div id="gallerySection" class="pdf-page" data-page="Page 6">
             <h2 class="section-title text-center">GALLERY</h2>
             
             <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 mt-4" id="liveShowsGallery">
@@ -1543,20 +1797,8 @@
             </div>
           </div>
 
-          <!-- Modal -->
-          <div id="imageModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 backdrop-blur-sm">
-            <div class="relative max-w-5xl max-h-[90vh] p-4">
-              <button id="closeModal" class="absolute top-4 right-4 z-10 text-white hover:text-cyan-400 text-4xl font-bold transition-colors">&times;</button>
-              <img id="modalImage" src="" alt="" class="max-w-full max-h-[90vh] object-contain rounded-lg" />
-              <div class="mt-4 text-center">
-                <h3 id="modalTitle" class="text-white text-xl font-semibold"></h3>
-                <p id="modalLocation" class="text-white/70 text-sm mt-1"></p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Biography -->
-          <div>
+      <!-- Page 7: Biography -->
+          <div id="pdfPageBio" class="pdf-page" data-page="Page 7">
             <h2 class="section-title">BIOGRAPHY</h2>
             <div class="info-value text-sm leading-relaxed space-y-3">
 
@@ -1581,13 +1823,10 @@
                 </p>
               
               </div>
-              
           </div>
-        </div>
-      </div>
 
-      <!-- Fila 4: Nada | Contacts -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8" id="contactsSectionMain">
+      <!-- Fila 4: Nada | Contacts (web only) -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 pdf-web-only" id="contactsSectionMain">
         <div></div>
         <div class="lg:col-span-2">
           <!-- Contacts -->
@@ -1641,7 +1880,7 @@
       </div>
 
       <!-- Back to Home -->
-      <div class="mt-12 text-center back-to-home">
+      <div class="mt-12 text-center back-to-home pdf-web-only">
         <a
           href="../index.html"
           class="inline-block px-6 py-3 bg-cyan-500/20 hover:bg-cyan-500/30 border-2 border-cyan-500 rounded-full text-cyan-400 font-semibold transition-all hover:scale-105"
@@ -1652,7 +1891,7 @@
     </div>
 
     <!-- Bio Banner - Desktop (Static) -->
-    <div class="banner-static w-full h-[50vh] md:h-[60vh] relative">
+    <div class="banner-static pdf-web-only w-full h-[50vh] md:h-[60vh] relative">
       <img
         src="../src/bannerbio.jpg"
         alt="Brunno Lukka Bio Banner"
@@ -1662,7 +1901,7 @@
     </div>
 
     <!-- Bio Banner - Mobile (Slider) -->
-    <div class="banner-slider">
+    <div class="banner-slider pdf-web-only">
       <div class="banner-slider-container">
         <div class="banner-slide">
           <img
@@ -1684,6 +1923,18 @@
     <!-- Geometric Shapes -->
     <div class="geometric-shape shape-1"></div>
     <div class="geometric-shape shape-2"></div>
+    </div>
+
+    <!-- Gallery modal -->
+    <div id="imageModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 backdrop-blur-sm">
+      <div class="relative max-w-5xl max-h-[90vh] p-4">
+        <button id="closeModal" class="absolute top-4 right-4 z-10 text-white hover:text-cyan-400 text-4xl font-bold transition-colors">&times;</button>
+        <img id="modalImage" src="" alt="" class="max-w-full max-h-[90vh] object-contain rounded-lg" />
+        <div class="mt-4 text-center">
+          <h3 id="modalTitle" class="text-white text-xl font-semibold"></h3>
+          <p id="modalLocation" class="text-white/70 text-sm mt-1"></p>
+        </div>
+      </div>
     </div>
 
     <script>
@@ -1893,6 +2144,10 @@
         if (downloadBtn) {
           downloadBtn.style.display = 'none';
         }
+        var previewBanner = document.getElementById('printablePreviewBanner');
+        if (previewBanner) {
+          previewBanner.style.display = 'none';
+        }
 
         try {
           await new Promise(function (resolve) { setTimeout(resolve, wasPreview ? 400 : 1200); });
@@ -1923,7 +2178,7 @@
                 if (main) main.style.background = 'transparent';
                 if (pageOne) {
                   pageOne.style.background = '#000000';
-                  pageOne.style.minHeight = '1050px';
+                  pageOne.style.minHeight = '1123px';
                 }
                 var skyBg = clonedDoc.querySelector('.presskit-sky-layer .bg-sky');
                 if (skyBg) skyBg.style.background = gradient;
@@ -1936,8 +2191,15 @@
             },
             pagebreak: {
               mode: ['css', 'legacy'],
-              before: ['#pdfPageDiscography', '#pdfPageLiveSets', '#gallerySection'],
-              avoid: ['.gallery-item', '.sets-card', '.latest-releases-block', '#pdfPageOne']
+              before: [
+                '#pdfPageProfile',
+                '#pdfPageDiscography',
+                '#pdfPageLiveSets',
+                '#pdfPageCareerSocial',
+                '#gallerySection',
+                '#pdfPageBio'
+              ],
+              avoid: ['.gallery-item', '.sets-card', '.latest-releases-block']
             }
           };
 
@@ -1951,6 +2213,9 @@
           if (downloadBtn) {
             downloadBtn.style.display = originalDisplay || 'flex';
           }
+          if (previewBanner && wasPreview) {
+            previewBanner.style.display = 'flex';
+          }
         }
       }
 
@@ -1960,162 +2225,9 @@
         }
       });
 
-      async function downloadPDFLegacy() {
-        // Ocultar el botón de descarga temporalmente
-        const downloadBtn = document.getElementById('downloadPdfBtn');
-        const originalDisplay = downloadBtn.style.display;
-        downloadBtn.style.display = 'none';
-
-        // Ocultar las formas geométricas que no son necesarias en el PDF
-        const shapes = document.querySelectorAll('.geometric-shape');
-        shapes.forEach(shape => shape.style.display = 'none');
-
-        const htmlBg = document.documentElement.style.background;
-        document.documentElement.style.background = '#000000';
-
-        // Ocultar iframe de Spotify y mostrar imagen para PDF
-        const spotifyWidget = document.querySelector('.spotify-widget');
-        const discographyImage = document.querySelector('.discography-image');
-        if (spotifyWidget) spotifyWidget.style.display = 'none';
-        if (discographyImage) discographyImage.style.display = 'block';
-
-        // Ocultar todos los iframes (YouTube y SoundCloud) para PDF
-        const allIframes = document.querySelectorAll('iframe');
-        const iframeStates = [];
-        allIframes.forEach((iframe, index) => {
-          iframeStates[index] = iframe.style.display;
-          iframe.style.display = 'none';
-        });
-
-        // Ocultar solo los iframes dentro de los sets, mantener títulos y enlaces
-        const iframeContainers = document.querySelectorAll('.iframe-container');
-        const iframeContainerStates = [];
-        iframeContainers.forEach((container, index) => {
-          iframeContainerStates[index] = container.style.display;
-          container.style.display = 'none'; // Ocultar solo los contenedores de iframes
-        });
-
-        // Header: force still image for PDF (hide deferred video + audio btn)
-        const headerEl = document.getElementById('presskitHeader');
-        const headerVideo = document.getElementById('headerVideo');
-        const headerAudioBtn = document.getElementById('headerAudioBtn');
-        const headerVideoWasReady = headerEl && headerEl.classList.contains('is-video-ready');
-        if (headerVideo) headerVideo.style.display = 'none';
-        if (headerAudioBtn) headerAudioBtn.style.display = 'none';
-        if (headerEl) headerEl.classList.remove('is-video-ready');
-
-        document.body.classList.add('pdf-export');
-        window.scrollTo(0, 0);
-
-        var galleryLinkRestore = wrapGalleryLinksForPdf();
-
-        try {
-          // Esperar a que el layout PDF se aplique y las imágenes carguen
-          await new Promise(resolve => setTimeout(resolve, 1200));
-
-          var opt = {
-            margin: 0,
-            filename: 'Brunno_Lukka_PressKit.pdf',
-            enableLinks: true,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { 
-              scale: 2,
-              useCORS: true,
-              allowTaint: true,
-              logging: false,
-              backgroundColor: null,
-              scrollX: 0,
-              scrollY: 0,
-              onclone: function (clonedDoc) {
-                var gradient = 'radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 55%, #000000 100%)';
-                clonedDoc.documentElement.style.background = gradient;
-                clonedDoc.documentElement.style.backgroundColor = '#000000';
-                clonedDoc.body.style.background = gradient;
-                clonedDoc.body.style.backgroundColor = '#000000';
-                var below = clonedDoc.getElementById('presskitBelowHeader');
-                var main = clonedDoc.getElementById('mainContent');
-                var pageOne = clonedDoc.getElementById('pdfPageOne');
-                if (below) {
-                  below.style.background = 'transparent';
-                }
-                if (main) {
-                  main.style.background = 'transparent';
-                }
-                if (pageOne) {
-                  pageOne.style.background = '#000000';
-                  pageOne.style.minHeight = '1050px';
-                }
-                var skyBg = clonedDoc.querySelector('.presskit-sky-layer .bg-sky');
-                if (skyBg) {
-                  skyBg.style.background = gradient;
-                }
-              }
-            },
-            jsPDF: { 
-              unit: 'mm', 
-              format: 'a4', 
-              orientation: 'portrait'
-            },
-            pagebreak: { 
-              mode: ['css', 'legacy'],
-              before: ['#pdfPageDiscography', '#pdfPageLiveSets', '#gallerySection'],
-              avoid: ['.gallery-item', '.sets-card', '.latest-releases-block', '#pdfPageOne']
-            }
-          };
-
-          await html2pdf().set(opt).from(document.body).save();
-          
-          // Restaurar elementos
-          unwrapGalleryLinksForPdf(galleryLinkRestore);
-          document.body.classList.remove('pdf-export');
-          document.documentElement.style.background = htmlBg;
-          downloadBtn.style.display = originalDisplay || 'flex';
-          shapes.forEach(shape => shape.style.display = '');
-          if (spotifyWidget) spotifyWidget.style.display = 'block';
-          if (discographyImage) discographyImage.style.display = 'none';
-          // Restaurar header video
-          if (headerVideo) headerVideo.style.display = '';
-          if (headerAudioBtn) {
-            headerAudioBtn.style.display = '';
-            if (headerVideoWasReady) headerAudioBtn.classList.add('is-visible');
-          }
-          if (headerEl && headerVideoWasReady) headerEl.classList.add('is-video-ready');
-          // Restaurar iframes
-          allIframes.forEach((iframe, index) => {
-            iframe.style.display = iframeStates[index] || '';
-          });
-          // Restaurar contenedores de iframes
-          iframeContainers.forEach((container, index) => {
-            container.style.display = iframeContainerStates[index] || '';
-          });
-        } catch (error) {
-          console.error('Error generating PDF:', error);
-          unwrapGalleryLinksForPdf(galleryLinkRestore);
-          document.body.classList.remove('pdf-export');
-          document.documentElement.style.background = htmlBg;
-          downloadBtn.style.display = originalDisplay || 'flex';
-          shapes.forEach(shape => shape.style.display = '');
-          if (spotifyWidget) spotifyWidget.style.display = 'block';
-          if (discographyImage) discographyImage.style.display = 'none';
-          if (headerVideo) headerVideo.style.display = '';
-          if (headerAudioBtn) {
-            headerAudioBtn.style.display = '';
-            if (headerVideoWasReady) headerAudioBtn.classList.add('is-visible');
-          }
-          if (headerEl && headerVideoWasReady) headerEl.classList.add('is-video-ready');
-          // Restaurar iframes en caso de error
-          allIframes.forEach((iframe, index) => {
-            iframe.style.display = iframeStates[index] || '';
-          });
-          // Restaurar contenedores de iframes en caso de error
-          iframeContainers.forEach((container, index) => {
-            container.style.display = iframeContainerStates[index] || '';
-          });
-        }
-      }
-
       // Deferred header video: image first, load MP4 only after full page load
       (function initDeferredHeaderVideo() {
+        if (isPrintablePreviewRequested()) return;
         const HEADER_VIDEO_SRC = '../src/header-presskit.mp4';
         const header = document.getElementById('presskitHeader');
         const video = document.getElementById('headerVideo');
