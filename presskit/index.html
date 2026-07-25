@@ -12,6 +12,7 @@
       
       body {
         font-family: 'Inter', sans-serif;
+        background: #000000;
       }
       
       .neon-cyan {
@@ -25,23 +26,113 @@
       }
       
       .bg-pattern {
-        background: #000000;
+        background: transparent;
         position: relative;
         overflow-x: hidden;
         overflow-y: auto;
       }
       
-      .bg-pattern::before {
+      .presskit-below-header {
+        position: relative;
+        isolation: isolate;
+      }
+
+      .presskit-below-header > :not(.presskit-sky-layer) {
+        position: relative;
+        z-index: 1;
+      }
+
+      .presskit-below-header::before {
         content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+          radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.05) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.04) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .presskit-sky-layer {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .presskit-sky-layer .bg-sky {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse at bottom,
+          #1b2735 0%,
+          #090a0f 55%,
+          #000000 100%
+        );
+      }
+
+      .presskit-sky-layer .starfield {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        z-index: 1;
+      }
+
+      .stars {
         position: absolute;
         top: 0;
         left: 0;
-        right: 0;
-        bottom: 0;
-        background-image: 
-          radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.06) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.05) 0%, transparent 50%);
-        pointer-events: none;
+        background: transparent;
+        border-radius: 50%;
+      }
+
+      .stars-small {
+        width: 1px;
+        height: 1px;
+        animation: drift 90s linear infinite, twinkle 5s ease-in-out infinite;
+      }
+
+      .stars-medium {
+        width: 2px;
+        height: 2px;
+        animation: drift 130s linear infinite, twinkle 6.5s ease-in-out infinite 1.2s;
+      }
+
+      .stars-big {
+        width: 3px;
+        height: 3px;
+        animation: drift 170s linear infinite, twinkle 8s ease-in-out infinite 2.4s;
+      }
+
+      .stars::after {
+        content: "";
+        position: absolute;
+        top: 2000px;
+        left: 0;
+        width: inherit;
+        height: inherit;
+        background: transparent;
+        border-radius: 50%;
+      }
+
+      @keyframes drift {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(-2000px);
+        }
+      }
+
+      @keyframes twinkle {
+        0%,
+        100% {
+          opacity: 0.35;
+        }
+        50% {
+          opacity: 1;
+        }
       }
 
       .circular-frame {
@@ -289,8 +380,8 @@
         background: linear-gradient(
           to bottom,
           rgba(0, 0, 0, 0) 0%,
-          rgba(0, 0, 0, 0.25) 50%,
-          rgba(0, 0, 0, 0.55) 100%
+          rgba(0, 0, 0, 0.35) 45%,
+          rgba(0, 0, 0, 0.92) 100%
         );
       }
       .presskit-header-bridge {
@@ -373,6 +464,143 @@
           grid-row: span 1 !important;
           aspect-ratio: 1;
         }
+      }
+
+      /* PDF export: proportional images + centered gallery (html2canvas-safe) */
+      body.pdf-export {
+        overflow: visible !important;
+      }
+
+      body.pdf-export .presskit-header {
+        height: 420px !important;
+        min-height: 420px !important;
+        max-height: 420px !important;
+      }
+
+      body.pdf-export .presskit-header-clip {
+        -webkit-mask-image: none !important;
+        mask-image: none !important;
+      }
+
+      body.pdf-export .presskit-header-media {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+      }
+
+      body.pdf-export .presskit-header-fade,
+      body.pdf-export .presskit-header-shape,
+      body.pdf-export #headerAudioBtn {
+        display: none !important;
+      }
+
+      body.pdf-export .banner-slider {
+        display: none !important;
+      }
+
+      body.pdf-export .banner-static {
+        display: block !important;
+        height: 320px !important;
+        max-height: 320px !important;
+        overflow: hidden !important;
+      }
+
+      body.pdf-export .banner-static img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+      }
+
+      body.pdf-export .w-72.h-72,
+      body.pdf-export .w-64.h-64,
+      body.pdf-export .md\:w-96.md\:h-96,
+      body.pdf-export .md\:w-80.md\:h-80,
+      body.pdf-export .square-frame,
+      body.pdf-export .circular-frame-pink {
+        width: 240px !important;
+        height: 240px !important;
+        max-width: 240px !important;
+        max-height: 240px !important;
+        flex-shrink: 0 !important;
+      }
+
+      body.pdf-export .w-72.h-72 img,
+      body.pdf-export .w-64.h-64 img,
+      body.pdf-export .md\:w-96.md\:h-96 img,
+      body.pdf-export .md\:w-80.md\:h-80 img,
+      body.pdf-export .square-frame img,
+      body.pdf-export .circular-frame-pink img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+      }
+
+      body.pdf-export .discography-image img {
+        width: 100% !important;
+        height: auto !important;
+        object-fit: contain !important;
+      }
+
+      body.pdf-export #liveShowsGallery {
+        display: grid !important;
+        grid-template-columns: repeat(3, 180px) !important;
+        grid-auto-rows: 180px !important;
+        gap: 10px !important;
+        justify-content: center !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        width: 100% !important;
+        max-width: 580px !important;
+      }
+
+      body.pdf-export .gallery-item {
+        grid-column: span 1 !important;
+        grid-row: span 1 !important;
+        aspect-ratio: unset !important;
+        min-height: unset !important;
+        width: 180px !important;
+        height: 180px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: rgba(0, 0, 0, 0.35) !important;
+        cursor: default !important;
+      }
+
+      body.pdf-export .gallery-item img {
+        width: auto !important;
+        height: auto !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+        object-fit: contain !important;
+        object-position: center !important;
+        display: block !important;
+      }
+
+      body.pdf-export #imageModal,
+      body.pdf-export .geometric-shape,
+      body.pdf-export .presskit-sky-layer {
+        display: none !important;
+      }
+
+      body.pdf-export img {
+        image-rendering: auto !important;
+      }
+
+      body.pdf-export #mainContent > .grid {
+        grid-template-columns: 1fr !important;
+      }
+
+      body.pdf-export #mainContent .lg\:col-span-2 {
+        grid-column: 1 !important;
+      }
+
+      body.pdf-export #mainContent > .grid > div:first-child {
+        display: flex !important;
+        justify-content: center !important;
       }
 
       /* Live sets: horizontal scroll for many embeds */
@@ -552,6 +780,16 @@
       </div>
       <div class="presskit-header-fade" aria-hidden="true"></div>
     </div>
+
+    <div class="presskit-below-header" id="presskitBelowHeader">
+      <div class="presskit-sky-layer" id="presskitSkyLayer" aria-hidden="true">
+        <div class="bg-sky"></div>
+        <div class="starfield">
+          <div class="stars stars-small" id="stars-small"></div>
+          <div class="stars stars-medium" id="stars-medium"></div>
+          <div class="stars stars-big" id="stars-big"></div>
+        </div>
+      </div>
 
     <div class="relative z-[1] max-w-7xl mx-auto p-6 md:p-10 space-y-8" id="mainContent">
       <!-- Fila 1: Avatar | Personal Info + DJ Info -->
@@ -1065,8 +1303,54 @@
     <!-- Geometric Shapes -->
     <div class="geometric-shape shape-1"></div>
     <div class="geometric-shape shape-2"></div>
+    </div>
 
     <script>
+      (function () {
+        function starShadows(count, width, height) {
+          var shadows = [];
+          for (var i = 0; i < count; i++) {
+            shadows.push(
+              Math.floor(Math.random() * width) +
+                'px ' +
+                Math.floor(Math.random() * height) +
+                'px #FFF'
+            );
+          }
+          return shadows.join(', ');
+        }
+
+        function initStars() {
+          var section = document.getElementById('presskitBelowHeader');
+          var w = Math.max(window.innerWidth, 1200);
+          var h = section ? Math.max(section.scrollHeight, 2400) : 2400;
+          var layers = [
+            { id: 'stars-small', count: 45 },
+            { id: 'stars-medium', count: 14 },
+            { id: 'stars-big', count: 6 },
+          ];
+
+          layers.forEach(function (layer) {
+            var el = document.getElementById(layer.id);
+            if (!el) return;
+            var shadow = starShadows(layer.count, w, h);
+            el.style.boxShadow = shadow;
+            var styleId = 'star-after-' + layer.id;
+            var existing = document.getElementById(styleId);
+            if (existing) existing.remove();
+            var afterStyle = document.createElement('style');
+            afterStyle.id = styleId;
+            afterStyle.textContent =
+              '#' + layer.id + '::after { box-shadow: ' + shadow + '; }';
+            document.head.appendChild(afterStyle);
+          });
+        }
+
+        initStars();
+        window.addEventListener('load', initStars);
+        window.addEventListener('resize', initStars);
+      })();
+
       async function downloadPDF() {
         // Ocultar el botón de descarga temporalmente
         const downloadBtn = document.getElementById('downloadPdfBtn');
@@ -1076,6 +1360,10 @@
         // Ocultar las formas geométricas que no son necesarias en el PDF
         const shapes = document.querySelectorAll('.geometric-shape');
         shapes.forEach(shape => shape.style.display = 'none');
+
+        const skyLayer = document.getElementById('presskitSkyLayer');
+        const skyLayerDisplay = skyLayer ? skyLayer.style.display : '';
+        if (skyLayer) skyLayer.style.display = 'none';
 
         // Ocultar iframe de Spotify y mostrar imagen para PDF
         const spotifyWidget = document.querySelector('.spotify-widget');
@@ -1108,9 +1396,12 @@
         if (headerAudioBtn) headerAudioBtn.style.display = 'none';
         if (headerEl) headerEl.classList.remove('is-video-ready');
 
+        document.body.classList.add('pdf-export');
+        window.scrollTo(0, 0);
+
         try {
-          // Esperar un momento para que las imágenes se carguen
-          await new Promise(resolve => setTimeout(resolve, 1000));
+          // Esperar a que el layout PDF se aplique y las imágenes carguen
+          await new Promise(resolve => setTimeout(resolve, 1200));
 
           // Obtener el banner y el contenido
           const banner = document.getElementById('presskitHeader');
@@ -1134,7 +1425,9 @@
               logging: false,
               backgroundColor: '#000000',
               scrollX: 0,
-              scrollY: 0
+              scrollY: -window.scrollY,
+              windowWidth: document.documentElement.scrollWidth,
+              windowHeight: document.documentElement.scrollHeight
             },
             jsPDF: { 
               unit: 'mm', 
@@ -1151,8 +1444,10 @@
           await html2pdf().set(opt).from(document.body).save();
           
           // Restaurar elementos
+          document.body.classList.remove('pdf-export');
           downloadBtn.style.display = originalDisplay || 'flex';
           shapes.forEach(shape => shape.style.display = '');
+          if (skyLayer) skyLayer.style.display = skyLayerDisplay;
           if (spotifyWidget) spotifyWidget.style.display = 'block';
           if (discographyImage) discographyImage.style.display = 'none';
           // Restaurar header video
@@ -1172,8 +1467,10 @@
           });
         } catch (error) {
           console.error('Error generating PDF:', error);
+          document.body.classList.remove('pdf-export');
           downloadBtn.style.display = originalDisplay || 'flex';
           shapes.forEach(shape => shape.style.display = '');
+          if (skyLayer) skyLayer.style.display = skyLayerDisplay;
           if (spotifyWidget) spotifyWidget.style.display = 'block';
           if (discographyImage) discographyImage.style.display = 'none';
           if (headerVideo) headerVideo.style.display = '';
