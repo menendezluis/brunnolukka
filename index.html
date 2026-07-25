@@ -69,15 +69,13 @@
         pointer-events: none;
       }
 
-      .presskit-header.is-video-ready .presskit-header-video {
-        opacity: 1;
-      }
-
       .presskit-header-overlay {
         position: absolute;
         inset: 0;
         z-index: 2;
         pointer-events: none;
+        opacity: 0;
+        transition: opacity 1.2s ease;
         background: linear-gradient(
           to bottom,
           rgba(0, 0, 0, 0.5) 0%,
@@ -95,6 +93,8 @@
         bottom: 0;
         z-index: 3;
         pointer-events: none;
+        opacity: 0;
+        transition: opacity 1.2s ease;
         background: linear-gradient(
           to bottom,
           rgba(0, 0, 0, 0) 0%,
@@ -102,6 +102,12 @@
           rgba(0, 0, 0, 0.88) 75%,
           #000000 100%
         );
+      }
+
+      .presskit-header.is-video-ready .presskit-header-video,
+      .presskit-header.is-video-ready .presskit-header-overlay,
+      .presskit-header.is-video-ready .presskit-header-fade {
+        opacity: 1;
       }
 
       #headerAudioBtn {
@@ -149,12 +155,6 @@
     <div data-barba="container" data-barba-namespace="home">
       <div class="presskit-header w-full" id="siteHeader">
         <div class="presskit-header-clip">
-          <img
-            id="headerStill"
-            src="./src/header-presskit.jpg"
-            alt="Brunno Lukka"
-            class="presskit-header-media"
-          />
           <video
             id="headerVideo"
             class="presskit-header-media presskit-header-video"
