@@ -420,7 +420,6 @@
         .sets-scroll-hint,
         .iframe-container,
         .spotify-widget,
-        .next-releases-block,
         .pdf-hide-row-photo,
         .sets-card-pdf-hide,
         .banner-static,
@@ -738,16 +737,21 @@
       }
 
       body.pdf-export #pdfPageProfile > .grid.lg\:grid-cols-3 {
-        display: grid !important;
-        grid-template-columns: 210px 1fr !important;
-        gap: 1.25rem !important;
-        align-items: start !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 1.5rem !important;
         width: 100%;
       }
 
       body.pdf-export #pdfPageProfile > .grid > div:first-child {
         display: flex !important;
-        justify-content: flex-start !important;
+        justify-content: center !important;
+        width: 100%;
+      }
+
+      body.pdf-export #pdfPageProfile .lg\:col-span-2 {
+        width: 100%;
       }
 
       body.pdf-export #pdfPageProfile .space-y-8 > * + * {
@@ -766,8 +770,7 @@
       }
 
       body.pdf-export #pdfPageCareerSocial,
-      body.pdf-export #gallerySection,
-      body.pdf-export #pdfPageBio {
+      body.pdf-export #gallerySection {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -799,9 +802,51 @@
       body.pdf-export #pdfPageBio {
         page-break-after: auto;
         break-after: auto;
+        align-items: stretch !important;
+        justify-content: flex-start !important;
       }
 
-      body.pdf-export .next-releases-block,
+      body.pdf-export #pdfPageBio .pdf-bio-content,
+      body.pdf-export #pdfBioContacts {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      body.pdf-export #pdfBioContacts {
+        margin-top: 1.75rem;
+      }
+
+      body.pdf-export #pdfBioContacts .section-title {
+        margin-bottom: 0.65rem;
+      }
+
+      body.pdf-export .next-releases-block .info-value.mb-4,
+      body.pdf-export .next-releases-block .rounded-xl,
+      body.pdf-export .next-releases-block .border {
+        font-size: inherit;
+      }
+
+      body.pdf-export .next-releases-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 0.45rem !important;
+      }
+
+      body.pdf-export .next-releases-block .font-semibold.text-lg {
+        font-size: 0.82rem !important;
+        line-height: 1.2 !important;
+      }
+
+      body.pdf-export .next-releases-block .text-sm,
+      body.pdf-export .next-releases-block .text-xs {
+        font-size: 0.62rem !important;
+        line-height: 1.25 !important;
+      }
+
+      body.pdf-export .next-releases-block > .grid > div {
+        padding: 0.45rem 0.55rem !important;
+      }
+
       body.pdf-export .pdf-hide-row-photo {
         display: none !important;
       }
@@ -1077,11 +1122,63 @@
         background: transparent;
       }
 
+      body.pdf-export #pdfPageOne .presskit-header-overlay {
+        display: none !important;
+      }
+
+      body.pdf-export .pdf-page-one-body {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) min(360px, 42%);
+        align-items: center;
+        gap: 1rem;
+        flex: 1 1 auto;
+        background: #000000;
+        padding: 1.25rem 0 1rem;
+      }
+
+      body.pdf-export .pdf-page-one-body.pdf-only-panel {
+        padding: 1.25rem 0 1rem;
+      }
+
+      body.pdf-export #pdfBioContacts.pdf-only-panel {
+        padding: 0;
+      }
+
+      body.pdf-export #pdfBioContacts .info-item {
+        font-size: 12px;
+        margin-bottom: 6px;
+      }
+
+      body.pdf-export .pdf-page-one-title {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 1rem 2rem;
+      }
+
+      body.pdf-export .pdf-page-one-title h1 {
+        font-size: 2.75rem;
+        line-height: 1.05;
+        margin-bottom: 0.5rem;
+      }
+
+      body.pdf-export .pdf-page-one-title p {
+        font-size: 1.15rem;
+      }
+
       body.pdf-export #pdfPageOne .pdf-contacts-inner {
         margin-left: auto;
-        width: min(100%, 360px);
+        width: 100%;
+        max-width: 360px;
         text-align: left;
         padding: 0.5rem 2rem 1rem;
+      }
+
+      body.pdf-export #pdfPageOne .pdf-only-panel#pdfContactsPanel {
+        padding: 0;
+        background: transparent;
       }
 
       body.pdf-export #pdfPageOne.pdf-page {
@@ -1428,11 +1525,17 @@
       <div class="presskit-header-overlay">
         <div class="text-center">
           <h1 class="neon-cyan text-5xl md:text-7xl font-bold mb-2">BRUNNO LUKKA</h1>
-          <p class="neon-pink text-xl md:text-2xl font-semibold">DJ / PRODUCER</p>
+          <p class="neon-pink text-xl md:text-2xl font-semibold">All about the groove 🪇</p>
         </div>
       </div>
       <div class="presskit-header-fade" aria-hidden="true"></div>
     </div>
+
+    <div class="pdf-page-one-body pdf-only-panel" aria-hidden="true">
+      <div class="pdf-page-one-title">
+        <h1 class="neon-cyan font-bold">BRUNNO LUKKA</h1>
+        <p class="neon-pink font-semibold">All about the groove 🪇</p>
+      </div>
 
     <!-- Contacts: visible only in PDF export, first page below header -->
     <div id="pdfContactsPanel" class="pdf-only-panel" aria-hidden="true">
@@ -1473,6 +1576,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
     <div class="pdf-page-fill pdf-only-panel" aria-hidden="true"></div>
     </div>
@@ -1623,14 +1727,13 @@
             </a>
             </div>
         </div>
-        </div>
 
         <!-- Upcoming -->
         <div class="next-releases-block">
             <h2 class="section-title">NEXT RELEASES</h2>
             <p class="info-value mb-4">Coming soon</p>
     
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 next-releases-grid">
             <div class="bg-white/5 border border-blue-400/40 rounded-xl p-4 hover:bg-white/10 transition">
                 <div class="text-blue-200 font-semibold text-lg">The Blue</div>
                 <div class="text-white/70 text-sm">August 20, 2026 • Tech House • 132 BPM</div>
@@ -1649,6 +1752,7 @@
                 </div>
             </div>
             </div>
+        </div>
         </div>
 
         <!-- Page 4: Live Sets + Venues + Awards -->
@@ -1886,6 +1990,7 @@
 
       <!-- Page 7: Biography -->
           <div id="pdfPageBio" class="pdf-page" data-page="Page 7">
+            <div class="pdf-bio-content">
             <h2 class="section-title">BIOGRAPHY</h2>
             <div class="info-value text-sm leading-relaxed space-y-3">
 
@@ -1910,6 +2015,45 @@
                 </p>
               
               </div>
+            </div>
+
+            <div id="pdfBioContacts" class="pdf-only-panel" aria-hidden="true">
+              <h2 class="section-title">CONTACTS</h2>
+              <div class="space-y-2">
+                <div class="info-item">
+                  <span class="info-label">Booking:</span>
+                  <a href="mailto:contact@brunnolukka.com" class="social-link">contact@brunnolukka.com</a>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">YouTube:</span>
+                  <span class="info-value">
+                    <a href="https://www.youtube.com/@brunnolukka" class="social-link">@brunnolukka</a>
+                    · <a href="https://www.youtube.com/@brunnolukka" class="social-link social-stat">114K subscribers</a>
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Spotify:</span>
+                  <span class="info-value">
+                    <a href="https://open.spotify.com/artist/4Y4H5coOYsdCFUSCGg8tRK" class="social-link">Brunno Lukka</a>
+                    · <a href="https://open.spotify.com/artist/4Y4H5coOYsdCFUSCGg8tRK" class="social-link social-stat">14K monthly listeners</a>
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Instagram:</span>
+                  <span class="info-value">
+                    <a href="https://www.instagram.com/brunnolukka" class="social-link">@brunnolukka</a>
+                    · <a href="https://www.instagram.com/brunnolukka" class="social-link social-stat">4.5K followers</a>
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">TikTok:</span>
+                  <span class="info-value">
+                    <a href="https://www.tiktok.com/@brunnolukka" class="social-link">@brunnolukka</a>
+                    · <a href="https://www.tiktok.com/@brunnolukka" class="social-link social-stat">4.1K followers</a>
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
 
       <!-- Fila 4: Nada | Contacts (web only) -->
