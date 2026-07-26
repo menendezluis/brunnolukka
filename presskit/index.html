@@ -605,6 +605,11 @@
         display: flex !important;
       }
 
+      body.printable-preview.printing .printable-preview-banner,
+      body.printable-preview.printing #downloadPdfBtn {
+        display: none !important;
+      }
+
       body.printable-preview #downloadPdfBtn {
         display: none !important;
       }
@@ -2412,6 +2417,35 @@
         }
       }
 
+      function hidePrintableDialog() {
+        var previewBanner = document.getElementById('printablePreviewBanner');
+        var downloadBtn = document.getElementById('downloadPdfBtn');
+        if (previewBanner) {
+          previewBanner.style.display = 'none';
+          previewBanner.setAttribute('aria-hidden', 'true');
+        }
+        if (downloadBtn) {
+          downloadBtn.style.display = 'none';
+        }
+      }
+
+      function exitPreviewUiKeepExport() {
+        document.body.classList.remove('printable-preview');
+        document.body.classList.remove('printable-preview-mobile');
+        document.body.classList.remove('printable-preview-inapp');
+        hidePrintableDialog();
+      }
+
+      function waitForPaint(ms) {
+        return new Promise(function (resolve) {
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              setTimeout(resolve, ms);
+            });
+          });
+        });
+      }
+
       async function downloadPDF() {
         if (!window.__printablePreviewActive && needsMobilePdfFlow()) {
           window.location.href = getPrintableUrl();
@@ -2422,33 +2456,36 @@
           return;
         }
 
-        var downloadBtn = document.getElementById('downloadPdfBtn');
-        var previewBanner = document.getElementById('printablePreviewBanner');
-        var originalBtnDisplay = downloadBtn ? downloadBtn.style.display : '';
-        var originalBannerDisplay = previewBanner ? previewBanner.style.display : '';
         var wasPreview = window.__printablePreviewActive;
-        var state = wasPreview ? null : applyPrintableMode();
+        var state = wasPreview ? window.__printableState : applyPrintableMode();
+        var mobile = needsMobilePdfFlow();
+
+        // 1. Close instruction dialog
+        hidePrintableDialog();
+
+        // 2. Exit preview UI but keep pdf-export (content already prepared)
+        if (wasPreview) {
+          exitPreviewUiKeepExport();
+        }
 
         document.body.classList.add('printing');
 
-        if (downloadBtn) {
-          downloadBtn.style.display = 'none';
-        }
-        if (previewBanner) {
-          previewBanner.style.display = 'none';
-        }
-
         function cleanup() {
           document.body.classList.remove('printing');
-          if (!wasPreview) {
-            restorePrintableMode(state);
+          restorePrintableMode(state);
+          window.__printablePreviewActive = false;
+          window.__printableState = null;
+
+          if (wasPreview || isPrintablePreviewRequested()) {
+            var normalUrl = getNormalPresskitUrl();
+            history.replaceState(null, '', normalUrl);
           }
+
+          var downloadBtn = document.getElementById('downloadPdfBtn');
           if (downloadBtn) {
-            downloadBtn.style.display = originalBtnDisplay || 'flex';
+            downloadBtn.style.display = '';
           }
-          if (previewBanner && wasPreview) {
-            previewBanner.style.display = originalBannerDisplay || 'flex';
-          }
+          updatePrintableUiForDevice();
         }
 
         window.addEventListener('afterprint', cleanup, { once: true });
@@ -2456,12 +2493,10 @@
           if (document.body.classList.contains('printing')) {
             cleanup();
           }
-        }, needsMobilePdfFlow() ? 8000 : 3000);
+        }, mobile ? 8000 : 3000);
 
-        await new Promise(function (resolve) {
-          setTimeout(resolve, wasPreview ? 150 : 500);
-        });
-
+        // 3. Let the page repaint without preview chrome, then print
+        await waitForPaint(wasPreview ? (mobile ? 400 : 200) : 500);
         window.print();
       }
 
