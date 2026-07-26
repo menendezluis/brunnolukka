@@ -606,7 +606,7 @@
       }
 
       body.printable-preview #downloadPdfBtn {
-        top: 3.25rem;
+        display: none !important;
       }
 
       body.printable-preview.pdf-export #pdfPageOne,
@@ -689,16 +689,32 @@
         left: 0;
         right: 0;
         z-index: 100;
-        align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        flex-wrap: wrap;
-        padding: 0.55rem 1rem;
-        background: rgba(0, 0, 0, 0.88);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.55rem;
+        padding: 0.65rem 0.85rem;
+        padding-top: max(0.65rem, env(safe-area-inset-top, 0px));
+        background: rgba(0, 0, 0, 0.94);
         border-bottom: 1px solid rgba(0, 240, 255, 0.35);
         color: #00f0ff;
         font-size: 0.82rem;
         backdrop-filter: blur(8px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      }
+
+      .printable-preview-banner-text {
+        width: 100%;
+        text-align: center;
+        line-height: 1.45;
+      }
+
+      .printable-preview-banner-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem 0.65rem;
+        width: 100%;
       }
 
       .printable-preview-banner a,
@@ -710,6 +726,7 @@
         cursor: pointer;
         font: inherit;
         padding: 0;
+        white-space: nowrap;
       }
 
       .printable-preview-banner button:hover,
@@ -719,9 +736,6 @@
 
       .printable-preview-banner .banner-mobile-only {
         display: none;
-        max-width: 36rem;
-        text-align: center;
-        line-height: 1.45;
         color: rgba(255, 255, 255, 0.92);
       }
 
@@ -735,7 +749,7 @@
 
       .printable-preview-banner .banner-open-browser {
         display: none;
-        padding: 0.35rem 0.75rem;
+        padding: 0.4rem 0.85rem;
         border-radius: 9999px;
         border: 1px solid rgba(0, 240, 255, 0.45);
         background: rgba(0, 240, 255, 0.12);
@@ -746,6 +760,14 @@
       body.printable-preview-inapp .printable-preview-banner .banner-open-browser {
         display: inline-flex;
         align-items: center;
+      }
+
+      body.printable-preview-inapp .printable-preview-banner #printableSavePdfBtn {
+        display: none;
+      }
+
+      body.printable-preview-inapp .printable-preview-banner-text {
+        color: rgba(255, 255, 255, 0.92);
       }
 
       /* PDF export: proportional images + centered gallery (html2canvas-safe) */
@@ -1545,11 +1567,15 @@
     </button>
 
     <div id="printablePreviewBanner" class="printable-preview-banner" aria-live="polite">
-      <span class="banner-desktop-only">Printable preview — this is what the PDF will look like</span>
-      <span class="banner-mobile-only" id="printableBannerMobile"></span>
-      <a id="exitPrintablePreview" href="#">Exit preview</a>
-      <a id="openExternalBrowserLink" class="banner-open-browser" href="#" target="_blank" rel="noopener noreferrer">Open in browser</a>
-      <button type="button" id="printableSavePdfBtn" onclick="downloadPDF()">Save as PDF</button>
+      <div class="printable-preview-banner-text">
+        <span class="banner-desktop-only">Printable preview — this is what the PDF will look like</span>
+        <span class="banner-mobile-only" id="printableBannerMobile"></span>
+      </div>
+      <div class="printable-preview-banner-actions">
+        <a id="exitPrintablePreview" href="#">Exit preview</a>
+        <a id="openExternalBrowserLink" class="banner-open-browser" href="#" target="_blank" rel="noopener noreferrer">Open in browser</a>
+        <button type="button" id="printableSavePdfBtn" onclick="downloadPDF()">Save as PDF</button>
+      </div>
     </div>
 
     <!-- Page 1 (PDF): header + contacts -->
@@ -2245,7 +2271,7 @@
 
         if (mobileBanner) {
           mobileBanner.innerHTML = inApp
-            ? 'In-app browser — tap <strong>Open in browser</strong>, then <strong>Print / Save PDF</strong>.'
+            ? 'Instagram and similar apps cannot save PDFs here. Open in Safari or Chrome first.'
             : 'PDF preview — then <strong>Print / Save PDF</strong>. iPhone: Share → Print → Save to Files. Android: menu → Print → Save as PDF.';
         }
 
