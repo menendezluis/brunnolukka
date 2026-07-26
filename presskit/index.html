@@ -717,6 +717,73 @@
         color: #7df9ff;
       }
 
+      .printable-preview-banner .banner-mobile-only {
+        display: none;
+        max-width: 36rem;
+        text-align: center;
+        line-height: 1.45;
+        color: rgba(255, 255, 255, 0.92);
+      }
+
+      body.printable-preview-mobile .printable-preview-banner .banner-desktop-only {
+        display: none;
+      }
+
+      body.printable-preview-mobile .printable-preview-banner .banner-mobile-only {
+        display: block;
+      }
+
+      .printable-preview-banner .banner-open-browser {
+        display: none;
+        padding: 0.35rem 0.75rem;
+        border-radius: 9999px;
+        border: 1px solid rgba(0, 240, 255, 0.45);
+        background: rgba(0, 240, 255, 0.12);
+        text-decoration: none !important;
+        font-weight: 600;
+      }
+
+      body.printable-preview-inapp .printable-preview-banner .banner-open-browser {
+        display: inline-flex;
+        align-items: center;
+      }
+
+      #mobilePdfHelp {
+        display: none;
+        position: fixed;
+        top: 3.5rem;
+        left: 0.75rem;
+        right: 0.75rem;
+        z-index: 99;
+        padding: 0.85rem 1rem;
+        border-radius: 0.75rem;
+        border: 1px solid rgba(255, 0, 255, 0.35);
+        background: rgba(0, 0, 0, 0.92);
+        color: rgba(255, 255, 255, 0.92);
+        font-size: 0.82rem;
+        line-height: 1.5;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+      }
+
+      #mobilePdfHelp.is-visible {
+        display: block;
+      }
+
+      #mobilePdfHelp strong {
+        color: #00f0ff;
+      }
+
+      #mobilePdfHelp button {
+        margin-top: 0.65rem;
+        padding: 0.35rem 0.75rem;
+        border-radius: 9999px;
+        border: 1px solid rgba(0, 240, 255, 0.35);
+        background: rgba(0, 240, 255, 0.1);
+        color: #00f0ff;
+        font-size: 0.78rem;
+        cursor: pointer;
+      }
+
       /* PDF export: proportional images + centered gallery (html2canvas-safe) */
       body.pdf-export {
         overflow: visible !important;
@@ -1510,13 +1577,23 @@
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
       </svg>
-      Save as PDF
+      <span id="downloadPdfBtnLabel">Save as PDF</span>
     </button>
 
     <div id="printablePreviewBanner" class="printable-preview-banner" aria-live="polite">
-      <span>Printable preview — this is what the PDF will look like</span>
+      <span class="banner-desktop-only">Printable preview — this is what the PDF will look like</span>
+      <span class="banner-mobile-only">
+        PDF preview — then use <strong>Print / Save PDF</strong>. iPhone: Share → Print → Save to Files. Android: menu → Print → Save as PDF.
+      </span>
       <a id="exitPrintablePreview" href="#">Exit preview</a>
-      <button type="button" onclick="downloadPDF()">Save as PDF</button>
+      <a id="openExternalBrowserLink" class="banner-open-browser" href="#" target="_blank" rel="noopener noreferrer">Open in browser</a>
+      <button type="button" id="printableSavePdfBtn" onclick="downloadPDF()">Save as PDF</button>
+    </div>
+
+    <div id="mobilePdfHelp" role="status" aria-live="polite">
+      <strong>In-app browser detected.</strong> Instagram and similar apps cannot save PDFs here.
+      Tap <strong>Open in browser</strong> above, then use Print → Save as PDF / Save to Files.
+      <button type="button" id="mobilePdfHelpDismiss">Got it</button>
     </div>
 
     <!-- Page 1 (PDF): header + contacts -->
@@ -2173,6 +2250,68 @@
         return params.has('printable') || params.get('print') === '1' || params.get('print') === 'true';
       }
 
+      function getPrintableUrl() {
+        var url = new URL(window.location.href);
+        url.searchParams.set('printable', '1');
+        url.searchParams.delete('print');
+        var qs = url.searchParams.toString();
+        return url.pathname + (qs ? '?' + qs : '') + url.hash;
+      }
+
+      function isInAppBrowser() {
+        var ua = navigator.userAgent || '';
+        return /Instagram|FBAN|FBAV|FB_IAB|Twitter|Line\/|Snapchat|TikTok|LinkedInApp|MicroMessenger|wv\)/i.test(ua);
+      }
+
+      function isMobileDevice() {
+        return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)
+          || (navigator.maxTouchPoints > 0 && window.innerWidth < 900);
+      }
+
+      function needsMobilePdfFlow() {
+        return isMobileDevice() || isInAppBrowser();
+      }
+
+      function updatePrintableUiForDevice() {
+        var saveBtn = document.getElementById('printableSavePdfBtn');
+        var externalLink = document.getElementById('openExternalBrowserLink');
+        var downloadBtn = document.getElementById('downloadPdfBtn');
+        var mobile = needsMobilePdfFlow();
+        var inApp = isInAppBrowser();
+
+        document.body.classList.toggle('printable-preview-mobile', mobile);
+        document.body.classList.toggle('printable-preview-inapp', inApp);
+
+        if (externalLink) {
+          externalLink.href = window.location.href;
+        }
+
+        if (saveBtn) {
+          saveBtn.textContent = mobile ? 'Print / Save PDF' : 'Save as PDF';
+        }
+
+        if (downloadBtn) {
+          var label = document.getElementById('downloadPdfBtnLabel');
+          if (label) {
+            label.textContent = mobile ? 'Get PDF' : 'Save as PDF';
+          }
+        }
+      }
+
+      function showMobilePdfHelp() {
+        var help = document.getElementById('mobilePdfHelp');
+        if (help) {
+          help.classList.add('is-visible');
+        }
+      }
+
+      function hideMobilePdfHelp() {
+        var help = document.getElementById('mobilePdfHelp');
+        if (help) {
+          help.classList.remove('is-visible');
+        }
+      }
+
       function getNormalPresskitUrl() {
         var url = new URL(window.location.href);
         url.searchParams.delete('printable');
@@ -2291,13 +2430,31 @@
         window.__printablePreviewActive = true;
         window.__printableState = applyPrintableMode();
         document.body.classList.add('printable-preview');
+        updatePrintableUiForDevice();
         var exitLink = document.getElementById('exitPrintablePreview');
         if (exitLink) {
           exitLink.href = getNormalPresskitUrl();
         }
+        if (isInAppBrowser()) {
+          showMobilePdfHelp();
+        }
       }
 
       async function downloadPDF() {
+        if (!window.__printablePreviewActive && needsMobilePdfFlow()) {
+          window.location.href = getPrintableUrl();
+          return;
+        }
+
+        if (isInAppBrowser()) {
+          showMobilePdfHelp();
+          var externalLink = document.getElementById('openExternalBrowserLink');
+          if (externalLink) {
+            externalLink.focus();
+          }
+          return;
+        }
+
         var downloadBtn = document.getElementById('downloadPdfBtn');
         var previewBanner = document.getElementById('printablePreviewBanner');
         var originalBtnDisplay = downloadBtn ? downloadBtn.style.display : '';
@@ -2332,7 +2489,7 @@
           if (document.body.classList.contains('printing')) {
             cleanup();
           }
-        }, 3000);
+        }, needsMobilePdfFlow() ? 8000 : 3000);
 
         await new Promise(function (resolve) {
           setTimeout(resolve, wasPreview ? 150 : 500);
@@ -2342,6 +2499,11 @@
       }
 
       document.addEventListener('DOMContentLoaded', function () {
+        updatePrintableUiForDevice();
+        var helpDismiss = document.getElementById('mobilePdfHelpDismiss');
+        if (helpDismiss) {
+          helpDismiss.addEventListener('click', hideMobilePdfHelp);
+        }
         if (isPrintablePreviewRequested()) {
           enterPrintablePreview();
         }
