@@ -748,42 +748,6 @@
         align-items: center;
       }
 
-      #mobilePdfHelp {
-        display: none;
-        position: fixed;
-        top: 3.5rem;
-        left: 0.75rem;
-        right: 0.75rem;
-        z-index: 99;
-        padding: 0.85rem 1rem;
-        border-radius: 0.75rem;
-        border: 1px solid rgba(255, 0, 255, 0.35);
-        background: rgba(0, 0, 0, 0.92);
-        color: rgba(255, 255, 255, 0.92);
-        font-size: 0.82rem;
-        line-height: 1.5;
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
-      }
-
-      #mobilePdfHelp.is-visible {
-        display: block;
-      }
-
-      #mobilePdfHelp strong {
-        color: #00f0ff;
-      }
-
-      #mobilePdfHelp button {
-        margin-top: 0.65rem;
-        padding: 0.35rem 0.75rem;
-        border-radius: 9999px;
-        border: 1px solid rgba(0, 240, 255, 0.35);
-        background: rgba(0, 240, 255, 0.1);
-        color: #00f0ff;
-        font-size: 0.78rem;
-        cursor: pointer;
-      }
-
       /* PDF export: proportional images + centered gallery (html2canvas-safe) */
       body.pdf-export {
         overflow: visible !important;
@@ -1582,18 +1546,10 @@
 
     <div id="printablePreviewBanner" class="printable-preview-banner" aria-live="polite">
       <span class="banner-desktop-only">Printable preview — this is what the PDF will look like</span>
-      <span class="banner-mobile-only">
-        PDF preview — then use <strong>Print / Save PDF</strong>. iPhone: Share → Print → Save to Files. Android: menu → Print → Save as PDF.
-      </span>
+      <span class="banner-mobile-only" id="printableBannerMobile"></span>
       <a id="exitPrintablePreview" href="#">Exit preview</a>
       <a id="openExternalBrowserLink" class="banner-open-browser" href="#" target="_blank" rel="noopener noreferrer">Open in browser</a>
       <button type="button" id="printableSavePdfBtn" onclick="downloadPDF()">Save as PDF</button>
-    </div>
-
-    <div id="mobilePdfHelp" role="status" aria-live="polite">
-      <strong>In-app browser detected.</strong> Instagram and similar apps cannot save PDFs here.
-      Tap <strong>Open in browser</strong> above, then use Print → Save as PDF / Save to Files.
-      <button type="button" id="mobilePdfHelpDismiss">Got it</button>
     </div>
 
     <!-- Page 1 (PDF): header + contacts -->
@@ -2276,6 +2232,7 @@
         var saveBtn = document.getElementById('printableSavePdfBtn');
         var externalLink = document.getElementById('openExternalBrowserLink');
         var downloadBtn = document.getElementById('downloadPdfBtn');
+        var mobileBanner = document.getElementById('printableBannerMobile');
         var mobile = needsMobilePdfFlow();
         var inApp = isInAppBrowser();
 
@@ -2284,6 +2241,12 @@
 
         if (externalLink) {
           externalLink.href = window.location.href;
+        }
+
+        if (mobileBanner) {
+          mobileBanner.innerHTML = inApp
+            ? 'In-app browser — tap <strong>Open in browser</strong>, then <strong>Print / Save PDF</strong>.'
+            : 'PDF preview — then <strong>Print / Save PDF</strong>. iPhone: Share → Print → Save to Files. Android: menu → Print → Save as PDF.';
         }
 
         if (saveBtn) {
@@ -2295,20 +2258,6 @@
           if (label) {
             label.textContent = mobile ? 'Get PDF' : 'Save as PDF';
           }
-        }
-      }
-
-      function showMobilePdfHelp() {
-        var help = document.getElementById('mobilePdfHelp');
-        if (help) {
-          help.classList.add('is-visible');
-        }
-      }
-
-      function hideMobilePdfHelp() {
-        var help = document.getElementById('mobilePdfHelp');
-        if (help) {
-          help.classList.remove('is-visible');
         }
       }
 
@@ -2435,9 +2384,6 @@
         if (exitLink) {
           exitLink.href = getNormalPresskitUrl();
         }
-        if (isInAppBrowser()) {
-          showMobilePdfHelp();
-        }
       }
 
       async function downloadPDF() {
@@ -2447,11 +2393,6 @@
         }
 
         if (isInAppBrowser()) {
-          showMobilePdfHelp();
-          var externalLink = document.getElementById('openExternalBrowserLink');
-          if (externalLink) {
-            externalLink.focus();
-          }
           return;
         }
 
@@ -2500,10 +2441,6 @@
 
       document.addEventListener('DOMContentLoaded', function () {
         updatePrintableUiForDevice();
-        var helpDismiss = document.getElementById('mobilePdfHelpDismiss');
-        if (helpDismiss) {
-          helpDismiss.addEventListener('click', hideMobilePdfHelp);
-        }
         if (isPrintablePreviewRequested()) {
           enterPrintablePreview();
         }
