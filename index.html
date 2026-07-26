@@ -11,6 +11,7 @@
       :root {
         --header-target-height: 100vh;
         --header-peek-height: 10px;
+        --header-peek-controls-dim: 0.28;
       }
 
       @media (min-width: 768px) {
@@ -43,6 +44,8 @@
       }
 
       .presskit-header.is-collapsed {
+        position: sticky;
+        top: 0;
         overflow: visible;
         z-index: 30;
       }
@@ -59,10 +62,6 @@
 
       .presskit-header.is-collapsed .presskit-header-media {
         object-position: center top;
-      }
-
-      .presskit-header.is-collapsed #headerAudioBtn {
-        display: none !important;
       }
 
       .presskit-header-clip {
@@ -154,45 +153,12 @@
         justify-content: center;
       }
 
-      #headerAudioBtn {
-        position: absolute;
-        bottom: 1.25rem;
-        left: 1rem;
-        z-index: 30;
-        display: none;
-        align-items: center;
-        gap: 0.4rem;
-        padding: 0.55rem 0.9rem;
-        border-radius: 9999px;
-        border: 1px solid rgba(255, 0, 255, 0.45);
-        background: rgba(0, 0, 0, 0.55);
-        color: #ff00ff;
-        font-size: 0.8rem;
-        font-weight: 600;
-        backdrop-filter: blur(6px);
-        cursor: pointer;
-        transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-      }
-
-      #headerAudioBtn:hover {
-        background: rgba(255, 0, 255, 0.15);
-        border-color: rgba(255, 0, 255, 0.75);
-        color: #ff7dff;
-      }
-
-      #headerAudioBtn.is-visible {
+      .header-control-btn {
         display: inline-flex;
-      }
-
-      #headerCollapseBtn {
-        position: absolute;
-        right: 1rem;
-        bottom: 1rem;
-        z-index: 35;
-        display: none;
         align-items: center;
+        justify-content: center;
         gap: 0.35rem;
-        padding: 0.5rem 0.85rem;
+        padding: 0.5rem 0.75rem;
         border-radius: 9999px;
         border: 1px solid rgba(255, 0, 255, 0.45);
         background: rgba(0, 0, 0, 0.55);
@@ -204,22 +170,67 @@
         transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
       }
 
-      #headerCollapseBtn:hover {
+      .header-control-btn:hover {
         background: rgba(255, 0, 255, 0.15);
         border-color: rgba(255, 0, 255, 0.75);
         color: #ff7dff;
       }
 
-      #headerCollapseBtn.is-visible {
-        display: inline-flex;
-      }
-
-      .presskit-header.is-collapsed #headerCollapseBtn {
+      #headerPeekControls {
         position: fixed;
         top: calc(var(--header-peek-height) + 0.35rem);
         right: 1rem;
-        bottom: auto;
         z-index: 40;
+        display: none;
+        align-items: center;
+        gap: 0.4rem;
+        opacity: 1;
+        pointer-events: auto;
+        transition: opacity 0.22s ease;
+      }
+
+      #headerPeekControls.is-visible {
+        display: inline-flex;
+      }
+
+      .presskit-header.is-revealed:not(.is-collapsed) #headerPeekControls {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .presskit-header.is-revealed:not(.is-collapsed):hover #headerPeekControls,
+      .presskit-header.is-revealed:not(.is-collapsed) #headerPeekControls:focus-within {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .presskit-header.is-collapsed #headerPeekControls {
+        pointer-events: auto;
+      }
+
+      .presskit-header.is-collapsed #headerPeekControls.is-peek-dimmed {
+        opacity: var(--header-peek-controls-dim);
+      }
+
+      .presskit-header.is-collapsed:hover #headerPeekControls.is-peek-dimmed,
+      .presskit-header.is-collapsed #headerPeekControls.is-peek-dimmed:hover,
+      .presskit-header.is-collapsed #headerPeekControls.is-peek-dimmed:focus-within {
+        opacity: 1;
+      }
+
+      @media (hover: none) {
+        .presskit-header.is-revealed:not(.is-collapsed) #headerPeekControls {
+          opacity: 1;
+          pointer-events: auto;
+        }
+
+        .presskit-header.is-collapsed #headerPeekControls.is-peek-dimmed {
+          opacity: var(--header-peek-controls-dim);
+        }
+
+        .presskit-header.is-collapsed #headerPeekControls.is-peek-dimmed:focus-within {
+          opacity: 1;
+        }
       }
 
       .overflow-y-auto {
@@ -248,19 +259,21 @@
             aria-hidden="true"
           ></video>
         </div>
-        <button type="button" id="headerAudioBtn" aria-label="Unmute header video">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
-          </svg>
-          <span id="headerAudioLabel">Unmute</span>
-        </button>
-        <button type="button" id="headerCollapseBtn" aria-label="Collapse header video" aria-expanded="true">
-          <span id="headerCollapseLabel">Hide</span>
-          <svg id="headerCollapseIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-          </svg>
-        </button>
+        <div id="headerPeekControls" aria-label="Video controls">
+          <button type="button" id="headerPeekMuteBtn" class="header-control-btn" aria-label="Unmute header video">
+            <svg id="headerPeekMuteIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+            </svg>
+            <span id="headerPeekMuteLabel">Unmute</span>
+          </button>
+          <button type="button" id="headerPeekPlayBtn" class="header-control-btn" aria-label="Pause header video">
+            <svg id="headerPeekPlayIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6" />
+            </svg>
+            <span id="headerPeekPlayLabel">Pause</span>
+          </button>
+        </div>
         <div class="presskit-header-overlay" aria-hidden="true"></div>
         <div class="presskit-header-fade" aria-hidden="true"></div>
       </div>
@@ -582,22 +595,36 @@
         var HEADER_VIDEO_SRC = "./src/liveshows/headermain.mp4";
         var header = document.getElementById("siteHeader");
         var video = document.getElementById("headerVideo");
-        var audioBtn = document.getElementById("headerAudioBtn");
-        var audioLabel = document.getElementById("headerAudioLabel");
-        var collapseBtn = document.getElementById("headerCollapseBtn");
-        var collapseLabel = document.getElementById("headerCollapseLabel");
-        var collapseIcon = document.getElementById("headerCollapseIcon");
+        var peekControls = document.getElementById("headerPeekControls");
+        var peekMuteBtn = document.getElementById("headerPeekMuteBtn");
+        var peekMuteLabel = document.getElementById("headerPeekMuteLabel");
+        var peekMuteIcon = document.getElementById("headerPeekMuteIcon");
+        var peekPlayBtn = document.getElementById("headerPeekPlayBtn");
+        var peekPlayLabel = document.getElementById("headerPeekPlayLabel");
+        var peekPlayIcon = document.getElementById("headerPeekPlayIcon");
         var flash = document.getElementById("headerRevealFlash");
         var main = document.getElementById("siteMain");
         var overlay = header ? header.querySelector(".presskit-header-overlay") : null;
         var fade = header ? header.querySelector(".presskit-header-fade") : null;
-        if (!header || !video || !audioBtn || !flash || !collapseBtn) return;
+        if (!header || !video || !flash || !peekControls) return;
 
         var started = false;
         var revealed = false;
         var collapsed = false;
         var collapseAnimating = false;
         var fullHeaderHeight = 0;
+        var collapseScrollThreshold = 0;
+        var suppressExpandUntil = 0;
+        var peekDimTimeout = null;
+        var peekDimDelayMs = 1600;
+        var muteIconOn =
+          '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />';
+        var muteIconOff =
+          '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />';
+        var playIcon =
+          '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />';
+        var pauseIcon =
+          '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6" />';
         var peekHeight =
           parseFloat(
             getComputedStyle(document.documentElement).getPropertyValue(
@@ -611,33 +638,87 @@
             : window.innerHeight;
         }
 
+        function updateMuteUi() {
+          var muted = video.muted;
+          var label = muted ? "Unmute" : "Mute";
+          var aria = muted ? "Unmute header video" : "Mute header video";
+          var icon = muted ? muteIconOff : muteIconOn;
+
+          if (peekMuteLabel) peekMuteLabel.textContent = label;
+          if (peekMuteBtn) peekMuteBtn.setAttribute("aria-label", aria);
+          if (peekMuteIcon) peekMuteIcon.innerHTML = icon;
+        }
+
+        function updatePlayUi() {
+          var paused = video.paused;
+          var label = paused ? "Play" : "Pause";
+          var aria = paused ? "Play header video" : "Pause header video";
+          var icon = paused ? playIcon : pauseIcon;
+
+          if (peekPlayLabel) peekPlayLabel.textContent = label;
+          if (peekPlayBtn) peekPlayBtn.setAttribute("aria-label", aria);
+          if (peekPlayIcon) peekPlayIcon.innerHTML = icon;
+        }
+
+        function toggleMute() {
+          video.muted = !video.muted;
+          if (!video.muted) {
+            video.play().catch(function () {});
+          }
+          updateMuteUi();
+        }
+
+        function togglePlayPause() {
+          if (video.paused) {
+            video.play().catch(function () {});
+          } else {
+            video.pause();
+          }
+          updatePlayUi();
+        }
+
+        function clearPeekDimTimer() {
+          if (peekDimTimeout) {
+            clearTimeout(peekDimTimeout);
+            peekDimTimeout = null;
+          }
+        }
+
+        function setPeekControlsBright() {
+          peekControls.classList.remove("is-peek-dimmed");
+        }
+
+        function schedulePeekDim() {
+          clearPeekDimTimer();
+          setPeekControlsBright();
+          peekDimTimeout = setTimeout(function () {
+            if (collapsed) {
+              peekControls.classList.add("is-peek-dimmed");
+            }
+          }, peekDimDelayMs);
+        }
+
         function setCollapseUi(isCollapsed) {
           collapsed = isCollapsed;
           header.classList.toggle("is-collapsed", isCollapsed);
-          collapseLabel.textContent = isCollapsed ? "Show" : "Hide";
-          collapseBtn.setAttribute("aria-expanded", isCollapsed ? "false" : "true");
-          collapseBtn.setAttribute(
-            "aria-label",
-            isCollapsed ? "Expand header video" : "Collapse header video"
-          );
-          collapseIcon.innerHTML = isCollapsed
-            ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />'
-            : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />';
+          if (isCollapsed) {
+            schedulePeekDim();
+          } else {
+            clearPeekDimTimer();
+            setPeekControlsBright();
+          }
+          updateMuteUi();
+          updatePlayUi();
         }
 
-        function toggleHeaderCollapse() {
-          if (!revealed || collapseAnimating) return;
-          var nextCollapsed = !collapsed;
+        function animateHeaderCollapse(nextCollapsed) {
+          if (!revealed || collapseAnimating || nextCollapsed === collapsed) return;
           collapseAnimating = true;
-
-          if (nextCollapsed) {
-            setCollapseUi(true);
-          }
 
           gsap.killTweensOf(header);
           gsap.to(header, {
             height: nextCollapsed ? peekHeight : fullHeaderHeight,
-            duration: 0.6,
+            duration: 0.55,
             ease: "power2.inOut",
             onStart: function () {
               if (nextCollapsed) {
@@ -649,6 +730,9 @@
               }
             },
             onComplete: function () {
+              if (nextCollapsed) {
+                suppressExpandUntil = Date.now() + 600;
+              }
               setCollapseUi(nextCollapsed);
               collapseAnimating = false;
               if (!nextCollapsed) {
@@ -662,16 +746,34 @@
           });
         }
 
-        collapseBtn.addEventListener("click", toggleHeaderCollapse);
+        function syncHeaderOnScroll() {
+          if (!revealed || collapseAnimating || !fullHeaderHeight) return;
+          var y = window.scrollY;
+
+          if (!collapsed && y >= collapseScrollThreshold) {
+            animateHeaderCollapse(true);
+          } else if (
+            collapsed &&
+            y <= 12 &&
+            Date.now() > suppressExpandUntil
+          ) {
+            animateHeaderCollapse(false);
+          }
+        }
+
+        window.addEventListener("scroll", syncHeaderOnScroll, { passive: true });
 
         window.addEventListener("resize", function () {
-          if (!revealed || collapsed) return;
+          if (!revealed) return;
           fullHeaderHeight = getHeaderTargetHeight();
+          collapseScrollThreshold = fullHeaderHeight * 0.5;
           document.documentElement.style.setProperty(
             "--header-target-height",
             fullHeaderHeight + "px"
           );
-          header.style.height = fullHeaderHeight + "px";
+          if (!collapsed) {
+            header.style.height = fullHeaderHeight + "px";
+          }
         });
 
         function playRevealSequence() {
@@ -680,6 +782,7 @@
 
           var targetH = getHeaderTargetHeight();
           fullHeaderHeight = targetH;
+          collapseScrollThreshold = targetH * 0.5;
           document.documentElement.style.setProperty(
             "--header-target-height",
             targetH + "px"
@@ -692,8 +795,7 @@
                 document.body.classList.remove("is-pre-reveal");
                 if (main) main.classList.remove("is-pre-reveal");
                 header.classList.add("is-revealed");
-                audioBtn.classList.add("is-visible");
-                collapseBtn.classList.add("is-visible");
+                peekControls.classList.add("is-visible");
               },
             });
 
@@ -783,19 +885,13 @@
           }
         }
 
-        audioBtn.addEventListener("click", function () {
-          if (video.muted) {
-            video.muted = false;
-            audioLabel.textContent = "Mute";
-            audioBtn.setAttribute("aria-label", "Mute header video");
-            video.play().catch(function () {});
-          } else {
-            video.muted = true;
-            audioLabel.textContent = "Unmute";
-            audioBtn.setAttribute("aria-label", "Unmute header video");
-          }
-        });
+        if (peekMuteBtn) peekMuteBtn.addEventListener("click", toggleMute);
+        if (peekPlayBtn) peekPlayBtn.addEventListener("click", togglePlayPause);
+        video.addEventListener("play", updatePlayUi);
+        video.addEventListener("pause", updatePlayUi);
 
+        updateMuteUi();
+        updatePlayUi();
         scheduleAfterEverything();
       })();
     </script>
